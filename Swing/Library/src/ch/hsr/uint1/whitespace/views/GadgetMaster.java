@@ -128,11 +128,12 @@ public class GadgetMaster extends JFrame {
 		gadgetTab.add(gadgetEditBtn, gbc_gadgetEditBtn);
 
 		final JList<String> list = new JList<String>();
-		list.setModel(new AbstractListModel() {
+		list.setModel(new AbstractListModel<String>() {
+			private static final long serialVersionUID = 5398476080690927749L;
 			String[] values = new String[] { "Iphone ist das beste", "Samsung ist Scheisse", "Iphone ist wunderbar", "Samsung ist Schrott", "Etc" };
 
 			@Override
-			public Object getElementAt(final int index) {
+			public String getElementAt(final int index) {
 				return values[index];
 			}
 
