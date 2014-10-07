@@ -46,13 +46,14 @@ public class GadgetBibliothek extends JFrame {
 	 * Create the frame.
 	 */
 	public GadgetBibliothek() {
+		setName("Gadget Bibliothek");
 		setMinimumSize(new Dimension(500, 230));
 		setSize(new Dimension(730, 515));
 		setTitle("Gadget Bibliothek");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 730, 513);
 		biblioContentPane = new JPanel();
-		biblioContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		biblioContentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(biblioContentPane);
 		final GridBagLayout gbl_biblioContentPane = new GridBagLayout();
 		gbl_biblioContentPane.columnWidths = new int[] { 0, 0 };
@@ -80,6 +81,11 @@ public class GadgetBibliothek extends JFrame {
 		gbl_gadgetTab.columnWeights = new double[] { 1.0, 1.0, 0.0 };
 		gbl_gadgetTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		gadgetTab.setLayout(gbl_gadgetTab);
+
+		final JPanel ausleihenTab = new JPanel();
+		ausleihenTab.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		biblioTabbedPane.addTab("Ausleihen & Rückgabe", null, ausleihenTab, "Hier können Sie Ausleihen und Rükgaben erfassen");
+		biblioTabbedPane.setMnemonicAt(1, KeyEvent.VK_A);
 
 		suchenTxtEdit = new JTextField();
 		suchenTxtEdit.setToolTipText("Suchen");
@@ -129,9 +135,6 @@ public class GadgetBibliothek extends JFrame {
 		gbc_list.gridy = 1;
 		gadgetTab.add(list, gbc_list);
 
-		final JPanel ausleihenTab = new JPanel();
-		ausleihenTab.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		biblioTabbedPane.addTab("Ausleihen & Rückgabe", null, ausleihenTab, "Hier können Sie Ausleihen und Rükgaben erfassen");
 	}
 
 }
