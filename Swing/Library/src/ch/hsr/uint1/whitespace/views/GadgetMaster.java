@@ -9,6 +9,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -127,6 +128,19 @@ public class GadgetMaster extends JFrame {
 		gadgetTab.add(gadgetEditBtn, gbc_gadgetEditBtn);
 
 		final JList<String> list = new JList<String>();
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] { "Iphone ist das beste", "Samsung ist Scheisse", "Iphone ist wunderbar", "Samsung ist Schrott", "Etc" };
+
+			@Override
+			public Object getElementAt(final int index) {
+				return values[index];
+			}
+
+			@Override
+			public int getSize() {
+				return values.length;
+			}
+		});
 		final GridBagConstraints gbc_list = new GridBagConstraints();
 		gbc_list.gridwidth = 15;
 		gbc_list.insets = new Insets(0, 5, 2, 5);
