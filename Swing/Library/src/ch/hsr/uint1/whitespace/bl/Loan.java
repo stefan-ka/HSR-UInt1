@@ -1,10 +1,10 @@
-package bl;
+package ch.hsr.uint1.whitespace.bl;
 
 import java.util.Calendar;
 import java.util.Date; 
 import java.util.UUID;
 
-import dl.Dto;
+import ch.hsr.uint1.whitespace.dl.Dto;
 
 public class Loan implements Dto<Loan>  {
 	

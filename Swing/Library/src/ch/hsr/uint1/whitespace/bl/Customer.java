@@ -1,7 +1,7 @@
-package bl;
+package ch.hsr.uint1.whitespace.bl;
 
 
-import dl.Dto;
+import ch.hsr.uint1.whitespace.dl.Dto;
 
 public class Customer implements Dto<Customer> {
 	

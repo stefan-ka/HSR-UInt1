@@ -1,4 +1,4 @@
-package dl;
+package ch.hsr.uint1.whitespace.dl;
 
 import java.awt.EventQueue;
 import java.lang.Class;
@@ -6,6 +6,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
+
+import ch.hsr.uint1.whitespace.bl.Customer;
+import ch.hsr.uint1.whitespace.bl.Gadget;
+import ch.hsr.uint1.whitespace.bl.Loan;
+import ch.hsr.uint1.whitespace.bl.Reservation;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,11 +21,6 @@ import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.websocket.WebSocket;
 import com.ning.http.client.websocket.WebSocketTextListener;
 import com.ning.http.client.websocket.WebSocketUpgradeHandler;
-
-import bl.Customer;
-import bl.Gadget;
-import bl.Loan;
-import bl.Reservation;
 
 
 

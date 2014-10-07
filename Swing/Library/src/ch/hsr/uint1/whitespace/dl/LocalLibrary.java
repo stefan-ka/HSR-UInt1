@@ -1,12 +1,12 @@
-package dl;
+package ch.hsr.uint1.whitespace.dl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bl.Customer;
-import bl.Gadget;
-import bl.Loan;
-import bl.Reservation;
+import ch.hsr.uint1.whitespace.bl.Customer;
+import ch.hsr.uint1.whitespace.bl.Gadget;
+import ch.hsr.uint1.whitespace.bl.Loan;
+import ch.hsr.uint1.whitespace.bl.Reservation;
 
 public class LocalLibrary  implements LibraryData {
 

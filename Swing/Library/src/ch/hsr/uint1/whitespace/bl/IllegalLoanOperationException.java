@@ -1,4 +1,4 @@
-package bl;
+package ch.hsr.uint1.whitespace.bl;
 
 public class IllegalLoanOperationException extends Exception {
 

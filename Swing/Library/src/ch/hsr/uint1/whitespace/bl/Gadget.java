@@ -1,8 +1,8 @@
-package bl;
+package ch.hsr.uint1.whitespace.bl;
 
 import java.util.UUID;
 
-import dl.Dto;
+import ch.hsr.uint1.whitespace.dl.Dto;
 
 public class Gadget implements Dto<Gadget> {
 	

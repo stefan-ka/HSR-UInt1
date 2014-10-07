@@ -1,10 +1,11 @@
-package bl;
+package ch.hsr.uint1.whitespace.bl;
 
  
 import java.util.List;
 import java.util.Observable;
 import java.util.stream.Collectors;
-import dl.LibraryData;
+
+import ch.hsr.uint1.whitespace.dl.LibraryData;
 
 public class Library {
 	
