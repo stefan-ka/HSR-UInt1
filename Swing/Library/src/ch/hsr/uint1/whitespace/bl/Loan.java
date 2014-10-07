@@ -1,25 +1,24 @@
 package ch.hsr.uint1.whitespace.bl;
 
 import java.util.Calendar;
-import java.util.Date; 
+import java.util.Date;
 import java.util.UUID;
 
 import ch.hsr.uint1.whitespace.dl.Dto;
 
-public class Loan implements Dto<Loan>  {
-	
+public class Loan implements Dto<Loan> {
+
 	private String id;
 	private String gadgetId;
 	private String customerId;
 	private Date pickupDate, returnDate;
-	private final static int DAYS_TO_RETURN= 7;
+	private final static int DAYS_TO_RETURN = 7;
 
-	
 	public Loan(Customer customer, Gadget copy) {
-		id = ""+Math.abs(UUID.randomUUID().getMostSignificantBits());
+		id = "" + Math.abs(UUID.randomUUID().getMostSignificantBits());
 		this.gadgetId = copy.getInventoryNumber();
 		this.customerId = customer.getStudentNumber();
-		pickupDate = new Date();		
+		pickupDate = new Date();
 	}
 
 	public boolean isLent() {
@@ -35,7 +34,7 @@ public class Loan implements Dto<Loan>  {
 		return true;
 	}
 
-	public void returnCopy(Date returnDate)	throws IllegalLoanOperationException {
+	public void returnCopy(Date returnDate) throws IllegalLoanOperationException {
 		if (returnDate.before(pickupDate)) {
 			throw new IllegalLoanOperationException("Return Date is before pickupDate");
 		}
@@ -57,31 +56,29 @@ public class Loan implements Dto<Loan>  {
 	public String getCustomerId() {
 		return customerId;
 	}
-	
+
 	public String getLoanId() {
 		return id;
 	}
- 
+
 	public boolean isOverdue() {
-		if ( !isLent() )
-			return false;		
-		return overDueDate().before(new Date());		
+		if (!isLent())
+			return false;
+		return overDueDate().before(new Date());
 	}
-	
-	public Date overDueDate() {		
-		Calendar cal = Calendar.getInstance();  
-		cal.setTime(pickupDate);  
+
+	public Date overDueDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(pickupDate);
 		cal.add(Calendar.DATE, DAYS_TO_RETURN); // add DAYS_TO_RETURN days
-		return cal.getTime();		
+		return cal.getTime();
 	}
-	
-	
-	public void setData(Loan loan)
-	{
+
+	public void setData(Loan loan) {
 		this.pickupDate = loan.pickupDate;
 		this.returnDate = loan.returnDate;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

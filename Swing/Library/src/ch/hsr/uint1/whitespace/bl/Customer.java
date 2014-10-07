@@ -1,23 +1,21 @@
 package ch.hsr.uint1.whitespace.bl;
 
-
 import ch.hsr.uint1.whitespace.dl.Dto;
 
 public class Customer implements Dto<Customer> {
-	
-	private String name;		
-	private String password;	
-	private String email;	
+
+	private String name;
+	private String password;
+	private String email;
 	private String studentnumber;
-	
 
 	public Customer(String name, String password, String email, String studentNumber) {
 		this.name = name;
-		this.password = password; 
-		this.email = email; 
-		this.studentnumber = studentNumber; 
-	}	
-	
+		this.password = password;
+		this.email = email;
+		this.studentnumber = studentNumber;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -25,7 +23,6 @@ public class Customer implements Dto<Customer> {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public String getPassword() {
 		return password;
@@ -50,7 +47,7 @@ public class Customer implements Dto<Customer> {
 	public void setStudentNumber(String studentNumber) {
 		this.studentnumber = studentNumber;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
@@ -59,6 +56,5 @@ public class Customer implements Dto<Customer> {
 	@Override
 	public void setData(Customer customer) {
 
-		
 	}
 }
