@@ -181,5 +181,4 @@ public class GadgetDetail extends JFrame {
 		gbc_erfassenBtn.gridy = 5;
 		detailPanel.add(erfassenBtn, gbc_erfassenBtn);
 	}
-
 }
