@@ -19,14 +19,14 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-public class GadgetBibliothek extends JFrame {
+public class GadgetMaster extends JFrame {
 	/**
 	 * Launch the application.
 	 */
 	public static void main(final String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				final GadgetBibliothek frame = new GadgetBibliothek();
+				final GadgetMaster frame = new GadgetMaster();
 				frame.setVisible(true);
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -45,7 +45,7 @@ public class GadgetBibliothek extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GadgetBibliothek() {
+	public GadgetMaster() {
 		setName("Gadget Bibliothek");
 		setMinimumSize(new Dimension(500, 230));
 		setSize(new Dimension(730, 515));
@@ -109,7 +109,7 @@ public class GadgetBibliothek extends JFrame {
 		gadgetErfassenBtn.setToolTipText("Clicken Sie hier, um einen Gadget zu erfassen");
 		final GridBagConstraints gbc_gadgetErfassenBtn = new GridBagConstraints();
 		gbc_gadgetErfassenBtn.fill = GridBagConstraints.HORIZONTAL;
-		gbc_gadgetErfassenBtn.insets = new Insets(2, 0, 5, 5);
+		gbc_gadgetErfassenBtn.insets = new Insets(2, 0, 5, 0);
 		gbc_gadgetErfassenBtn.gridx = 13;
 		gbc_gadgetErfassenBtn.gridy = 0;
 		gadgetTab.add(gadgetErfassenBtn, gbc_gadgetErfassenBtn);
