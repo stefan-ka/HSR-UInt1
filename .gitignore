@@ -5,6 +5,7 @@
 .project
 /Servers
 /.metadata
+.DS_Store
 
 # Package Files #
 *.jar
