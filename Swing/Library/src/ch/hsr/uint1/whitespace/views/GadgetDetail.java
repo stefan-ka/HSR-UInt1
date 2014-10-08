@@ -37,9 +37,19 @@ public class GadgetDetail extends JFrame {
 	private static final long serialVersionUID = -8347490944438461491L;
 
 	private final JPanel contentPane;
+	private final JPanel detailPanel;
 	private final JTextField nameTextField;
 	private final JTextField herstellerTextField;
 	private final JTextField preisTextField;
+	private final JLabel idLbl;
+	private final JLabel idNummerLbl;
+	private final JLabel nameLbl;
+	private final JLabel herstellerLbl;
+	private final JLabel preisLbl;
+	private final JLabel zustandLbl;
+	private final JComboBox<String> zustandComboBox;
+	private final JButton abbruchBtn;
+	private final JButton erfassenBtn;
 
 	/**
 	 * Create the frame.
@@ -60,7 +70,7 @@ public class GadgetDetail extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(gbl_contentPane);
 
-		final JPanel detailPanel = new JPanel();
+		detailPanel = new JPanel();
 		final GridBagConstraints gbc_detailPanel = new GridBagConstraints();
 		gbc_detailPanel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_detailPanel.gridx = 0;
@@ -73,25 +83,25 @@ public class GadgetDetail extends JFrame {
 		gbl_detailPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		detailPanel.setLayout(gbl_detailPanel);
 
-		final JLabel lblId = new JLabel("Id:");
+		idLbl = new JLabel("Id:");
 		final GridBagConstraints gbc_lblId = new GridBagConstraints();
 		gbc_lblId.anchor = GridBagConstraints.WEST;
 		gbc_lblId.insets = new Insets(5, 5, 5, 5);
 		gbc_lblId.gridx = 0;
 		gbc_lblId.gridy = 0;
-		detailPanel.add(lblId, gbc_lblId);
+		detailPanel.add(idLbl, gbc_lblId);
 
-		final JLabel lblNewLabel = new JLabel("6");
-		lblNewLabel.setMinimumSize(new Dimension(14, 28));
-		lblNewLabel.setSize(new Dimension(15, 28));
+		idNummerLbl = new JLabel("6");
+		idNummerLbl.setMinimumSize(new Dimension(14, 28));
+		idNummerLbl.setSize(new Dimension(15, 28));
 		final GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel.insets = new Insets(5, 3, 5, 5);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 0;
-		detailPanel.add(lblNewLabel, gbc_lblNewLabel);
+		detailPanel.add(idNummerLbl, gbc_lblNewLabel);
 
-		final JLabel nameLbl = new JLabel("Name:");
+		nameLbl = new JLabel("Name:");
 		final GridBagConstraints gbc_nameLbl = new GridBagConstraints();
 		gbc_nameLbl.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nameLbl.insets = new Insets(5, 5, 5, 5);
@@ -109,7 +119,7 @@ public class GadgetDetail extends JFrame {
 		detailPanel.add(nameTextField, gbc_nameTextField);
 		nameTextField.setColumns(10);
 
-		final JLabel herstellerLbl = new JLabel("Hersteller:");
+		herstellerLbl = new JLabel("Hersteller:");
 		final GridBagConstraints gbc_herstellerLbl = new GridBagConstraints();
 		gbc_herstellerLbl.anchor = GridBagConstraints.WEST;
 		gbc_herstellerLbl.insets = new Insets(5, 5, 5, 5);
@@ -127,7 +137,7 @@ public class GadgetDetail extends JFrame {
 		detailPanel.add(herstellerTextField, gbc_herstellerTextField);
 		herstellerTextField.setColumns(10);
 
-		final JLabel preisLbl = new JLabel("Preis:");
+		preisLbl = new JLabel("Preis:");
 		final GridBagConstraints gbc_preisLbl = new GridBagConstraints();
 		gbc_preisLbl.anchor = GridBagConstraints.WEST;
 		gbc_preisLbl.insets = new Insets(5, 5, 5, 5);
@@ -145,7 +155,7 @@ public class GadgetDetail extends JFrame {
 		detailPanel.add(preisTextField, gbc_preisTextField);
 		preisTextField.setColumns(10);
 
-		final JLabel zustandLbl = new JLabel("Zustand:");
+		zustandLbl = new JLabel("Zustand:");
 		final GridBagConstraints gbc_zustandLbl = new GridBagConstraints();
 		gbc_zustandLbl.anchor = GridBagConstraints.WEST;
 		gbc_zustandLbl.insets = new Insets(5, 5, 5, 5);
@@ -153,7 +163,7 @@ public class GadgetDetail extends JFrame {
 		gbc_zustandLbl.gridy = 4;
 		detailPanel.add(zustandLbl, gbc_zustandLbl);
 
-		final JComboBox<String> zustandComboBox = new JComboBox<String>();
+		zustandComboBox = new JComboBox<String>();
 		zustandComboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "Neu", "Gebraucht", "Beschädigt" }));
 		final GridBagConstraints gbc_zustandComboBox = new GridBagConstraints();
 		gbc_zustandComboBox.gridwidth = 3;
@@ -163,7 +173,7 @@ public class GadgetDetail extends JFrame {
 		gbc_zustandComboBox.gridy = 4;
 		detailPanel.add(zustandComboBox, gbc_zustandComboBox);
 
-		final JButton abbruchBtn = new JButton("Abbruch");
+		abbruchBtn = new JButton("Abbruch");
 		abbruchBtn.setSize(new Dimension(97, 29));
 		final GridBagConstraints gbc_abbruchBtn = new GridBagConstraints();
 		gbc_abbruchBtn.anchor = GridBagConstraints.NORTH;
@@ -171,7 +181,7 @@ public class GadgetDetail extends JFrame {
 		gbc_abbruchBtn.gridy = 5;
 		detailPanel.add(abbruchBtn, gbc_abbruchBtn);
 
-		final JButton erfassenBtn = new JButton("Erfassen");
+		erfassenBtn = new JButton("Erfassen");
 		erfassenBtn.setMargin(new Insets(0, 0, 0, 0));
 		erfassenBtn.setSize(new Dimension(97, 29));
 		final GridBagConstraints gbc_erfassenBtn = new GridBagConstraints();

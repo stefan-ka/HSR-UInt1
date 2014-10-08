@@ -38,6 +38,12 @@ public class GadgetMaster extends JFrame {
 	private static final long serialVersionUID = -2060969695124152513L;
 	private final JPanel biblioContentPane;
 	private final JTextField suchenTxtEdit;
+	private final JTabbedPane biblioTabbedPane;
+	private final JPanel gadgetTab;
+	private final JPanel ausleihenTab;
+	private final JButton gadgetErfassenBtn;
+	private final JButton gadgetEditBtn;
+	private final JList<String> gadgetsList;
 
 	/**
 	 *
@@ -63,7 +69,7 @@ public class GadgetMaster extends JFrame {
 		gbl_biblioContentPane.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		biblioContentPane.setLayout(gbl_biblioContentPane);
 
-		final JTabbedPane biblioTabbedPane = new JTabbedPane(SwingConstants.TOP);
+		biblioTabbedPane = new JTabbedPane(SwingConstants.TOP);
 		biblioTabbedPane.setBorder(null);
 		biblioTabbedPane.setPreferredSize(new Dimension(0, 0));
 		final GridBagConstraints gbc_biblioTabbedPane = new GridBagConstraints();
@@ -72,7 +78,7 @@ public class GadgetMaster extends JFrame {
 		gbc_biblioTabbedPane.gridy = 0;
 		biblioContentPane.add(biblioTabbedPane, gbc_biblioTabbedPane);
 
-		final JPanel gadgetTab = new JPanel();
+		gadgetTab = new JPanel();
 		gadgetTab.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		biblioTabbedPane.addTab("Gadgets", null, gadgetTab, "Gadgets Liste");
 		biblioTabbedPane.setMnemonicAt(0, KeyEvent.VK_G);
@@ -83,7 +89,7 @@ public class GadgetMaster extends JFrame {
 		gbl_gadgetTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		gadgetTab.setLayout(gbl_gadgetTab);
 
-		final JPanel ausleihenTab = new JPanel();
+		ausleihenTab = new JPanel();
 		ausleihenTab.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		biblioTabbedPane.addTab("Ausleihen & Rückgabe", null, ausleihenTab, "Hier können Sie Ausleihen und Rükgaben erfassen");
 		biblioTabbedPane.setMnemonicAt(1, KeyEvent.VK_A);
@@ -100,13 +106,13 @@ public class GadgetMaster extends JFrame {
 		final GridBagConstraints gbc_suchenTxtEdit = new GridBagConstraints();
 		gbc_suchenTxtEdit.fill = GridBagConstraints.HORIZONTAL;
 		gbc_suchenTxtEdit.gridwidth = 13;
-		gbc_suchenTxtEdit.insets = new Insets(2, 5, 5, 5);
+		gbc_suchenTxtEdit.insets = new Insets(2, 2, 5, 5);
 		gbc_suchenTxtEdit.gridx = 0;
 		gbc_suchenTxtEdit.gridy = 0;
 		gadgetTab.add(suchenTxtEdit, gbc_suchenTxtEdit);
 		suchenTxtEdit.setColumns(10);
 
-		final JButton gadgetErfassenBtn = new JButton("Gadget erfassen");
+		gadgetErfassenBtn = new JButton("Gadget erfassen");
 		gadgetErfassenBtn.setToolTipText("Clicken Sie hier, um einen Gadget zu erfassen");
 		final GridBagConstraints gbc_gadgetErfassenBtn = new GridBagConstraints();
 		gbc_gadgetErfassenBtn.fill = GridBagConstraints.HORIZONTAL;
@@ -115,7 +121,7 @@ public class GadgetMaster extends JFrame {
 		gbc_gadgetErfassenBtn.gridy = 0;
 		gadgetTab.add(gadgetErfassenBtn, gbc_gadgetErfassenBtn);
 
-		final JButton gadgetEditBtn = new JButton("Gadget editieren");
+		gadgetEditBtn = new JButton("Gadget editieren");
 		gadgetEditBtn.setToolTipText("Clicken Sie hier, um einen Gadget zu editieren");
 		gadgetEditBtn.setMinimumSize(new Dimension(145, 29));
 		gadgetEditBtn.setMaximumSize(new Dimension(145, 29));
@@ -127,8 +133,8 @@ public class GadgetMaster extends JFrame {
 		gbc_gadgetEditBtn.gridy = 0;
 		gadgetTab.add(gadgetEditBtn, gbc_gadgetEditBtn);
 
-		final JList<String> list = new JList<String>();
-		list.setModel(new AbstractListModel<String>() {
+		gadgetsList = new JList<String>();
+		gadgetsList.setModel(new AbstractListModel<String>() {
 			private static final long serialVersionUID = 5398476080690927749L;
 			String[] values = new String[] { "Iphone ist das beste", "Samsung ist Scheisse", "Iphone ist wunderbar", "Samsung ist Schrott", "Etc" };
 
@@ -148,8 +154,7 @@ public class GadgetMaster extends JFrame {
 		gbc_list.fill = GridBagConstraints.BOTH;
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 1;
-		gadgetTab.add(list, gbc_list);
+		gadgetTab.add(gadgetsList, gbc_list);
 
 	}
-
 }
