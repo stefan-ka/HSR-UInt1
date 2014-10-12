@@ -1,13 +1,25 @@
 package ch.hsr.uint1.whitespace.bl;
 
+import java.util.Observable;
 import java.util.UUID;
 
 import ch.hsr.uint1.whitespace.dl.Dto;
 
-public class Gadget implements Dto<Gadget> {
+public class Gadget extends Observable implements Dto<Gadget> {
 
 	public enum Condition {
-		NEW, GOOD, DAMAGED, WASTE, LOST
+		NEW("Neu"), GOOD("Gut"), DAMAGED("Beschädigt"), WASTE("Schlecht"), LOST("Verloren");
+
+		private final String text;
+
+		private Condition(String text) {
+			this.text = text;
+		}
+
+		@Override
+		public String toString() {
+			return text;
+		}
 	}
 
 	private final String inventoryNumber;
@@ -15,6 +27,10 @@ public class Gadget implements Dto<Gadget> {
 	private double price;
 	private String manufacturer;
 	private String name;
+
+	public Gadget() {
+		this("");
+	}
 
 	public Gadget(String name) {
 		this.name = name;
@@ -28,6 +44,7 @@ public class Gadget implements Dto<Gadget> {
 
 	public void setCondition(Condition condition) {
 		this.condition = condition;
+		attributeChanged();
 	}
 
 	public String getInventoryNumber() {
@@ -40,6 +57,7 @@ public class Gadget implements Dto<Gadget> {
 
 	public void setPrice(double price) {
 		this.price = price;
+		attributeChanged();
 	}
 
 	public String getManufacturer() {
@@ -48,6 +66,7 @@ public class Gadget implements Dto<Gadget> {
 
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
+		attributeChanged();
 	}
 
 	public String getName() {
@@ -56,6 +75,7 @@ public class Gadget implements Dto<Gadget> {
 
 	public void setName(String name) {
 		this.name = name;
+		attributeChanged();
 	}
 
 	@Override
@@ -64,6 +84,7 @@ public class Gadget implements Dto<Gadget> {
 		this.setManufacturer(gadget.getManufacturer());
 		this.setName(gadget.getName());
 		this.setPrice(gadget.getPrice());
+		attributeChanged();
 	}
 
 	@Override
@@ -89,5 +110,15 @@ public class Gadget implements Dto<Gadget> {
 		} else if (!inventoryNumber.equals(other.inventoryNumber))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
+	private void attributeChanged() {
+		setChanged();
+		notifyObservers();
 	}
 }

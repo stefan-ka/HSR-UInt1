@@ -1,10 +1,13 @@
 package ch.hsr.uint1.whitespace.views;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -15,46 +18,50 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class GadgetDetail extends JFrame {
+import ch.hsr.uint1.whitespace.bl.Gadget;
+import ch.hsr.uint1.whitespace.bl.Library;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(final String[] args) {
-		EventQueue.invokeLater(() -> {
-			try {
-				final GadgetDetail frame = new GadgetDetail();
-				frame.setVisible(true);
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
+public class GadgetDetail extends JFrame implements Observer {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -8347490944438461491L;
 
-	private final JPanel contentPane;
-	private final JPanel detailPanel;
-	private final JTextField nameTextField;
-	private final JTextField herstellerTextField;
-	private final JTextField preisTextField;
-	private final JLabel idLbl;
-	private final JLabel idNummerLbl;
-	private final JLabel nameLbl;
-	private final JLabel herstellerLbl;
-	private final JLabel preisLbl;
-	private final JLabel zustandLbl;
-	private final JComboBox<String> zustandComboBox;
-	private final JButton abbruchBtn;
-	private final JButton erfassenBtn;
+	private JPanel contentPane;
+	private JPanel detailPanel;
+	private JTextField nameTextField;
+	private JTextField herstellerTextField;
+	private JTextField preisTextField;
+	private JLabel idLbl;
+	private JLabel idNummerLbl;
+	private JLabel nameLbl;
+	private JLabel herstellerLbl;
+	private JLabel preisLbl;
+	private JLabel zustandLbl;
+	private JComboBox<Gadget.Condition> zustandComboBox;
+	private JButton abbruchBtn;
+	private JButton saveBtn;
+
+	private Library library;
+	private Gadget gadget;
+	private boolean isNewGadget;
 
 	/**
 	 * Create the frame.
 	 */
-	public GadgetDetail() {
+	public GadgetDetail(Library library, Gadget gadget, boolean isNewGadget) {
+		this.library = library;
+		this.gadget = gadget;
+		this.isNewGadget = isNewGadget;
+		this.gadget.addObserver(this);
+		initializeGUI();
+		updateView(gadget);
+	}
+
+	private void initializeGUI() {
+		if (isNewGadget) {
+			setTitle("Neues Gadget erfassen");
+		} else {
+			setTitle("Gadget editieren");
+		}
 		setResizable(false);
 		setMinimumSize(new Dimension(445, 238));
 		setSize(new Dimension(445, 238));
@@ -67,7 +74,6 @@ public class GadgetDetail extends JFrame {
 		gbl_contentPane.rowHeights = new int[] { 0, 0 };
 		gbl_contentPane.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gbl_contentPane.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(gbl_contentPane);
 
 		detailPanel = new JPanel();
@@ -91,7 +97,7 @@ public class GadgetDetail extends JFrame {
 		gbc_lblId.gridy = 0;
 		detailPanel.add(idLbl, gbc_lblId);
 
-		idNummerLbl = new JLabel("6");
+		idNummerLbl = new JLabel("");
 		idNummerLbl.setMinimumSize(new Dimension(14, 28));
 		idNummerLbl.setSize(new Dimension(15, 28));
 		final GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -163,8 +169,8 @@ public class GadgetDetail extends JFrame {
 		gbc_zustandLbl.gridy = 4;
 		detailPanel.add(zustandLbl, gbc_zustandLbl);
 
-		zustandComboBox = new JComboBox<String>();
-		zustandComboBox.setModel(new DefaultComboBoxModel<String>(new String[] { "Neu", "Gebraucht", "Beschädigt" }));
+		zustandComboBox = new JComboBox<Gadget.Condition>();
+		zustandComboBox.setModel(new DefaultComboBoxModel<Gadget.Condition>(Gadget.Condition.values()));
 		final GridBagConstraints gbc_zustandComboBox = new GridBagConstraints();
 		gbc_zustandComboBox.gridwidth = 3;
 		gbc_zustandComboBox.insets = new Insets(5, 0, 5, 5);
@@ -175,20 +181,75 @@ public class GadgetDetail extends JFrame {
 
 		abbruchBtn = new JButton("Abbruch");
 		abbruchBtn.setSize(new Dimension(97, 29));
+		abbruchBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				closeWindow();
+			}
+		});
 		final GridBagConstraints gbc_abbruchBtn = new GridBagConstraints();
 		gbc_abbruchBtn.anchor = GridBagConstraints.NORTH;
 		gbc_abbruchBtn.gridx = 2;
 		gbc_abbruchBtn.gridy = 5;
 		detailPanel.add(abbruchBtn, gbc_abbruchBtn);
 
-		erfassenBtn = new JButton("Erfassen");
-		erfassenBtn.setMargin(new Insets(0, 0, 0, 0));
-		erfassenBtn.setSize(new Dimension(97, 29));
+		saveBtn = new JButton("Erfassen");
+		if (!isNewGadget) {
+			saveBtn.setText("Speichern");
+		}
+		saveBtn.setMargin(new Insets(0, 0, 0, 0));
+		saveBtn.setSize(new Dimension(97, 29));
+		saveBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveGadget();
+			}
+		});
 		final GridBagConstraints gbc_erfassenBtn = new GridBagConstraints();
 		gbc_erfassenBtn.insets = new Insets(0, 0, 0, 5);
 		gbc_erfassenBtn.anchor = GridBagConstraints.NORTH;
 		gbc_erfassenBtn.gridx = 3;
 		gbc_erfassenBtn.gridy = 5;
-		detailPanel.add(erfassenBtn, gbc_erfassenBtn);
+		detailPanel.add(saveBtn, gbc_erfassenBtn);
+	}
+
+	@Override
+	public void update(Observable observable, Object object) {
+		if (observable instanceof Gadget) {
+			Gadget gadget = (Gadget) observable;
+			updateView(gadget);
+		}
+	}
+
+	private void updateView(Gadget gadget) {
+		idNummerLbl.setText(gadget.getInventoryNumber());
+		nameTextField.setText(gadget.getName());
+		herstellerTextField.setText(gadget.getManufacturer());
+		preisTextField.setText(gadget.getPrice() + "");
+		zustandComboBox.setSelectedItem(gadget.getCondition());
+	}
+
+	private void updateModel() {
+		Gadget gadget = new Gadget("");
+		gadget.setName(nameTextField.getText());
+		gadget.setManufacturer(herstellerTextField.getText());
+		gadget.setPrice(new Double(preisTextField.getText()));
+		gadget.setCondition(zustandComboBox.getItemAt(zustandComboBox.getSelectedIndex()));
+		this.gadget.setData(gadget);
+	}
+
+	private void saveGadget() {
+		updateModel();
+		if (isNewGadget) {
+			library.addGadget(gadget);
+		} else {
+			library.updateGadget(gadget);
+		}
+		closeWindow();
+	}
+
+	private void closeWindow() {
+		setVisible(false);
+		dispose();
 	}
 }

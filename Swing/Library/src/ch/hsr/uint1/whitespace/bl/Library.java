@@ -1,11 +1,12 @@
 package ch.hsr.uint1.whitespace.bl;
 
 import java.util.List;
+import java.util.Observable;
 import java.util.stream.Collectors;
 
 import ch.hsr.uint1.whitespace.dl.LibraryData;
 
-public class Library {
+public class Library extends Observable {
 
 	private LibraryData data;
 
@@ -72,10 +73,12 @@ public class Library {
 
 	public void addGadget(Gadget gadget) {
 		data.addGadget(gadget);
+		dataChanged();
 	}
 
 	public void updateGadget(Gadget gadget) {
 		data.updateGadget(gadget);
+		dataChanged();
 	}
 
 	public void updateLoan(Loan loan) {
@@ -132,5 +135,10 @@ public class Library {
 
 	public boolean canReservation(Gadget gadget, Customer customer) {
 		return getReservatonFor(gadget, customer, true) == null;
+	}
+	
+	private void dataChanged() {
+		setChanged();
+		notifyObservers();
 	}
 }
