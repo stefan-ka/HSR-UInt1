@@ -7,6 +7,7 @@ import javax.swing.AbstractListModel;
 
 import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.bl.Library;
+import ch.hsr.uint1.whitespace.library.client.swing.dl.MessageData;
 
 public class GadgetListModel extends AbstractListModel<Gadget> implements Observer {
 
@@ -35,12 +36,11 @@ public class GadgetListModel extends AbstractListModel<Gadget> implements Observ
 
 	@Override
 	public void update(Observable observable, Object object) {
-		if (observable instanceof Gadget) {
-			int pos = library.getGadgets().indexOf(observable);
+		MessageData data = (MessageData) object;
+		if (data.getData() instanceof Gadget) {
+			Gadget gadget = (Gadget) data.getData();
+			int pos = library.getGadgets().indexOf(gadget);
 			fireContentsChanged(this, pos, pos);
-		}
-		if (observable instanceof Library) {
-			fireContentsChanged(this, 0, getSize());
 		}
 	}
 

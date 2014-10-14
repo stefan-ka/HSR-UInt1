@@ -1,11 +1,10 @@
 package ch.hsr.uint1.whitespace.library.client.swing.bl;
 
-import java.util.Observable;
 import java.util.UUID;
 
 import ch.hsr.uint1.whitespace.library.client.swing.dl.Dto;
 
-public class Gadget extends Observable implements Dto<Gadget> {
+public class Gadget implements Dto<Gadget> {
 
 	public enum Condition {
 		NEW("Neu"), GOOD("Gut"), DAMAGED("Beschädigt"), WASTE("Schlecht"), LOST("Verloren");
@@ -44,7 +43,6 @@ public class Gadget extends Observable implements Dto<Gadget> {
 
 	public void setCondition(Condition condition) {
 		this.condition = condition;
-		attributeChanged();
 	}
 
 	public String getInventoryNumber() {
@@ -57,7 +55,6 @@ public class Gadget extends Observable implements Dto<Gadget> {
 
 	public void setPrice(double price) {
 		this.price = price;
-		attributeChanged();
 	}
 
 	public String getManufacturer() {
@@ -66,7 +63,6 @@ public class Gadget extends Observable implements Dto<Gadget> {
 
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
-		attributeChanged();
 	}
 
 	public String getName() {
@@ -75,7 +71,6 @@ public class Gadget extends Observable implements Dto<Gadget> {
 
 	public void setName(String name) {
 		this.name = name;
-		attributeChanged();
 	}
 
 	@Override
@@ -84,7 +79,6 @@ public class Gadget extends Observable implements Dto<Gadget> {
 		this.setManufacturer(gadget.getManufacturer());
 		this.setName(gadget.getName());
 		this.setPrice(gadget.getPrice());
-		attributeChanged();
 	}
 
 	@Override
@@ -117,8 +111,4 @@ public class Gadget extends Observable implements Dto<Gadget> {
 		return this.name;
 	}
 
-	private void attributeChanged() {
-		setChanged();
-		notifyObservers();
-	}
 }

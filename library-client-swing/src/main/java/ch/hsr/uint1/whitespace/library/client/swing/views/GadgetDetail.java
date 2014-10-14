@@ -6,8 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,7 +19,7 @@ import javax.swing.border.EmptyBorder;
 import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.bl.Library;
 
-public class GadgetDetail extends JFrame implements Observer {
+public class GadgetDetail extends JFrame {
 
 	private static final long serialVersionUID = -8347490944438461491L;
 
@@ -51,7 +49,6 @@ public class GadgetDetail extends JFrame implements Observer {
 		this.library = library;
 		this.gadget = gadget;
 		this.isNewGadget = isNewGadget;
-		this.gadget.addObserver(this);
 		initializeGUI();
 		updateView(gadget);
 	}
@@ -208,14 +205,6 @@ public class GadgetDetail extends JFrame implements Observer {
 		gbc_erfassenBtn.gridx = 3;
 		gbc_erfassenBtn.gridy = 5;
 		detailPanel.add(saveBtn, gbc_erfassenBtn);
-	}
-
-	@Override
-	public void update(Observable observable, Object object) {
-		if (observable instanceof Gadget) {
-			Gadget gadget = (Gadget) observable;
-			updateView(gadget);
-		}
 	}
 
 	private void updateView(Gadget gadget) {

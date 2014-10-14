@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.stream.Collectors;
 
+import ch.hsr.uint1.whitespace.library.client.swing.dl.CrudListener;
 import ch.hsr.uint1.whitespace.library.client.swing.dl.LibraryData;
+import ch.hsr.uint1.whitespace.library.client.swing.dl.MessageData;
 
 public class Library extends Observable {
 
@@ -12,7 +14,12 @@ public class Library extends Observable {
 
 	public Library(LibraryData data) {
 		this.data = data;
-
+		data.registerGadgetListener(new CrudListener<Gadget>() {
+			@Override
+			public void changed(MessageData message) {
+				dataChanged(message);
+			}
+		});
 	}
 
 	public boolean canLent(Gadget gadget, Customer customer) {
@@ -73,12 +80,10 @@ public class Library extends Observable {
 
 	public void addGadget(Gadget gadget) {
 		data.addGadget(gadget);
-		dataChanged();
 	}
 
 	public void updateGadget(Gadget gadget) {
 		data.updateGadget(gadget);
-		dataChanged();
 	}
 
 	public void updateLoan(Loan loan) {
@@ -136,9 +141,9 @@ public class Library extends Observable {
 	public boolean canReservation(Gadget gadget, Customer customer) {
 		return getReservatonFor(gadget, customer, true) == null;
 	}
-	
-	private void dataChanged() {
+
+	private void dataChanged(MessageData message) {
 		setChanged();
-		notifyObservers();
+		notifyObservers(message);
 	}
 }
