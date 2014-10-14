@@ -6,6 +6,7 @@
 /Servers
 /.metadata
 .DS_Store
+.checkstyle
 
 /Server/node_modules
 /Server/npm-debug.log
