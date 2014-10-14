@@ -180,7 +180,6 @@ public class GadgetDetail extends JFrame implements Observer {
 		detailPanel.add(zustandComboBox, gbc_zustandComboBox);
 
 		abbruchBtn = new JButton("Abbruch");
-		abbruchBtn.setSize(new Dimension(97, 29));
 		abbruchBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -197,8 +196,6 @@ public class GadgetDetail extends JFrame implements Observer {
 		if (!isNewGadget) {
 			saveBtn.setText("Speichern");
 		}
-		saveBtn.setMargin(new Insets(0, 0, 0, 0));
-		saveBtn.setSize(new Dimension(97, 29));
 		saveBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
