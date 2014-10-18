@@ -1,5 +1,6 @@
 package ch.hsr.uint1.whitespace.library.client.swing.views;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,6 +11,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.bl.Library;
@@ -37,13 +40,32 @@ public class GadgetMaster extends JFrame {
     private JList<Gadget> gadgetsList;
     private final Library library;
     private JTextField suchenTxtEditAusleiheTab;
-    private JTable ausleiheTabTable;
-    private JScrollPane ausleiheTableScrollPane;
+    private JPanel kundePanelInAusleiheTab;
+    private JPanel kundePanelBorder;
+    private JLabel lblReservationen;
+    private JTable reservationenTable;
+    private JLabel lblNeueReservation;
+    private JButton btnReservation;
+    private JScrollPane kundeReservationScrollPane;
+    private JTable ausleiheTable;
+    private JScrollPane ausleiheScrollPane;
+    private JLabel lblKeineReservationMglich;
+    private JLabel lblAusleihen;
+    private JTextField textField;
+    private JButton btnAusleihen;
+    private JLabel lblKeineAusleiheMglich;
+    private JTable kundeAusleiheTable;
+    private JScrollPane kundeAusleiheScrollPane;
+    private JLabel lbREservationId;
+    private JLabel lblAusleiheId;
+    private JTextField idReservationTxtField;
 
     /**
      * Create the frame.
      */
     public GadgetMaster(final Library library) {
+        setResizable(false);
+        setMinimumSize(new Dimension(850, 600));
         this.library = library;
         initializeGUI();
     }
@@ -56,11 +78,10 @@ public class GadgetMaster extends JFrame {
 
     private void initializeGUI() {
         setName("Gadget Bibliothek");
-        setMinimumSize(new Dimension(500, 230));
-        setSize(new Dimension(730, 515));
+        setSize(new Dimension(972, 577));
         setTitle("Gadget Bibliothek");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 730, 513);
+        setBounds(100, 100, 972, 577);
         biblioContentPane = new JPanel();
         biblioContentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         setContentPane(biblioContentPane);
@@ -98,9 +119,9 @@ public class GadgetMaster extends JFrame {
         biblioTabbedPane.addTab("Ausleihen & Rückgabe", null, ausleihenTab,
                 "Hier können Sie Ausleihen und Rückgaben erfassen");
         final GridBagLayout gbl_ausleihenTab = new GridBagLayout();
-        gbl_ausleihenTab.columnWidths = new int[] { 355, 355, 0 };
+        gbl_ausleihenTab.columnWidths = new int[] { 456, 355, 0 };
         gbl_ausleihenTab.rowHeights = new int[] { 0, 0, 0 };
-        gbl_ausleihenTab.columnWeights = new double[] { 1.0, 1.0,
+        gbl_ausleihenTab.columnWeights = new double[] { 1.0, 0.0,
                 Double.MIN_VALUE };
         gbl_ausleihenTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
         ausleihenTab.setLayout(gbl_ausleihenTab);
@@ -117,29 +138,194 @@ public class GadgetMaster extends JFrame {
 
         final GridBagConstraints gbc_textField = new GridBagConstraints();
         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_textField.insets = new Insets(2, 2, 5, 5);
+        gbc_textField.insets = new Insets(2, 2, 5, 3);
         gbc_textField.gridx = 0;
         gbc_textField.gridy = 0;
         ausleihenTab.add(suchenTxtEditAusleiheTab, gbc_textField);
         suchenTxtEditAusleiheTab.setColumns(10);
-        ausleiheTabTable = new JTable();
-        ausleiheTabTable.setBorder(null);
-        ausleiheTabTable.setFillsViewportHeight(true);
-        final GridBagConstraints gbc_table = new GridBagConstraints();
-        gbc_table.insets = new Insets(0, 5, 2, 5);
-        gbc_table.fill = GridBagConstraints.BOTH;
-        gbc_table.gridx = 0;
-        gbc_table.gridy = 1;
-        ausleihenTab.add(ausleiheTabTable, gbc_table);
 
-        ausleiheTableScrollPane = new JScrollPane(ausleiheTabTable);
-        ausleiheTableScrollPane.setViewportBorder(null);
-        final GridBagConstraints gbc_ausleiheTableScrollPane = new GridBagConstraints();
-        gbc_ausleiheTableScrollPane.insets = new Insets(0, 5, 2, 5);
-        gbc_ausleiheTableScrollPane.fill = GridBagConstraints.BOTH;
-        gbc_ausleiheTableScrollPane.gridx = 0;
-        gbc_ausleiheTableScrollPane.gridy = 1;
-        ausleihenTab.add(ausleiheTableScrollPane, gbc_ausleiheTableScrollPane);
+        kundePanelBorder = new JPanel();
+        kundePanelBorder.setName("");
+        kundePanelBorder.setBorder(new TitledBorder(new EtchedBorder(
+                EtchedBorder.LOWERED, null, null), "Kunde Data",
+                TitledBorder.LEADING, TitledBorder.TOP, null,
+                new Color(0, 0, 0)));
+        final GridBagConstraints gbc_kundePanelBorder = new GridBagConstraints();
+        gbc_kundePanelBorder.gridheight = 2;
+        gbc_kundePanelBorder.fill = GridBagConstraints.BOTH;
+        gbc_kundePanelBorder.gridx = 1;
+        gbc_kundePanelBorder.gridy = 0;
+        ausleihenTab.add(kundePanelBorder, gbc_kundePanelBorder);
+        final GridBagLayout gbl_kundePanelBorder = new GridBagLayout();
+        gbl_kundePanelBorder.columnWidths = new int[] { 355, 0 };
+        gbl_kundePanelBorder.rowHeights = new int[] { 0, 0 };
+        gbl_kundePanelBorder.columnWeights = new double[] { 1.0,
+                Double.MIN_VALUE };
+        gbl_kundePanelBorder.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+        kundePanelBorder.setLayout(gbl_kundePanelBorder);
+
+        kundePanelInAusleiheTab = new JPanel();
+        final GridBagConstraints gbc_kundePanelInAusleiheTab = new GridBagConstraints();
+        gbc_kundePanelInAusleiheTab.fill = GridBagConstraints.BOTH;
+        gbc_kundePanelInAusleiheTab.gridx = 0;
+        gbc_kundePanelInAusleiheTab.gridy = 0;
+        kundePanelBorder.add(kundePanelInAusleiheTab,
+                gbc_kundePanelInAusleiheTab);
+        final GridBagLayout gbl_kundePanelInAusleiheTab = new GridBagLayout();
+        gbl_kundePanelInAusleiheTab.columnWidths = new int[] { 60, 60, 124, 46,
+                69, 0 };
+        gbl_kundePanelInAusleiheTab.rowHeights = new int[] { 0, 128, 0, 0, 0,
+                0, 122, 0, 0, 0 };
+        gbl_kundePanelInAusleiheTab.columnWeights = new double[] { 1.0, 1.0,
+                1.0, 1.0, 1.0, Double.MIN_VALUE };
+        gbl_kundePanelInAusleiheTab.rowWeights = new double[] { 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+        kundePanelInAusleiheTab.setLayout(gbl_kundePanelInAusleiheTab);
+
+        lblReservationen = new JLabel("Reservationen");
+        final GridBagConstraints gbc_lblReservationen = new GridBagConstraints();
+        gbc_lblReservationen.gridwidth = 2;
+        gbc_lblReservationen.fill = GridBagConstraints.HORIZONTAL;
+        gbc_lblReservationen.insets = new Insets(0, 3, 1, 5);
+        gbc_lblReservationen.gridx = 0;
+        gbc_lblReservationen.gridy = 0;
+        kundePanelInAusleiheTab.add(lblReservationen, gbc_lblReservationen);
+
+        kundeReservationScrollPane = new JScrollPane();
+        final GridBagConstraints gbc_kundeReservationScrollPane = new GridBagConstraints();
+        gbc_kundeReservationScrollPane.fill = GridBagConstraints.BOTH;
+        gbc_kundeReservationScrollPane.gridwidth = 5;
+        gbc_kundeReservationScrollPane.insets = new Insets(0, 0, 5, 5);
+        gbc_kundeReservationScrollPane.gridx = 0;
+        gbc_kundeReservationScrollPane.gridy = 1;
+        kundePanelInAusleiheTab.add(kundeReservationScrollPane,
+                gbc_kundeReservationScrollPane);
+
+        reservationenTable = new JTable();
+        kundeReservationScrollPane.setViewportView(reservationenTable);
+        gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+        gbc_textField.gridx = 3;
+        gbc_textField.gridy = 3;
+
+        lblNeueReservation = new JLabel("Neue Reservation");
+        final GridBagConstraints gbc_lblNeueReservation = new GridBagConstraints();
+        gbc_lblNeueReservation.gridwidth = 2;
+        gbc_lblNeueReservation.fill = GridBagConstraints.HORIZONTAL;
+        gbc_lblNeueReservation.insets = new Insets(2, 3, 5, 5);
+        gbc_lblNeueReservation.gridx = 0;
+        gbc_lblNeueReservation.gridy = 2;
+        kundePanelInAusleiheTab.add(lblNeueReservation, gbc_lblNeueReservation);
+
+        lbREservationId = new JLabel("Id:");
+        final GridBagConstraints gbc_lbREservationId = new GridBagConstraints();
+        gbc_lbREservationId.insets = new Insets(0, 0, 5, 5);
+        gbc_lbREservationId.anchor = GridBagConstraints.EAST;
+        gbc_lbREservationId.gridx = 0;
+        gbc_lbREservationId.gridy = 3;
+        kundePanelInAusleiheTab.add(lbREservationId, gbc_lbREservationId);
+
+        idReservationTxtField = new JTextField();
+        final GridBagConstraints gbc_idReservationTxtField = new GridBagConstraints();
+        gbc_idReservationTxtField.gridwidth = 3;
+        gbc_idReservationTxtField.insets = new Insets(0, 0, 5, 5);
+        gbc_idReservationTxtField.fill = GridBagConstraints.HORIZONTAL;
+        gbc_idReservationTxtField.gridx = 1;
+        gbc_idReservationTxtField.gridy = 3;
+        kundePanelInAusleiheTab.add(idReservationTxtField,
+                gbc_idReservationTxtField);
+        idReservationTxtField.setColumns(10);
+
+        btnReservation = new JButton("Reservation");
+        final GridBagConstraints gbc_btnReservation = new GridBagConstraints();
+        gbc_btnReservation.fill = GridBagConstraints.HORIZONTAL;
+        gbc_btnReservation.insets = new Insets(0, 0, 5, 0);
+        gbc_btnReservation.gridx = 4;
+        gbc_btnReservation.gridy = 3;
+        kundePanelInAusleiheTab.add(btnReservation, gbc_btnReservation);
+
+        lblKeineReservationMglich = new JLabel(
+                "Keine Reservation möglich. Überfällige vorhanden.");
+        final GridBagConstraints gbc_lblKeineReservationMglich = new GridBagConstraints();
+        gbc_lblKeineReservationMglich.gridwidth = 3;
+        gbc_lblKeineReservationMglich.fill = GridBagConstraints.HORIZONTAL;
+        gbc_lblKeineReservationMglich.insets = new Insets(0, 0, 5, 5);
+        gbc_lblKeineReservationMglich.gridx = 1;
+        gbc_lblKeineReservationMglich.gridy = 4;
+        kundePanelInAusleiheTab.add(lblKeineReservationMglich,
+                gbc_lblKeineReservationMglich);
+
+        lblAusleihen = new JLabel("Ausleihen");
+        final GridBagConstraints gbc_lblAusleihen = new GridBagConstraints();
+        gbc_lblAusleihen.fill = GridBagConstraints.HORIZONTAL;
+        gbc_lblAusleihen.gridwidth = 4;
+        gbc_lblAusleihen.insets = new Insets(20, 3, 5, 5);
+        gbc_lblAusleihen.gridx = 0;
+        gbc_lblAusleihen.gridy = 5;
+        kundePanelInAusleiheTab.add(lblAusleihen, gbc_lblAusleihen);
+
+        kundeAusleiheScrollPane = new JScrollPane();
+        final GridBagConstraints gbc_kundeAusleiheScrollPane = new GridBagConstraints();
+        gbc_kundeAusleiheScrollPane.fill = GridBagConstraints.BOTH;
+        gbc_kundeAusleiheScrollPane.gridwidth = 5;
+        gbc_kundeAusleiheScrollPane.insets = new Insets(0, 0, 5, 5);
+        gbc_kundeAusleiheScrollPane.gridx = 0;
+        gbc_kundeAusleiheScrollPane.gridy = 6;
+        kundePanelInAusleiheTab.add(kundeAusleiheScrollPane,
+                gbc_kundeAusleiheScrollPane);
+
+        kundeAusleiheTable = new JTable();
+        kundeAusleiheScrollPane.setViewportView(kundeAusleiheTable);
+
+        lblAusleiheId = new JLabel("Id:");
+        final GridBagConstraints gbc_lblAusleiheId = new GridBagConstraints();
+        gbc_lblAusleiheId.insets = new Insets(0, 0, 5, 5);
+        gbc_lblAusleiheId.anchor = GridBagConstraints.EAST;
+        gbc_lblAusleiheId.gridx = 0;
+        gbc_lblAusleiheId.gridy = 7;
+        kundePanelInAusleiheTab.add(lblAusleiheId, gbc_lblAusleiheId);
+
+        textField = new JTextField();
+        final GridBagConstraints gbc_textField1 = new GridBagConstraints();
+        gbc_textField1.gridwidth = 3;
+        gbc_textField1.fill = GridBagConstraints.HORIZONTAL;
+        gbc_textField1.insets = new Insets(0, 0, 5, 5);
+        gbc_textField1.gridx = 1;
+        gbc_textField1.gridy = 7;
+        kundePanelInAusleiheTab.add(textField, gbc_textField1);
+        textField.setColumns(10);
+
+        btnAusleihen = new JButton("Ausleihen");
+        btnAusleihen.setPreferredSize(new Dimension(117, 29));
+        btnAusleihen.setMinimumSize(new Dimension(117, 29));
+        btnAusleihen.setMaximumSize(new Dimension(117, 29));
+        final GridBagConstraints gbc_btnAusleihen = new GridBagConstraints();
+        gbc_btnAusleihen.fill = GridBagConstraints.HORIZONTAL;
+        gbc_btnAusleihen.insets = new Insets(0, 0, 5, 0);
+        gbc_btnAusleihen.gridx = 4;
+        gbc_btnAusleihen.gridy = 7;
+        kundePanelInAusleiheTab.add(btnAusleihen, gbc_btnAusleihen);
+
+        lblKeineAusleiheMglich = new JLabel(
+                "Keine Ausleihe möglich. Überfällige vorhanden.");
+        final GridBagConstraints gbc_lblKeineAusleiheMglich = new GridBagConstraints();
+        gbc_lblKeineAusleiheMglich.gridwidth = 3;
+        gbc_lblKeineAusleiheMglich.fill = GridBagConstraints.HORIZONTAL;
+        gbc_lblKeineAusleiheMglich.insets = new Insets(0, 0, 0, 5);
+        gbc_lblKeineAusleiheMglich.gridx = 1;
+        gbc_lblKeineAusleiheMglich.gridy = 8;
+        kundePanelInAusleiheTab.add(lblKeineAusleiheMglich,
+                gbc_lblKeineAusleiheMglich);
+
+        ausleiheScrollPane = new JScrollPane();
+        final GridBagConstraints gbc_ausleiheScrollPane = new GridBagConstraints();
+        gbc_ausleiheScrollPane.fill = GridBagConstraints.BOTH;
+        gbc_ausleiheScrollPane.insets = new Insets(0, 5, 0, 3);
+        gbc_ausleiheScrollPane.gridx = 0;
+        gbc_ausleiheScrollPane.gridy = 1;
+        ausleihenTab.add(ausleiheScrollPane, gbc_ausleiheScrollPane);
+
+        ausleiheTable = new JTable();
+        ausleiheScrollPane.setViewportView(ausleiheTable);
         biblioTabbedPane.setMnemonicAt(1, KeyEvent.VK_A);
 
         suchenTxtEditGadgetTab = new JTextField();
@@ -162,7 +348,7 @@ public class GadgetMaster extends JFrame {
 
         gadgetErfassenBtn = new JButton("Gadget erfassen");
         gadgetErfassenBtn
-                .setToolTipText("Clicken Sie hier, um einen Gadget zu erfassen");
+        .setToolTipText("Clicken Sie hier, um einen Gadget zu erfassen");
         gadgetErfassenBtn.addActionListener(e -> editGadget(new Gadget(""),
                 true));
         final GridBagConstraints gbc_gadgetErfassenBtn = new GridBagConstraints();
@@ -174,7 +360,7 @@ public class GadgetMaster extends JFrame {
 
         gadgetEditBtn = new JButton("Gadget editieren");
         gadgetEditBtn
-                .setToolTipText("Clicken Sie hier, um einen Gadget zu editieren");
+        .setToolTipText("Clicken Sie hier, um einen Gadget zu editieren");
         gadgetEditBtn.setMinimumSize(new Dimension(145, 29));
         gadgetEditBtn.setMaximumSize(new Dimension(145, 29));
         gadgetEditBtn.setName("Gadget editieren");
