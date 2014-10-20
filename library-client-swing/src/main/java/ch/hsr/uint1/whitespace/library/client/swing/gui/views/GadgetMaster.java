@@ -1,4 +1,4 @@
-package ch.hsr.uint1.whitespace.library.client.swing.views;
+package ch.hsr.uint1.whitespace.library.client.swing.gui.views;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -20,9 +20,14 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Library;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.models.GadgetListModel;
+
+@Component
 public class GadgetMaster extends JFrame {
 
 	private static final long serialVersionUID = -2060969695124152513L;
@@ -36,17 +41,10 @@ public class GadgetMaster extends JFrame {
 	private JButton gadgetEditBtn;
 	private JList<Gadget> gadgetsList;
 
+	@Autowired
 	private Library library;
 
-	/**
-	 * Create the frame.
-	 */
-	public GadgetMaster(Library library) {
-		this.library = library;
-		initializeGUI();
-	}
-
-	private void initializeGUI() {
+	public void startGUI() {
 		setName("Gadget Bibliothek");
 		setMinimumSize(new Dimension(500, 230));
 		setSize(new Dimension(730, 515));
@@ -151,6 +149,7 @@ public class GadgetMaster extends JFrame {
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 1;
 		gadgetTab.add(gadgetsList, gbc_list);
+		this.setVisible(true);
 	}
 
 	private void editGadget(Gadget gadget, boolean isNewGadget) {

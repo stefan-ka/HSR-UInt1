@@ -1,12 +1,15 @@
-package ch.hsr.uint1.whitespace.library.client.swing.dl;
+package ch.hsr.uint1.whitespace.library.client.swing.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Customer;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Loan;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Reservation;
+import ch.hsr.uint1.whitespace.library.client.swing.data.CrudListener;
+import ch.hsr.uint1.whitespace.library.client.swing.data.LibraryData;
+import ch.hsr.uint1.whitespace.library.client.swing.data.MessageData;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 
 public class LocalLibrary implements LibraryData {
 

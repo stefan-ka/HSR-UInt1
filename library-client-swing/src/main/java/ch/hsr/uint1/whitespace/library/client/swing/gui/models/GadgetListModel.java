@@ -1,13 +1,13 @@
-package ch.hsr.uint1.whitespace.library.client.swing.views;
+package ch.hsr.uint1.whitespace.library.client.swing.gui.models;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.AbstractListModel;
 
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Library;
-import ch.hsr.uint1.whitespace.library.client.swing.dl.MessageData;
+import ch.hsr.uint1.whitespace.library.client.swing.data.MessageData;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 
 public class GadgetListModel extends AbstractListModel<Gadget> implements Observer {
 
@@ -18,10 +18,6 @@ public class GadgetListModel extends AbstractListModel<Gadget> implements Observ
 	public GadgetListModel(Library library) {
 		this.library = library;
 		library.addObserver(this);
-	}
-
-	public void propagateUpdate(int pos) {
-		fireContentsChanged(this, pos, pos);
 	}
 
 	@Override

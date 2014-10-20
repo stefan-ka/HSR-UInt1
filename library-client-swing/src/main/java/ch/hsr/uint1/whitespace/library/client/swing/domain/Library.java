@@ -1,20 +1,25 @@
-package ch.hsr.uint1.whitespace.library.client.swing.bl;
+package ch.hsr.uint1.whitespace.library.client.swing.domain;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.stream.Collectors;
 
-import ch.hsr.uint1.whitespace.library.client.swing.dl.CrudListener;
-import ch.hsr.uint1.whitespace.library.client.swing.dl.LibraryData;
-import ch.hsr.uint1.whitespace.library.client.swing.dl.MessageData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import ch.hsr.uint1.whitespace.library.client.swing.data.CrudListener;
+import ch.hsr.uint1.whitespace.library.client.swing.data.LibraryData;
+import ch.hsr.uint1.whitespace.library.client.swing.data.MessageData;
+
+@Component
 public class Library extends Observable {
 
-	private LibraryData data;
+	private LibraryData libraryData;
 
-	public Library(LibraryData data) {
-		this.data = data;
-		data.registerGadgetListener(new CrudListener<Gadget>() {
+	@Autowired
+	public Library(LibraryData libraryData) {
+		this.libraryData = libraryData;
+		libraryData.registerGadgetListener(new CrudListener<Gadget>() {
 			@Override
 			public void changed(MessageData message) {
 				dataChanged(message);
@@ -29,28 +34,28 @@ public class Library extends Observable {
 
 	public void addLoan(Gadget gadget, Customer customer) {
 		if (canLent(gadget, customer)) {
-			data.addLoan(new Loan(customer, gadget));
+			libraryData.addLoan(new Loan(customer, gadget));
 			Reservation reservation = getReservatonFor(gadget, customer, true);
 			if (reservation != null) {
 				reservation.setFinished(true);
-				data.updateReservation(reservation);
+				libraryData.updateReservation(reservation);
 			}
 		}
 	}
 
 	public List<Loan> getLoansFor(Gadget gadget, boolean onlyLent) {
 		if (!onlyLent) {
-			return data.getLoans().stream().filter(p -> p.getGadgetId().equals(gadget.getInventoryNumber())).collect(Collectors.toList());
+			return libraryData.getLoans().stream().filter(p -> p.getGadgetId().equals(gadget.getInventoryNumber())).collect(Collectors.toList());
 		} else {
-			return data.getLoans().stream().filter(p -> p.isLent() && p.getGadgetId().equals(gadget.getInventoryNumber())).collect(Collectors.toList());
+			return libraryData.getLoans().stream().filter(p -> p.isLent() && p.getGadgetId().equals(gadget.getInventoryNumber())).collect(Collectors.toList());
 		}
 	}
 
 	public List<Loan> getLoansFor(Customer customer, boolean onlyLent) {
 		if (!onlyLent) {
-			return data.getLoans().stream().filter(p -> p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
+			return libraryData.getLoans().stream().filter(p -> p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
 		} else {
-			return data.getLoans().stream().filter(p -> p.isLent() && p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
+			return libraryData.getLoans().stream().filter(p -> p.isLent() && p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
 		}
 	}
 
@@ -59,39 +64,39 @@ public class Library extends Observable {
 	}
 
 	public List<Customer> getCustomers() {
-		return data.getCustomers();
+		return libraryData.getCustomers();
 	}
 
 	public List<Gadget> getGadgets() {
-		return data.getGadgets();
+		return libraryData.getGadgets();
 	}
 
 	public Gadget getGadget(String id) {
-		return data.getGadgets().stream().filter(p -> p.getInventoryNumber().equals(id)).findAny().orElse(null);
+		return libraryData.getGadgets().stream().filter(p -> p.getInventoryNumber().equals(id)).findAny().orElse(null);
 	}
 
 	public Gadget getGadgetByName(String name) {
-		return data.getGadgets().stream().filter(p -> p.getName().equals(name)).findAny().orElse(null);
+		return libraryData.getGadgets().stream().filter(p -> p.getName().equals(name)).findAny().orElse(null);
 	}
 
 	public Customer getCustomer(String id) {
-		return data.getCustomers().stream().filter(p -> p.getStudentNumber().equals(id)).findAny().orElse(null);
+		return libraryData.getCustomers().stream().filter(p -> p.getStudentNumber().equals(id)).findAny().orElse(null);
 	}
 
 	public void addGadget(Gadget gadget) {
-		data.addGadget(gadget);
+		libraryData.addGadget(gadget);
 	}
 
 	public void updateGadget(Gadget gadget) {
-		data.updateGadget(gadget);
+		libraryData.updateGadget(gadget);
 	}
 
 	public void updateLoan(Loan loan) {
-		data.updateLoan(loan);
+		libraryData.updateLoan(loan);
 	}
 
 	public void updateReservation(Reservation reservation) {
-		data.updateReservation(reservation);
+		libraryData.updateReservation(reservation);
 	}
 
 	public Reservation getReservatonFor(Gadget gadget, Customer customer, boolean onlyOpen) {
@@ -100,10 +105,10 @@ public class Library extends Observable {
 			return null;
 		}
 		if (!onlyOpen) {
-			return data.getReservations().stream().filter(p -> p.getGadgetId().equals(gadget.getInventoryNumber()) && p.getCustomerId().equals(customer.getStudentNumber()))
+			return libraryData.getReservations().stream().filter(p -> p.getGadgetId().equals(gadget.getInventoryNumber()) && p.getCustomerId().equals(customer.getStudentNumber()))
 					.sorted((e1, e2) -> e1.getReservationDate().compareTo(e2.getReservationDate())).findAny().orElse(null);
 		} else {
-			return data.getReservations().stream()
+			return libraryData.getReservations().stream()
 					.filter(p -> !p.getFinished() && (p.getGadgetId().equals(gadget.getInventoryNumber()) && p.getCustomerId().equals(customer.getStudentNumber())))
 					.sorted((e1, e2) -> e1.getReservationDate().compareTo(e2.getReservationDate())).findAny().orElse(null);
 		}
@@ -113,10 +118,10 @@ public class Library extends Observable {
 	public List<Reservation> getReservatonFor(Gadget gadget, boolean onlyOpen) {
 
 		if (!onlyOpen) {
-			return data.getReservations().stream().filter(p -> p.getGadgetId().equals(gadget.getInventoryNumber()))
+			return libraryData.getReservations().stream().filter(p -> p.getGadgetId().equals(gadget.getInventoryNumber()))
 					.sorted((e1, e2) -> e1.getReservationDate().compareTo(e2.getReservationDate())).collect(Collectors.toList());
 		} else {
-			return data.getReservations().stream().filter(p -> !p.getFinished() && p.getGadgetId().equals(gadget.getInventoryNumber()))
+			return libraryData.getReservations().stream().filter(p -> !p.getFinished() && p.getGadgetId().equals(gadget.getInventoryNumber()))
 					.sorted((e1, e2) -> e1.getReservationDate().compareTo(e2.getReservationDate())).collect(Collectors.toList());
 		}
 
@@ -125,16 +130,16 @@ public class Library extends Observable {
 	public List<Reservation> getReservatonFor(Customer customer, boolean onlyOpen) {
 
 		if (!onlyOpen) {
-			return data.getReservations().stream().filter(p -> p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
+			return libraryData.getReservations().stream().filter(p -> p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
 		} else {
-			return data.getReservations().stream().filter(p -> !p.getFinished() && p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
+			return libraryData.getReservations().stream().filter(p -> !p.getFinished() && p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
 		}
 
 	}
 
 	public void addReservation(Gadget gadget, Customer customer) {
 		if (canReservation(gadget, customer)) {
-			data.addReservation(new Reservation(customer, gadget));
+			libraryData.addReservation(new Reservation(customer, gadget));
 		}
 	}
 

@@ -1,4 +1,4 @@
-package ch.hsr.uint1.whitespace.library.client.swing.dl;
+package ch.hsr.uint1.whitespace.library.client.swing.data;
 
 import java.awt.EventQueue;
 import java.lang.reflect.Type;
@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Customer;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Loan;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Reservation;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

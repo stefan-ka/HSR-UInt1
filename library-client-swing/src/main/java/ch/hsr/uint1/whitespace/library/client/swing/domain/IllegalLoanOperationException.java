@@ -1,4 +1,4 @@
-package ch.hsr.uint1.whitespace.library.client.swing.bl;
+package ch.hsr.uint1.whitespace.library.client.swing.domain;
 
 public class IllegalLoanOperationException extends Exception {
 

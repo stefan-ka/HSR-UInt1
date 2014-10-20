@@ -1,4 +1,4 @@
-package ch.hsr.uint1.whitespace.library.client.swing.views;
+package ch.hsr.uint1.whitespace.library.client.swing.gui.views;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
-import ch.hsr.uint1.whitespace.library.client.swing.bl.Library;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 
 public class GadgetDetail extends JFrame {
 

@@ -1,8 +1,8 @@
-package ch.hsr.uint1.whitespace.library.client.swing.bl;
+package ch.hsr.uint1.whitespace.library.client.swing.domain;
 
 import java.util.UUID;
 
-import ch.hsr.uint1.whitespace.library.client.swing.dl.Dto;
+import ch.hsr.uint1.whitespace.library.client.swing.data.Dto;
 
 public class Gadget implements Dto<Gadget> {
 
