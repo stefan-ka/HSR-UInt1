@@ -11,4 +11,22 @@
 	<bean name="libraryData"
 		class="ch.hsr.uint1.whitespace.library.client.swing.data.ProxyLibrary" />
 
+	<bean id="gadgetDetail"
+		class="ch.hsr.uint1.whitespace.library.client.swing.gui.views.GadgetDetail"
+		scope="prototype" />
+
+	<bean name="viewFactory"
+		class="ch.hsr.uint1.whitespace.library.client.swing.gui.views.ViewFactory">
+		<lookup-method name="createGadgetDetail" bean="gadgetDetail" />
+	</bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

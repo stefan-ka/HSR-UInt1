@@ -16,8 +16,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ValidationUtils;
+
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.validation.GadgetValidator;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
 
 public class GadgetDetail extends JFrame {
 
@@ -38,26 +45,31 @@ public class GadgetDetail extends JFrame {
 	private JButton abbruchBtn;
 	private JButton saveBtn;
 
+	@Autowired
 	private Library library;
+
+	@Autowired
+	private GadgetValidator gadgetValidator;
+
+	@Autowired
+	private MessageResolver messageResolver;
+
 	private Gadget gadget;
 	private boolean isNewGadget;
 
-	/**
-	 * Create the frame.
-	 */
-	public GadgetDetail(Library library, Gadget gadget, boolean isNewGadget) {
-		this.library = library;
+	public void startGUI(Gadget gadget, boolean isNewGadget) {
 		this.gadget = gadget;
 		this.isNewGadget = isNewGadget;
 		initializeGUI();
 		updateView(gadget);
+		setVisible(true);
 	}
 
 	private void initializeGUI() {
 		if (isNewGadget) {
-			setTitle("Neues Gadget erfassen");
+			setTitle(messageResolver.getText("gadgetDetail.newTitle"));
 		} else {
-			setTitle("Gadget editieren");
+			setTitle(messageResolver.getText("gadgetDetail.changeTitle"));
 		}
 		setResizable(false);
 		setMinimumSize(new Dimension(445, 238));
@@ -86,7 +98,7 @@ public class GadgetDetail extends JFrame {
 		gbl_detailPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		detailPanel.setLayout(gbl_detailPanel);
 
-		idLbl = new JLabel("Id:");
+		idLbl = new JLabel(messageResolver.getText("gadgetDetail.idLabel"));
 		final GridBagConstraints gbc_lblId = new GridBagConstraints();
 		gbc_lblId.anchor = GridBagConstraints.WEST;
 		gbc_lblId.insets = new Insets(5, 5, 5, 5);
@@ -104,7 +116,7 @@ public class GadgetDetail extends JFrame {
 		gbc_lblNewLabel.gridy = 0;
 		detailPanel.add(idNummerLbl, gbc_lblNewLabel);
 
-		nameLbl = new JLabel("Name:");
+		nameLbl = new JLabel(messageResolver.getText("gadgetDetail.nameLabel"));
 		final GridBagConstraints gbc_nameLbl = new GridBagConstraints();
 		gbc_nameLbl.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nameLbl.insets = new Insets(5, 5, 5, 5);
@@ -122,7 +134,7 @@ public class GadgetDetail extends JFrame {
 		detailPanel.add(nameTextField, gbc_nameTextField);
 		nameTextField.setColumns(10);
 
-		herstellerLbl = new JLabel("Hersteller:");
+		herstellerLbl = new JLabel(messageResolver.getText("gadgetDetail.producerNameLabel"));
 		final GridBagConstraints gbc_herstellerLbl = new GridBagConstraints();
 		gbc_herstellerLbl.anchor = GridBagConstraints.WEST;
 		gbc_herstellerLbl.insets = new Insets(5, 5, 5, 5);
@@ -140,7 +152,7 @@ public class GadgetDetail extends JFrame {
 		detailPanel.add(herstellerTextField, gbc_herstellerTextField);
 		herstellerTextField.setColumns(10);
 
-		preisLbl = new JLabel("Preis:");
+		preisLbl = new JLabel(messageResolver.getText("gadgetDetail.priceLabel"));
 		final GridBagConstraints gbc_preisLbl = new GridBagConstraints();
 		gbc_preisLbl.anchor = GridBagConstraints.WEST;
 		gbc_preisLbl.insets = new Insets(5, 5, 5, 5);
@@ -158,7 +170,7 @@ public class GadgetDetail extends JFrame {
 		detailPanel.add(preisTextField, gbc_preisTextField);
 		preisTextField.setColumns(10);
 
-		zustandLbl = new JLabel("Zustand:");
+		zustandLbl = new JLabel(messageResolver.getText("gadgetDetail.conditionLabel"));
 		final GridBagConstraints gbc_zustandLbl = new GridBagConstraints();
 		gbc_zustandLbl.anchor = GridBagConstraints.WEST;
 		gbc_zustandLbl.insets = new Insets(5, 5, 5, 5);
@@ -176,7 +188,7 @@ public class GadgetDetail extends JFrame {
 		gbc_zustandComboBox.gridy = 4;
 		detailPanel.add(zustandComboBox, gbc_zustandComboBox);
 
-		abbruchBtn = new JButton("Abbruch");
+		abbruchBtn = new JButton(messageResolver.getText("gadgetDetail.cancelButton"));
 		abbruchBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -189,9 +201,9 @@ public class GadgetDetail extends JFrame {
 		gbc_abbruchBtn.gridy = 5;
 		detailPanel.add(abbruchBtn, gbc_abbruchBtn);
 
-		saveBtn = new JButton("Erfassen");
+		saveBtn = new JButton(messageResolver.getText("gadgetDetail.createNewButton"));
 		if (!isNewGadget) {
-			saveBtn.setText("Speichern");
+			saveBtn.setText(messageResolver.getText("gadgetDetail.saveChangeButton"));
 		}
 		saveBtn.addActionListener(new ActionListener() {
 			@Override
@@ -226,12 +238,26 @@ public class GadgetDetail extends JFrame {
 
 	private void saveGadget() {
 		updateModel();
+		if (!isGadgetValid())
+			return;
+
 		if (isNewGadget) {
 			library.addGadget(gadget);
 		} else {
 			library.updateGadget(gadget);
 		}
 		closeWindow();
+	}
+
+	// TODO: show error's on GUI ...
+	private boolean isGadgetValid() {
+		BeanPropertyBindingResult result = new BeanPropertyBindingResult(gadget, "gadget");
+		ValidationUtils.invokeValidator(gadgetValidator, gadget, result);
+
+		for (FieldError error : result.getFieldErrors()) {
+			System.out.println(messageResolver.getErrorMessage(error));
+		}
+		return !result.hasErrors();
 	}
 
 	private void closeWindow() {

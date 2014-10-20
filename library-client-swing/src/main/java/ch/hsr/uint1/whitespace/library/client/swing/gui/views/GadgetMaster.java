@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.GadgetListModel;
 
 @Component
@@ -68,10 +69,16 @@ public class GadgetMaster extends JFrame {
 	@Autowired
 	private Library library;
 
+	@Autowired
+	private ViewFactory viewFactory;
+
+	@Autowired
+	private MessageResolver messageResolver;
+
 	public void startGUI() {
-		setName("Gadget Bibliothek");
+		setName(messageResolver.getText("master.title"));
 		setSize(new Dimension(972, 577));
-		setTitle("Gadget Bibliothek");
+		setTitle(messageResolver.getText("master.title"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 972, 577);
 		biblioContentPane = new JPanel();
@@ -95,7 +102,7 @@ public class GadgetMaster extends JFrame {
 
 		gadgetTab = new JPanel();
 		gadgetTab.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		biblioTabbedPane.addTab("Gadgets", null, gadgetTab, "Gadgets Liste");
+		biblioTabbedPane.addTab(messageResolver.getText("master.tab.gadgets"), null, gadgetTab, messageResolver.getText("master.tab.gadgets.tip"));
 		biblioTabbedPane.setMnemonicAt(0, KeyEvent.VK_G);
 		final GridBagLayout gbl_gadgetTab = new GridBagLayout();
 		gbl_gadgetTab.columnWidths = new int[] { 0, 0, 0 };
@@ -106,7 +113,7 @@ public class GadgetMaster extends JFrame {
 
 		ausleihenTab = new JPanel();
 		ausleihenTab.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		biblioTabbedPane.addTab("Ausleihen & Rückgabe", null, ausleihenTab, "Hier können Sie Ausleihen und Rückgaben erfassen");
+		biblioTabbedPane.addTab(messageResolver.getText("master.tab.loans"), null, ausleihenTab, messageResolver.getText("master.tab.loans.tip"));
 		final GridBagLayout gbl_ausleihenTab = new GridBagLayout();
 		gbl_ausleihenTab.columnWidths = new int[] { 456, 355, 0 };
 		gbl_ausleihenTab.rowHeights = new int[] { 0, 0, 0 };
@@ -115,8 +122,8 @@ public class GadgetMaster extends JFrame {
 		ausleihenTab.setLayout(gbl_ausleihenTab);
 
 		suchenTxtEditAusleiheTab = new JTextField();
-		suchenTxtEditAusleiheTab.setToolTipText("Suchen");
-		suchenTxtEditAusleiheTab.setText("Suchen...");
+		suchenTxtEditAusleiheTab.setToolTipText(messageResolver.getText("search.tooltip"));
+		suchenTxtEditAusleiheTab.setText(messageResolver.getText("search.fieldText"));
 		suchenTxtEditAusleiheTab.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(final FocusEvent e) {
@@ -134,8 +141,8 @@ public class GadgetMaster extends JFrame {
 
 		kundePanelBorder = new JPanel();
 		kundePanelBorder.setName("");
-		kundePanelBorder.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Kunde Data", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0,
-				0)));
+		kundePanelBorder.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), messageResolver.getText("master.loans.customerData"), TitledBorder.LEADING,
+				TitledBorder.TOP, null, new Color(0, 0, 0)));
 		final GridBagConstraints gbc_kundePanelBorder = new GridBagConstraints();
 		gbc_kundePanelBorder.gridheight = 2;
 		gbc_kundePanelBorder.fill = GridBagConstraints.BOTH;
@@ -162,7 +169,7 @@ public class GadgetMaster extends JFrame {
 		gbl_kundePanelInAusleiheTab.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		kundePanelInAusleiheTab.setLayout(gbl_kundePanelInAusleiheTab);
 
-		lblReservationen = new JLabel("Reservationen");
+		lblReservationen = new JLabel(messageResolver.getText("master.loans.reservations"));
 		final GridBagConstraints gbc_lblReservationen = new GridBagConstraints();
 		gbc_lblReservationen.gridwidth = 2;
 		gbc_lblReservationen.fill = GridBagConstraints.HORIZONTAL;
@@ -186,7 +193,7 @@ public class GadgetMaster extends JFrame {
 		gbc_textField.gridx = 3;
 		gbc_textField.gridy = 3;
 
-		lblNeueReservation = new JLabel("Neue Reservation");
+		lblNeueReservation = new JLabel(messageResolver.getText("master.loans.reservations.newReservationLabel"));
 		final GridBagConstraints gbc_lblNeueReservation = new GridBagConstraints();
 		gbc_lblNeueReservation.gridwidth = 2;
 		gbc_lblNeueReservation.fill = GridBagConstraints.HORIZONTAL;
@@ -195,7 +202,7 @@ public class GadgetMaster extends JFrame {
 		gbc_lblNeueReservation.gridy = 2;
 		kundePanelInAusleiheTab.add(lblNeueReservation, gbc_lblNeueReservation);
 
-		lbREservationId = new JLabel("Id:");
+		lbREservationId = new JLabel(messageResolver.getText("master.loans.reservations.idLabel"));
 		final GridBagConstraints gbc_lbREservationId = new GridBagConstraints();
 		gbc_lbREservationId.insets = new Insets(0, 0, 5, 5);
 		gbc_lbREservationId.anchor = GridBagConstraints.EAST;
@@ -213,7 +220,7 @@ public class GadgetMaster extends JFrame {
 		kundePanelInAusleiheTab.add(idReservationTxtField, gbc_idReservationTxtField);
 		idReservationTxtField.setColumns(10);
 
-		btnReservation = new JButton("Reservation");
+		btnReservation = new JButton(messageResolver.getText("master.loans.reservations.reservationButton"));
 		final GridBagConstraints gbc_btnReservation = new GridBagConstraints();
 		gbc_btnReservation.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnReservation.insets = new Insets(0, 0, 5, 0);
@@ -221,7 +228,7 @@ public class GadgetMaster extends JFrame {
 		gbc_btnReservation.gridy = 3;
 		kundePanelInAusleiheTab.add(btnReservation, gbc_btnReservation);
 
-		lblKeineReservationMglich = new JLabel("Keine Reservation möglich. Überfällige vorhanden.");
+		lblKeineReservationMglich = new JLabel(messageResolver.getText("master.loans.reservations.NoReservationPossible"));
 		final GridBagConstraints gbc_lblKeineReservationMglich = new GridBagConstraints();
 		gbc_lblKeineReservationMglich.gridwidth = 3;
 		gbc_lblKeineReservationMglich.fill = GridBagConstraints.HORIZONTAL;
@@ -230,7 +237,7 @@ public class GadgetMaster extends JFrame {
 		gbc_lblKeineReservationMglich.gridy = 4;
 		kundePanelInAusleiheTab.add(lblKeineReservationMglich, gbc_lblKeineReservationMglich);
 
-		lblAusleihen = new JLabel("Ausleihen");
+		lblAusleihen = new JLabel(messageResolver.getText("master.loans.loansLabel"));
 		final GridBagConstraints gbc_lblAusleihen = new GridBagConstraints();
 		gbc_lblAusleihen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblAusleihen.gridwidth = 4;
@@ -251,7 +258,7 @@ public class GadgetMaster extends JFrame {
 		kundeAusleiheTable = new JTable();
 		kundeAusleiheScrollPane.setViewportView(kundeAusleiheTable);
 
-		lblAusleiheId = new JLabel("Id:");
+		lblAusleiheId = new JLabel(messageResolver.getText("master.loans.idLabel"));
 		final GridBagConstraints gbc_lblAusleiheId = new GridBagConstraints();
 		gbc_lblAusleiheId.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAusleiheId.anchor = GridBagConstraints.EAST;
@@ -269,7 +276,7 @@ public class GadgetMaster extends JFrame {
 		kundePanelInAusleiheTab.add(textField, gbc_textField1);
 		textField.setColumns(10);
 
-		btnAusleihen = new JButton("Ausleihen");
+		btnAusleihen = new JButton(messageResolver.getText("master.loans.loanButton"));
 		btnAusleihen.setPreferredSize(new Dimension(117, 29));
 		btnAusleihen.setMinimumSize(new Dimension(117, 29));
 		btnAusleihen.setMaximumSize(new Dimension(117, 29));
@@ -280,7 +287,7 @@ public class GadgetMaster extends JFrame {
 		gbc_btnAusleihen.gridy = 7;
 		kundePanelInAusleiheTab.add(btnAusleihen, gbc_btnAusleihen);
 
-		lblKeineAusleiheMglich = new JLabel("Keine Ausleihe möglich. Überfällige vorhanden.");
+		lblKeineAusleiheMglich = new JLabel(messageResolver.getText("master.loans.noLoanPossible"));
 		final GridBagConstraints gbc_lblKeineAusleiheMglich = new GridBagConstraints();
 		gbc_lblKeineAusleiheMglich.gridwidth = 3;
 		gbc_lblKeineAusleiheMglich.fill = GridBagConstraints.HORIZONTAL;
@@ -299,12 +306,14 @@ public class GadgetMaster extends JFrame {
 
 		ausleiheTable = new JTable();
 		ausleiheScrollPane.setViewportView(ausleiheTable);
-		ausleiheTable.setModel(new DefaultTableModel(null, new String[] { "KundenId", "Name", "Reservationen", "Ausleihen", "Hat Überfällige" }) {
+		ausleiheTable.setModel(new DefaultTableModel(null, new String[] { messageResolver.getText("master.loans.jTable.customerId"),
+				messageResolver.getText("master.loans.jTable.customerName"), messageResolver.getText("master.loans.jTable.customerReservations"),
+				messageResolver.getText("master.loans.jTable.customerLoans"), messageResolver.getText("master.loans.jTable.customerHasOverdues") }) {
 			private static final long serialVersionUID = -888513948280513662L;
-			Class<String>[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class };
+			Class<?>[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class };
 
 			@Override
-			public Class<String> getColumnClass(final int columnIndex) {
+			public Class<?> getColumnClass(final int columnIndex) {
 				return columnTypes[columnIndex];
 
 			}
@@ -312,8 +321,8 @@ public class GadgetMaster extends JFrame {
 		biblioTabbedPane.setMnemonicAt(1, KeyEvent.VK_A);
 
 		suchenTxtEditGadgetTab = new JTextField();
-		suchenTxtEditGadgetTab.setToolTipText("Suchen");
-		suchenTxtEditGadgetTab.setText("Suchen...");
+		suchenTxtEditGadgetTab.setToolTipText(messageResolver.getText("search.tooltip"));
+		suchenTxtEditGadgetTab.setText(messageResolver.getText("search.fieldText"));
 		suchenTxtEditGadgetTab.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(final FocusEvent e) {
@@ -329,8 +338,8 @@ public class GadgetMaster extends JFrame {
 		gadgetTab.add(suchenTxtEditGadgetTab, gbc_suchenTxtEditGadgetTab);
 		suchenTxtEditGadgetTab.setColumns(10);
 
-		gadgetErfassenBtn = new JButton("Gadget erfassen");
-		gadgetErfassenBtn.setToolTipText("Clicken Sie hier, um einen Gadget zu erfassen");
+		gadgetErfassenBtn = new JButton(messageResolver.getText("master.gadgets.addGadgetButton"));
+		gadgetErfassenBtn.setToolTipText(messageResolver.getText("master.gadgets.addGadgetButton.tooltip"));
 		gadgetErfassenBtn.addActionListener(e -> editGadget(new Gadget(""), true));
 		final GridBagConstraints gbc_gadgetErfassenBtn = new GridBagConstraints();
 		gbc_gadgetErfassenBtn.fill = GridBagConstraints.HORIZONTAL;
@@ -339,11 +348,10 @@ public class GadgetMaster extends JFrame {
 		gbc_gadgetErfassenBtn.gridy = 0;
 		gadgetTab.add(gadgetErfassenBtn, gbc_gadgetErfassenBtn);
 
-		gadgetEditBtn = new JButton("Gadget editieren");
-		gadgetEditBtn.setToolTipText("Clicken Sie hier, um einen Gadget zu editieren");
+		gadgetEditBtn = new JButton(messageResolver.getText("master.gadgets.editGadgetButton"));
+		gadgetEditBtn.setToolTipText(messageResolver.getText("master.gadgets.editGadgetButton.tooltip"));
 		gadgetEditBtn.setMinimumSize(new Dimension(145, 29));
 		gadgetEditBtn.setMaximumSize(new Dimension(145, 29));
-		gadgetEditBtn.setName("Gadget editieren");
 		gadgetEditBtn.addActionListener(e -> {
 			final Gadget gadgetSelected = gadgetsList.getSelectedValue();
 			if (gadgetSelected != null) {
@@ -370,8 +378,8 @@ public class GadgetMaster extends JFrame {
 	}
 
 	private void editGadget(Gadget gadget, boolean isNewGadget) {
-		GadgetDetail detailFrame = new GadgetDetail(library, gadget, isNewGadget);
-		detailFrame.setVisible(true);
+		GadgetDetail detailFrame = viewFactory.createGadgetDetail();
+		detailFrame.startGUI(gadget, isNewGadget);
 	}
 
 }
