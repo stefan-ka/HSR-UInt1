@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import ch.hsr.uint1.whitespace.library.client.swing.bl.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.bl.Library;
@@ -326,6 +327,19 @@ public class GadgetMaster extends JFrame {
 
         ausleiheTable = new JTable();
         ausleiheScrollPane.setViewportView(ausleiheTable);
+        ausleiheTable.setModel(new DefaultTableModel(null, new String[] {
+                "KundenId", "Name", "Reservationen", "Ausleihen",
+                "Hat Überfällige" }) {
+            private static final long serialVersionUID = -888513948280513662L;
+            Class<String>[] columnTypes = new Class[] { String.class,
+                    String.class, String.class, String.class, String.class };
+
+            @Override
+            public Class<String> getColumnClass(final int columnIndex) {
+                return columnTypes[columnIndex];
+
+            }
+        });
         biblioTabbedPane.setMnemonicAt(1, KeyEvent.VK_A);
 
         suchenTxtEditGadgetTab = new JTextField();
@@ -348,7 +362,7 @@ public class GadgetMaster extends JFrame {
 
         gadgetErfassenBtn = new JButton("Gadget erfassen");
         gadgetErfassenBtn
-        .setToolTipText("Clicken Sie hier, um einen Gadget zu erfassen");
+                .setToolTipText("Clicken Sie hier, um einen Gadget zu erfassen");
         gadgetErfassenBtn.addActionListener(e -> editGadget(new Gadget(""),
                 true));
         final GridBagConstraints gbc_gadgetErfassenBtn = new GridBagConstraints();
@@ -360,7 +374,7 @@ public class GadgetMaster extends JFrame {
 
         gadgetEditBtn = new JButton("Gadget editieren");
         gadgetEditBtn
-        .setToolTipText("Clicken Sie hier, um einen Gadget zu editieren");
+                .setToolTipText("Clicken Sie hier, um einen Gadget zu editieren");
         gadgetEditBtn.setMinimumSize(new Dimension(145, 29));
         gadgetEditBtn.setMaximumSize(new Dimension(145, 29));
         gadgetEditBtn.setName("Gadget editieren");
