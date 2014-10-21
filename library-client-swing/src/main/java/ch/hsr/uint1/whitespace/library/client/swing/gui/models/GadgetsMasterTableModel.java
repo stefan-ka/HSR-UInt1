@@ -1,5 +1,6 @@
 package ch.hsr.uint1.whitespace.library.client.swing.gui.models;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -16,24 +17,28 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 
 	private static final long serialVersionUID = 7702702384849578628L;
 	private Library library;
+	private List<Gadget> gadgetList;
 	private MessageResolver messageResolver;
 	private final String[] columns = { "master.gadgets.jTable.gadgetId", "master.gadgets.jTable.gadgetName", "master.gadgets.jTable.gadgetHersteller",
 			"master.gadgets.jTable.gadgetPreis", "master.gadgets.jTable.gadgetZustand", "master.gadgets.jTable.gadgetVerfügbarAb", "master.gadgets.jTable.gadgetAusgeliehenAn" };
 
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY");
+
 	public GadgetsMasterTableModel(Library library, MessageResolver messageResolver) {
 		this.library = library;
 		this.messageResolver = messageResolver;
+		gadgetList = library.getGadgets();
 		library.addObserver(this);
 	}
 
 	@Override
 	public int getRowCount() {
-		return columns.length;
+		return library.getGadgets().size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return library.getGadgets().size();
+		return columns.length;
 	}
 
 	@Override
@@ -41,7 +46,6 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 		return messageResolver.getText(columns[columnIndex]);
 	}
 
-	// TODO continue
 	@Override
 	public String getValueAt(int rowIndex, int columnIndex) {
 		List<Gadget> gadgetList = this.library.getGadgets();
@@ -60,25 +64,27 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 		case 5:
 			return getDisponibility(library.getLoansFor(localGadget, true));
 		case 6:
-			return getCustomerFromGadget(library.getLoansFor(localGadget, true));
+			return getCustomerNameFromGadget(library.getLoansFor(localGadget, true));
 		default:
 			return null;
 		}
 	}
 
-	private String getCustomerFromGadget(List<Loan> loansFor) {
+	private String getCustomerNameFromGadget(List<Loan> loansFor) {
 		String customerName = "";
 		for (Loan loan : loansFor) {
 			customerName = loan.getCustomerId();
+			customerName = library.getCustomer(customerName).getName();
 		}
 		return customerName;
 	}
 
 	private String getDisponibility(List<Loan> loansFor) {
-		String date = "";
-		for (Loan loan : loansFor) {
-			date = loan.getReturnDate().toString();
-		}
+		String date = "-";
+		if (loansFor.size() == 0)
+			date = messageResolver.getText("master.gadgetsAvailableNow");
+		else
+			date = sdf.format(loansFor.get(0).overDueDate());
 		return date;
 	}
 
@@ -89,7 +95,13 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 			Gadget gadget = (Gadget) data.getData();
 			int pos = library.getGadgets().indexOf(gadget);
 			fireTableRowsUpdated(pos, pos);
+			if (pos < gadgetList.size()) {
+				fireTableRowsInserted(pos, pos);
+			}
 		}
 	}
 
+	public Gadget getGadgetAt(int index) {
+		return this.gadgetList.get(index);
+	}
 }

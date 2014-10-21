@@ -52,27 +52,27 @@ public class GadgetMaster extends JFrame {
 	private JLabel lblNeueReservation;
 	private JButton btnReservation;
 	private JScrollPane kundeReservationScrollPane;
+	private JScrollPane gadgtesTableScrollPane;
+	private JScrollPane ausleiheScrollPane;
+	private JScrollPane kundeAusleiheScrollPane;
 	private JTable ausleiheTable;
 	private JTable kundeAusleiheTable;
 	private JTable reservationenTable;
-	private JScrollPane ausleiheScrollPane;
+	private JTable gadgetsMasterTable;
 	private JLabel lblKeineReservationMglich;
 	private JLabel lblAusleihen;
 	private JTextField textField;
 	private JButton btnAusleihen;
 	private JLabel lblKeineAusleiheMglich;
-	private JScrollPane kundeAusleiheScrollPane;
 	private JLabel lbREservationId;
 	private JLabel lblAusleiheId;
 	private JTextField idReservationTxtField;
-
 	private MessageResolver messageResolver;
 	private Library library;
+	private GadgetsMasterTableModel gadgetsMasterTableModel;
 
 	@Autowired
 	private ObjectFactory<GadgetDetail> gadgetDetailViewFactory;
-	private JTable gadgetsMasterTable;
-	private JScrollPane gadgtesTableScrollPane;
 
 	@Autowired
 	public GadgetMaster(Library library, MessageResolver messageResolver) {
@@ -349,12 +349,12 @@ public class GadgetMaster extends JFrame {
 		gadgetEditBtn.setToolTipText(messageResolver.getText("master.gadgets.editGadgetButton.tooltip"));
 		gadgetEditBtn.setMinimumSize(new Dimension(145, 29));
 		gadgetEditBtn.setMaximumSize(new Dimension(145, 29));
-		// gadgetEditBtn.addActionListener(e -> {
-		// final Gadget gadgetSelected = gadgetsMasterTable.getSelectedRow();
-		// if (gadgetSelected != null) {
-		// editGadget(gadgetSelected, false);
-		// }
-		// });
+		gadgetEditBtn.addActionListener(e -> {
+			Gadget gadgetSelected = gadgetsMasterTableModel.getGadgetAt(gadgetsMasterTable.getSelectedRow());
+			if (gadgetSelected != null) {
+				editGadget(gadgetSelected, false);
+			}
+		});
 		final GridBagConstraints gbc_gadgetEditBtn = new GridBagConstraints();
 		gbc_gadgetEditBtn.insets = new Insets(2, 0, 5, 0);
 		gbc_gadgetEditBtn.fill = GridBagConstraints.BOTH;
@@ -370,8 +370,8 @@ public class GadgetMaster extends JFrame {
 		gbc_gadgtesTableScrollPane.gridx = 0;
 		gbc_gadgtesTableScrollPane.gridy = 1;
 		gadgetTab.add(gadgtesTableScrollPane, gbc_gadgtesTableScrollPane);
-
-		gadgetsMasterTable = new JTable(new GadgetsMasterTableModel(library, messageResolver));
+		gadgetsMasterTableModel = new GadgetsMasterTableModel(library, messageResolver);
+		gadgetsMasterTable = new JTable(gadgetsMasterTableModel);
 		gadgtesTableScrollPane.setViewportView(gadgetsMasterTable);
 	}
 

@@ -46,8 +46,8 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 
 	@Override
 	public String getValueAt(int rowIndex, int columnIndex) {
-		final List<Customer> customers = library.getCustomers();
-		final Customer localCustomer = customers.get(rowIndex);
+		List<Customer> customers = library.getCustomers();
+		Customer localCustomer = customers.get(rowIndex);
 		switch (columnIndex) {
 		case 0:
 			return localCustomer.getStudentNumber();
