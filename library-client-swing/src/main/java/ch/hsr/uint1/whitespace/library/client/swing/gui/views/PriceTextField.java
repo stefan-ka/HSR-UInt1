@@ -23,7 +23,6 @@ public class PriceTextField extends JTextField {
 			@Override
 			public void focusLost(FocusEvent e) {
 				try {
-
 					DecimalFormat format = new DecimalFormat("0.000");
 					setText(format.format(Double.parseDouble(getText())));
 				} catch (NumberFormatException exception) {
@@ -33,7 +32,7 @@ public class PriceTextField extends JTextField {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
+				// Do nothing
 			}
 		});
 	}
