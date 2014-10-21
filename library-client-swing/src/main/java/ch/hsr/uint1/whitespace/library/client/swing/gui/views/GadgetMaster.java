@@ -51,6 +51,7 @@ public class GadgetMaster extends JFrame {
 	private JLabel lblReservationen;
 	private JLabel lblNeueReservation;
 	private JButton btnReservation;
+	private JButton btnAusleihen;
 	private JScrollPane kundeReservationScrollPane;
 	private JScrollPane gadgtesTableScrollPane;
 	private JScrollPane ausleiheScrollPane;
@@ -62,7 +63,6 @@ public class GadgetMaster extends JFrame {
 	private JLabel lblKeineReservationMglich;
 	private JLabel lblAusleihen;
 	private JTextField textField;
-	private JButton btnAusleihen;
 	private JLabel lblKeineAusleiheMglich;
 	private JLabel lbREservationId;
 	private JLabel lblAusleiheId;
