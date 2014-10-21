@@ -19,6 +19,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -67,16 +68,25 @@ public class GadgetMaster extends JFrame {
 	private JLabel lblAusleiheId;
 	private JTextField idReservationTxtField;
 
-	@Autowired
+	private MessageResolver messageResolver;
 	private Library library;
 
 	@Autowired
 	private ObjectFactory<GadgetDetail> gadgetDetailViewFactory;
 
 	@Autowired
-	private MessageResolver messageResolver;
+	public GadgetMaster(Library library, MessageResolver messageResolver) {
+		this.library = library;
+		this.messageResolver = messageResolver;
+		initializeGUI();
+	}
 
-	public void startGUI() {
+	private void initializeGUI() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		setName(messageResolver.getText("master.title"));
 		setSize(new Dimension(972, 577));
 		setTitle(messageResolver.getText("master.title"));
@@ -374,6 +384,9 @@ public class GadgetMaster extends JFrame {
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 1;
 		gadgetTab.add(gadgetsList, gbc_list);
+	}
+
+	public void showGUI() {
 		this.setVisible(true);
 	}
 
