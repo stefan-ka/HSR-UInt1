@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -32,7 +31,7 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.AusleiheTableModel;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.models.GadgetListModel;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.models.GadgetsMasterTableModel;
 
 @Component
 public class GadgetMaster extends JFrame {
@@ -46,7 +45,6 @@ public class GadgetMaster extends JFrame {
 	private JPanel ausleihenTab;
 	private JButton gadgetErfassenBtn;
 	private JButton gadgetEditBtn;
-	private JList<Gadget> gadgetsList;
 	private JTextField suchenTxtEditAusleiheTab;
 	private JPanel kundePanelInAusleiheTab;
 	private JPanel kundePanelBorder;
@@ -73,6 +71,8 @@ public class GadgetMaster extends JFrame {
 
 	@Autowired
 	private ObjectFactory<GadgetDetail> gadgetDetailViewFactory;
+	private JTable gadgetsMasterTable;
+	private JScrollPane gadgtesTableScrollPane;
 
 	@Autowired
 	public GadgetMaster(Library library, MessageResolver messageResolver) {
@@ -115,9 +115,9 @@ public class GadgetMaster extends JFrame {
 		biblioTabbedPane.addTab(messageResolver.getText("master.tab.gadgets"), null, gadgetTab, messageResolver.getText("master.tab.gadgets.tip"));
 		biblioTabbedPane.setMnemonicAt(0, KeyEvent.VK_G);
 		final GridBagLayout gbl_gadgetTab = new GridBagLayout();
-		gbl_gadgetTab.columnWidths = new int[] { 0, 0, 0 };
+		gbl_gadgetTab.columnWidths = new int[] { 0 };
 		gbl_gadgetTab.rowHeights = new int[] { 0, 0, 0 };
-		gbl_gadgetTab.columnWeights = new double[] { 1.0, 1.0, 0.0 };
+		gbl_gadgetTab.columnWeights = new double[] { 1.0 };
 		gbl_gadgetTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		gadgetTab.setLayout(gbl_gadgetTab);
 
@@ -329,7 +329,6 @@ public class GadgetMaster extends JFrame {
 		});
 		final GridBagConstraints gbc_suchenTxtEditGadgetTab = new GridBagConstraints();
 		gbc_suchenTxtEditGadgetTab.fill = GridBagConstraints.HORIZONTAL;
-		gbc_suchenTxtEditGadgetTab.gridwidth = 13;
 		gbc_suchenTxtEditGadgetTab.insets = new Insets(2, 2, 5, 5);
 		gbc_suchenTxtEditGadgetTab.gridx = 0;
 		gbc_suchenTxtEditGadgetTab.gridy = 0;
@@ -341,8 +340,8 @@ public class GadgetMaster extends JFrame {
 		gadgetErfassenBtn.addActionListener(e -> editGadget(new Gadget(""), true));
 		final GridBagConstraints gbc_gadgetErfassenBtn = new GridBagConstraints();
 		gbc_gadgetErfassenBtn.fill = GridBagConstraints.HORIZONTAL;
-		gbc_gadgetErfassenBtn.insets = new Insets(2, 0, 5, 0);
-		gbc_gadgetErfassenBtn.gridx = 13;
+		gbc_gadgetErfassenBtn.insets = new Insets(2, 0, 5, 5);
+		gbc_gadgetErfassenBtn.gridx = 1;
 		gbc_gadgetErfassenBtn.gridy = 0;
 		gadgetTab.add(gadgetErfassenBtn, gbc_gadgetErfassenBtn);
 
@@ -350,28 +349,30 @@ public class GadgetMaster extends JFrame {
 		gadgetEditBtn.setToolTipText(messageResolver.getText("master.gadgets.editGadgetButton.tooltip"));
 		gadgetEditBtn.setMinimumSize(new Dimension(145, 29));
 		gadgetEditBtn.setMaximumSize(new Dimension(145, 29));
-		gadgetEditBtn.addActionListener(e -> {
-			final Gadget gadgetSelected = gadgetsList.getSelectedValue();
-			if (gadgetSelected != null) {
-				editGadget(gadgetSelected, false);
-			}
-		});
+		// gadgetEditBtn.addActionListener(e -> {
+		// final Gadget gadgetSelected = gadgetsMasterTable.getSelectedRow();
+		// if (gadgetSelected != null) {
+		// editGadget(gadgetSelected, false);
+		// }
+		// });
 		final GridBagConstraints gbc_gadgetEditBtn = new GridBagConstraints();
 		gbc_gadgetEditBtn.insets = new Insets(2, 0, 5, 0);
 		gbc_gadgetEditBtn.fill = GridBagConstraints.BOTH;
-		gbc_gadgetEditBtn.gridx = 14;
+		gbc_gadgetEditBtn.gridx = 2;
 		gbc_gadgetEditBtn.gridy = 0;
 		gadgetTab.add(gadgetEditBtn, gbc_gadgetEditBtn);
 
-		gadgetsList = new JList<Gadget>();
-		gadgetsList.setModel(new GadgetListModel(library));
-		final GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.gridwidth = 15;
-		gbc_list.insets = new Insets(0, 5, 2, 5);
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.gridx = 0;
-		gbc_list.gridy = 1;
-		gadgetTab.add(gadgetsList, gbc_list);
+		gadgtesTableScrollPane = new JScrollPane();
+		GridBagConstraints gbc_gadgtesTableScrollPane = new GridBagConstraints();
+		gbc_gadgtesTableScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_gadgtesTableScrollPane.gridwidth = 3;
+		gbc_gadgtesTableScrollPane.insets = new Insets(0, 5, 0, 3);
+		gbc_gadgtesTableScrollPane.gridx = 0;
+		gbc_gadgtesTableScrollPane.gridy = 1;
+		gadgetTab.add(gadgtesTableScrollPane, gbc_gadgtesTableScrollPane);
+
+		gadgetsMasterTable = new JTable(new GadgetsMasterTableModel(library, messageResolver));
+		gadgtesTableScrollPane.setViewportView(gadgetsMasterTable);
 	}
 
 	public void showGUI() {
