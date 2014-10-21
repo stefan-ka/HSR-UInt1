@@ -53,12 +53,17 @@ public class GadgetDetail extends JFrame {
 	@Autowired
 	private GadgetValidator gadgetValidator;
 
-	@Autowired
 	private MessageResolver messageResolver;
 
 	private Gadget gadget;
 	private boolean isNewGadget;
 
+	@Autowired
+	public GadgetDetail(MessageResolver messageResolver) {
+		this.messageResolver = messageResolver;
+		initializeGUI();
+	}
+	
 	public void startGUI(Gadget gadget, boolean isNewGadget) {
 		this.gadget = gadget;
 		this.isNewGadget = isNewGadget;
