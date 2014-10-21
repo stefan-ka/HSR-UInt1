@@ -23,6 +23,8 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 	private final String[] columns = { "master.loans.jTable.customerId", "master.loans.jTable.customerName", "master.loans.jTable.customerReservations",
 			"master.loans.jTable.customerLoans", "master.loans.jTable.customerHasOverdues" };
 
+	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, String.class, String.class, Boolean.class };
+
 	public AusleiheTableModel(Library library, MessageResolver messageResolver) {
 		this.library = library;
 		this.messageResolver = messageResolver;
@@ -40,12 +42,17 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 	}
 
 	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		return columnClasses[columnIndex];
+	}
+
+	@Override
 	public int getRowCount() {
 		return library.getCustomers().size();
 	}
 
 	@Override
-	public String getValueAt(int rowIndex, int columnIndex) {
+	public Object getValueAt(int rowIndex, int columnIndex) {
 		List<Customer> customers = library.getCustomers();
 		Customer localCustomer = customers.get(rowIndex);
 		switch (columnIndex) {
@@ -57,15 +64,11 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 			return printReservations(library.getReservatonFor(localCustomer, true));
 		case 3:
 			return printLoans(library.getLoansFor(localCustomer, true));
-		case 4: // TODO This is crap, will be removed as soon as possible
-			return printIsOverdued(library.hasOverdue(localCustomer));
+		case 4:
+			return library.hasOverdue(localCustomer);
 		default:
 			return null;
 		}
-	}
-
-	private String printIsOverdued(boolean hasOverdue) {
-		return hasOverdue ? "true" : "false";
 	}
 
 	// TODO return the loan name, and not the id
