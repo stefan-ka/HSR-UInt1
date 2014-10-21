@@ -22,7 +22,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +29,7 @@ import org.springframework.stereotype.Component;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.models.AusleiheTableModel;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.GadgetListModel;
 
 @Component
@@ -49,18 +49,18 @@ public class GadgetMaster extends JFrame {
 	private JPanel kundePanelInAusleiheTab;
 	private JPanel kundePanelBorder;
 	private JLabel lblReservationen;
-	private JTable reservationenTable;
 	private JLabel lblNeueReservation;
 	private JButton btnReservation;
 	private JScrollPane kundeReservationScrollPane;
 	private JTable ausleiheTable;
+	private JTable kundeAusleiheTable;
+	private JTable reservationenTable;
 	private JScrollPane ausleiheScrollPane;
 	private JLabel lblKeineReservationMglich;
 	private JLabel lblAusleihen;
 	private JTextField textField;
 	private JButton btnAusleihen;
 	private JLabel lblKeineAusleiheMglich;
-	private JTable kundeAusleiheTable;
 	private JScrollPane kundeAusleiheScrollPane;
 	private JLabel lbREservationId;
 	private JLabel lblAusleiheId;
@@ -74,6 +74,11 @@ public class GadgetMaster extends JFrame {
 
 	@Autowired
 	private MessageResolver messageResolver;
+
+	private void editGadget(final Gadget gadget, final boolean isNewGadget) {
+		final GadgetDetail detailFrame = viewFactory.createGadgetDetail();
+		detailFrame.startGUI(gadget, isNewGadget);
+	}
 
 	public void startGUI() {
 		setName(messageResolver.getText("master.title"));
@@ -306,19 +311,7 @@ public class GadgetMaster extends JFrame {
 
 		ausleiheTable = new JTable();
 		ausleiheScrollPane.setViewportView(ausleiheTable);
-		ausleiheTable.setModel(new DefaultTableModel(null, new String[] { messageResolver.getText("master.loans.jTable.customerId"),
-				messageResolver.getText("master.loans.jTable.customerName"), messageResolver.getText("master.loans.jTable.customerReservations"),
-				messageResolver.getText("master.loans.jTable.customerLoans"), messageResolver.getText("master.loans.jTable.customerHasOverdues") }) {
-			private static final long serialVersionUID = -888513948280513662L;
-			Class<?>[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class };
-
-			@Override
-			public Class<?> getColumnClass(final int columnIndex) {
-				return columnTypes[columnIndex];
-
-			}
-		});
-		biblioTabbedPane.setMnemonicAt(1, KeyEvent.VK_A);
+		ausleiheTable.setModel(new AusleiheTableModel(library, messageResolver));
 
 		suchenTxtEditGadgetTab = new JTextField();
 		suchenTxtEditGadgetTab.setToolTipText(messageResolver.getText("search.tooltip"));
@@ -374,12 +367,7 @@ public class GadgetMaster extends JFrame {
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 1;
 		gadgetTab.add(gadgetsList, gbc_list);
-		this.setVisible(true);
-	}
-
-	private void editGadget(Gadget gadget, boolean isNewGadget) {
-		GadgetDetail detailFrame = viewFactory.createGadgetDetail();
-		detailFrame.startGUI(gadget, isNewGadget);
+		setVisible(true);
 	}
 
 }
