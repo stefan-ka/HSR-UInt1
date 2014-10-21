@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ValidationUtils;
@@ -26,6 +27,7 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.validation.GadgetValidator;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
 
+@Component
 public class GadgetDetail extends JFrame {
 
 	private static final long serialVersionUID = -8347490944438461491L;
