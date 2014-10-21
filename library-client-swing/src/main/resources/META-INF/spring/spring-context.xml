@@ -15,9 +15,11 @@
 		class="ch.hsr.uint1.whitespace.library.client.swing.gui.views.GadgetDetail"
 		scope="prototype" />
 
-	<bean name="viewFactory"
-		class="ch.hsr.uint1.whitespace.library.client.swing.gui.views.ViewFactory">
-		<lookup-method name="createGadgetDetail" bean="gadgetDetail" />
+	<bean id="gadgetDetailFactory"
+		class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+		<property name="targetBeanName">
+			<idref bean="gadgetDetail" />
+		</property>
 	</bean>
 
 	<bean id="messageSource"

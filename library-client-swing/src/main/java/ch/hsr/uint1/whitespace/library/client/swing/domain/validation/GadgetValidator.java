@@ -17,8 +17,13 @@ public class GadgetValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		Gadget gadget = (Gadget) target;
 		ValidationUtils.rejectIfEmpty(errors, "name", "gadget.name.empty");
-
+		ValidationUtils.rejectIfEmpty(errors, "manufacturer", "gadget.manufacturer.empty");
+		ValidationUtils.rejectIfEmpty(errors, "price", "gadget.price.empty");
+		if(gadget.getPrice() < 0) {
+			errors.rejectValue("price", "gadget.price.notNegative");
+		}
 	}
 
 }

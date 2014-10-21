@@ -24,6 +24,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -70,7 +71,7 @@ public class GadgetMaster extends JFrame {
 	private Library library;
 
 	@Autowired
-	private ViewFactory viewFactory;
+	private ObjectFactory<GadgetDetail> gadgetDetailViewFactory;
 
 	@Autowired
 	private MessageResolver messageResolver;
@@ -79,7 +80,6 @@ public class GadgetMaster extends JFrame {
 		setName(messageResolver.getText("master.title"));
 		setSize(new Dimension(972, 577));
 		setTitle(messageResolver.getText("master.title"));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 972, 577);
 		biblioContentPane = new JPanel();
 		biblioContentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -378,7 +378,7 @@ public class GadgetMaster extends JFrame {
 	}
 
 	private void editGadget(Gadget gadget, boolean isNewGadget) {
-		GadgetDetail detailFrame = viewFactory.createGadgetDetail();
+		GadgetDetail detailFrame = gadgetDetailViewFactory.getObject();
 		detailFrame.startGUI(gadget, isNewGadget);
 	}
 
