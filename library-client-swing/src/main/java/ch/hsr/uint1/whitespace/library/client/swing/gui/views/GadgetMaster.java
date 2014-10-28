@@ -400,13 +400,4 @@ public class GadgetMaster extends JFrame {
 		detailFrame.startGUI(gadget, isNewGadget);
 	}
 
-	private boolean isInteger(String text) {
-		try {
-			Integer.parseInt(text);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-		return true;
-	}
-
 }
