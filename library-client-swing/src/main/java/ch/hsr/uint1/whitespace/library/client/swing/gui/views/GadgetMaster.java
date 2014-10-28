@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
@@ -17,11 +18,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +74,7 @@ public class GadgetMaster extends JFrame {
 	private MessageResolver messageResolver;
 	private Library library;
 	private GadgetsMasterTableModel gadgetsMasterTableModel;
+	TableRowSorter<TableModel> gadgetsSorter;
 
 	@Autowired
 	private ObjectFactory<GadgetDetail> gadgetDetailViewFactory;
@@ -327,7 +332,15 @@ public class GadgetMaster extends JFrame {
 				suchenTxtEditGadgetTab.setText("");
 			}
 		});
-		final GridBagConstraints gbc_suchenTxtEditGadgetTab = new GridBagConstraints();
+		suchenTxtEditGadgetTab.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				gadgetsSorter.setRowFilter(RowFilter.regexFilter("(?i)" + suchenTxtEditGadgetTab.getText(), 0, 1, 2, 3, 4, 5, 6));
+				super.keyReleased(e);
+			}
+		});
+
+		GridBagConstraints gbc_suchenTxtEditGadgetTab = new GridBagConstraints();
 		gbc_suchenTxtEditGadgetTab.fill = GridBagConstraints.HORIZONTAL;
 		gbc_suchenTxtEditGadgetTab.insets = new Insets(2, 2, 5, 5);
 		gbc_suchenTxtEditGadgetTab.gridx = 0;
@@ -350,12 +363,12 @@ public class GadgetMaster extends JFrame {
 		gadgetEditBtn.setMinimumSize(new Dimension(145, 29));
 		gadgetEditBtn.setMaximumSize(new Dimension(145, 29));
 		gadgetEditBtn.addActionListener(e -> {
-			Gadget gadgetSelected = gadgetsMasterTableModel.getGadgetAt(gadgetsMasterTable.getSelectedRow());
+			Gadget gadgetSelected = gadgetsMasterTableModel.getGadgetAt(gadgetsMasterTable.convertRowIndexToModel(gadgetsMasterTable.getSelectedRow()));
 			if (gadgetSelected != null) {
 				editGadget(gadgetSelected, false);
 			}
 		});
-		final GridBagConstraints gbc_gadgetEditBtn = new GridBagConstraints();
+		GridBagConstraints gbc_gadgetEditBtn = new GridBagConstraints();
 		gbc_gadgetEditBtn.insets = new Insets(2, 0, 5, 0);
 		gbc_gadgetEditBtn.fill = GridBagConstraints.BOTH;
 		gbc_gadgetEditBtn.gridx = 2;
@@ -373,6 +386,9 @@ public class GadgetMaster extends JFrame {
 		gadgetsMasterTableModel = new GadgetsMasterTableModel(library, messageResolver);
 		gadgetsMasterTable = new JTable(gadgetsMasterTableModel);
 		gadgtesTableScrollPane.setViewportView(gadgetsMasterTable);
+		gadgetsMasterTable.setAutoCreateRowSorter(true);
+		gadgetsSorter = new TableRowSorter<TableModel>(gadgetsMasterTableModel);
+		gadgetsMasterTable.setRowSorter(gadgetsSorter);
 	}
 
 	public void showGUI() {
@@ -382,6 +398,15 @@ public class GadgetMaster extends JFrame {
 	private void editGadget(Gadget gadget, boolean isNewGadget) {
 		GadgetDetail detailFrame = gadgetDetailViewFactory.getObject();
 		detailFrame.startGUI(gadget, isNewGadget);
+	}
+
+	private boolean isInteger(String text) {
+		try {
+			Integer.parseInt(text);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
 	}
 
 }
