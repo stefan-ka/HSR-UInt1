@@ -9,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 
 import ch.hsr.uint1.whitespace.library.client.swing.data.MessageData;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
@@ -61,9 +62,9 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 		case 1:
 			return localCustomer.getName();
 		case 2:
-			return printReservations(library.getReservatonFor(localCustomer, true));
+			return printReservedGadgets(library.getReservatonFor(localCustomer, true));
 		case 3:
-			return printLoans(library.getLoansFor(localCustomer, true));
+			return printLoanedGadgets(library.getLoansFor(localCustomer, true));
 		case 4:
 			return library.hasOverdue(localCustomer);
 		default:
@@ -71,29 +72,30 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 		}
 	}
 
-	// TODO return the loan name, and not the id
-	private String printLoans(List<Loan> loansFor) {
-		String loansAsString = "";
+	private String printLoanedGadgets(List<Loan> loansFor) {
+		String loanedGadgetsNames = "";
 		Iterator<Loan> loansIterator = loansFor.iterator();
 		while (loansIterator.hasNext()) {
-			Loan current = loansIterator.next();
+			Loan currentLoan = loansIterator.next();
+			Gadget gadget = library.getGadget(currentLoan.getGadgetId());
 			if (loansIterator.hasNext()) {
-				loansAsString = current.getLoanId() + ",";
+				loanedGadgetsNames = gadget.getName() + ",";
 			}
-			loansAsString = current.getGadgetId();
+			loanedGadgetsNames = gadget.getName();
 		}
-		return loansAsString;
+		return loanedGadgetsNames;
 	}
 
-	private String printReservations(List<Reservation> reservatonFor) {
+	private String printReservedGadgets(List<Reservation> reservatonFor) {
 		String reservations = "";
 		Iterator<Reservation> reservationsIterator = reservatonFor.iterator();
 		while (reservationsIterator.hasNext()) {
 			Reservation current = reservationsIterator.next();
+			Gadget gadget = library.getGadget(current.getGadgetId());
 			if (reservationsIterator.hasNext()) {
-				reservations = current.getGadgetId() + ",";
+				reservations = gadget.getName() + ",";
 			}
-			reservations = current.getGadgetId();
+			reservations = gadget.getName();
 		}
 		return reservations;
 	}

@@ -21,8 +21,11 @@ public class GadgetValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "name", "gadget.name.empty");
 		ValidationUtils.rejectIfEmpty(errors, "manufacturer", "gadget.manufacturer.empty");
 		ValidationUtils.rejectIfEmpty(errors, "price", "gadget.price.empty");
-		if(gadget.getPrice() < 0) {
+		if (gadget.getPrice() < 0) {
 			errors.rejectValue("price", "gadget.price.notNegative");
+		}
+		if (gadget.getPrice() == 0.00) {
+			errors.rejectValue("price", "gadget.price.notNull");
 		}
 	}
 

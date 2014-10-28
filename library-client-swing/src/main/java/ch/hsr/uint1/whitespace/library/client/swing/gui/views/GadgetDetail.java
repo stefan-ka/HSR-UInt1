@@ -1,11 +1,17 @@
 package ch.hsr.uint1.whitespace.library.client.swing.gui.views;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -36,7 +42,7 @@ public class GadgetDetail extends JFrame {
 	private JPanel detailPanel;
 	private JTextField nameTextField;
 	private JTextField herstellerTextField;
-	private JTextField preisTextField;
+	private PriceTextField preisTextField;
 	private JLabel idLbl;
 	private JLabel idNummerLbl;
 	private JLabel nameLbl;
@@ -46,6 +52,7 @@ public class GadgetDetail extends JFrame {
 	private JComboBox<Gadget.Condition> zustandComboBox;
 	private JButton abbruchBtn;
 	private JButton saveBtn;
+	private Map<String, JTextField> fieldsMap;
 
 	@Autowired
 	private Library library;
@@ -57,13 +64,14 @@ public class GadgetDetail extends JFrame {
 
 	private Gadget gadget;
 	private boolean isNewGadget;
+	private ErrorPanel errorsTextPane;
 
 	@Autowired
 	public GadgetDetail(MessageResolver messageResolver) {
 		this.messageResolver = messageResolver;
 		initializeGUI();
 	}
-	
+
 	public void startGUI(Gadget gadget, boolean isNewGadget) {
 		this.gadget = gadget;
 		this.isNewGadget = isNewGadget;
@@ -78,7 +86,8 @@ public class GadgetDetail extends JFrame {
 		} else {
 			setTitle(messageResolver.getText("gadgetDetail.changeTitle"));
 		}
-		setResizable(false);
+
+		setResizable(true);
 		setMinimumSize(new Dimension(445, 238));
 		setSize(new Dimension(445, 238));
 		setBounds(100, 100, 445, 238);
@@ -91,7 +100,7 @@ public class GadgetDetail extends JFrame {
 		gbl_contentPane.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gbl_contentPane.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
-
+		fieldsMap = new HashMap<String, JTextField>();
 		detailPanel = new JPanel();
 		final GridBagConstraints gbc_detailPanel = new GridBagConstraints();
 		gbc_detailPanel.fill = GridBagConstraints.HORIZONTAL;
@@ -102,7 +111,7 @@ public class GadgetDetail extends JFrame {
 		gbl_detailPanel.columnWidths = new int[] { 0, 32, 0, 0, 0 };
 		gbl_detailPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 		gbl_detailPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_detailPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_detailPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		detailPanel.setLayout(gbl_detailPanel);
 
 		idLbl = new JLabel(messageResolver.getText("gadgetDetail.idLabel"));
@@ -134,12 +143,13 @@ public class GadgetDetail extends JFrame {
 		nameTextField = new JTextField();
 		final GridBagConstraints gbc_nameTextField = new GridBagConstraints();
 		gbc_nameTextField.gridwidth = 3;
-		gbc_nameTextField.insets = new Insets(5, 0, 5, 5);
+		gbc_nameTextField.insets = new Insets(5, 0, 5, 0);
 		gbc_nameTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nameTextField.gridx = 1;
 		gbc_nameTextField.gridy = 1;
 		detailPanel.add(nameTextField, gbc_nameTextField);
 		nameTextField.setColumns(10);
+		fieldsMap.put("name", nameTextField);
 
 		herstellerLbl = new JLabel(messageResolver.getText("gadgetDetail.producerNameLabel"));
 		final GridBagConstraints gbc_herstellerLbl = new GridBagConstraints();
@@ -152,12 +162,13 @@ public class GadgetDetail extends JFrame {
 		herstellerTextField = new JTextField();
 		final GridBagConstraints gbc_herstellerTextField = new GridBagConstraints();
 		gbc_herstellerTextField.gridwidth = 3;
-		gbc_herstellerTextField.insets = new Insets(5, 0, 5, 5);
+		gbc_herstellerTextField.insets = new Insets(5, 0, 5, 0);
 		gbc_herstellerTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_herstellerTextField.gridx = 1;
 		gbc_herstellerTextField.gridy = 2;
 		detailPanel.add(herstellerTextField, gbc_herstellerTextField);
 		herstellerTextField.setColumns(10);
+		fieldsMap.put("manufacturer", herstellerTextField);
 
 		preisLbl = new JLabel(messageResolver.getText("gadgetDetail.priceLabel"));
 		final GridBagConstraints gbc_preisLbl = new GridBagConstraints();
@@ -167,15 +178,16 @@ public class GadgetDetail extends JFrame {
 		gbc_preisLbl.gridy = 3;
 		detailPanel.add(preisLbl, gbc_preisLbl);
 
-		preisTextField = new JTextField();
+		preisTextField = new PriceTextField();
 		final GridBagConstraints gbc_preisTextField = new GridBagConstraints();
 		gbc_preisTextField.gridwidth = 3;
-		gbc_preisTextField.insets = new Insets(5, 0, 5, 5);
+		gbc_preisTextField.insets = new Insets(5, 0, 5, 0);
 		gbc_preisTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_preisTextField.gridx = 1;
 		gbc_preisTextField.gridy = 3;
 		detailPanel.add(preisTextField, gbc_preisTextField);
 		preisTextField.setColumns(10);
+		fieldsMap.put("price", preisTextField);
 
 		zustandLbl = new JLabel(messageResolver.getText("gadgetDetail.conditionLabel"));
 		final GridBagConstraints gbc_zustandLbl = new GridBagConstraints();
@@ -189,7 +201,7 @@ public class GadgetDetail extends JFrame {
 		zustandComboBox.setModel(new DefaultComboBoxModel<Gadget.Condition>(Gadget.Condition.values()));
 		final GridBagConstraints gbc_zustandComboBox = new GridBagConstraints();
 		gbc_zustandComboBox.gridwidth = 3;
-		gbc_zustandComboBox.insets = new Insets(5, 0, 5, 5);
+		gbc_zustandComboBox.insets = new Insets(5, 0, 5, 0);
 		gbc_zustandComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_zustandComboBox.gridx = 1;
 		gbc_zustandComboBox.gridy = 4;
@@ -202,7 +214,16 @@ public class GadgetDetail extends JFrame {
 				closeWindow();
 			}
 		});
+
+		errorsTextPane = new ErrorPanel();
+		GridBagConstraints gbc_errorsTextPane = new GridBagConstraints();
+		gbc_errorsTextPane.insets = new Insets(0, 0, 0, 5);
+		gbc_errorsTextPane.fill = GridBagConstraints.BOTH;
+		gbc_errorsTextPane.gridx = 1;
+		gbc_errorsTextPane.gridy = 5;
+		detailPanel.add(errorsTextPane, gbc_errorsTextPane);
 		final GridBagConstraints gbc_abbruchBtn = new GridBagConstraints();
+		gbc_abbruchBtn.insets = new Insets(0, 0, 0, 5);
 		gbc_abbruchBtn.anchor = GridBagConstraints.NORTH;
 		gbc_abbruchBtn.gridx = 2;
 		gbc_abbruchBtn.gridy = 5;
@@ -219,7 +240,6 @@ public class GadgetDetail extends JFrame {
 			}
 		});
 		final GridBagConstraints gbc_erfassenBtn = new GridBagConstraints();
-		gbc_erfassenBtn.insets = new Insets(0, 0, 0, 5);
 		gbc_erfassenBtn.anchor = GridBagConstraints.NORTH;
 		gbc_erfassenBtn.gridx = 3;
 		gbc_erfassenBtn.gridy = 5;
@@ -230,7 +250,8 @@ public class GadgetDetail extends JFrame {
 		idNummerLbl.setText(gadget.getInventoryNumber());
 		nameTextField.setText(gadget.getName());
 		herstellerTextField.setText(gadget.getManufacturer());
-		preisTextField.setText(gadget.getPrice() + "");
+		DecimalFormat format = new DecimalFormat("0.00");
+		preisTextField.setText(format.format(gadget.getPrice()));
 		zustandComboBox.setSelectedItem(gadget.getCondition());
 	}
 
@@ -256,19 +277,41 @@ public class GadgetDetail extends JFrame {
 		closeWindow();
 	}
 
-	// TODO: show error's on GUI ...
 	private boolean isGadgetValid() {
 		BeanPropertyBindingResult result = new BeanPropertyBindingResult(gadget, "gadget");
 		ValidationUtils.invokeValidator(gadgetValidator, gadget, result);
-
-		for (FieldError error : result.getFieldErrors()) {
-			System.out.println(messageResolver.getErrorMessage(error));
-		}
+		updateValidationMessages(result.getFieldErrors());
 		return !result.hasErrors();
 	}
 
 	private void closeWindow() {
 		setVisible(false);
 		dispose();
+	}
+
+	private void updateValidationMessages(List<FieldError> errorsList) {
+		JTextField currentField = null;
+		List<String> errorsMessages = new ArrayList<>();
+		resetTextFields();
+		setPreferredSize(getPreferredSize());
+		for (FieldError error : errorsList) {
+			currentField = getFieldByName(error.getField());
+			currentField.setBackground(new Color(255, 153, 153));
+			errorsTextPane.setVisible(true);
+			errorsMessages.add(messageResolver.getErrorMessage(error));
+		}
+		this.setSize(new Dimension(554, 280));
+		errorsTextPane.printErrorMessages(errorsMessages);
+	}
+
+	private void resetTextFields() {
+		nameTextField.setBackground(Color.WHITE);
+		herstellerTextField.setBackground(Color.WHITE);
+		preisTextField.setBackground(Color.WHITE);
+
+	}
+
+	private JTextField getFieldByName(String name) {
+		return fieldsMap.get(name);
 	}
 }
