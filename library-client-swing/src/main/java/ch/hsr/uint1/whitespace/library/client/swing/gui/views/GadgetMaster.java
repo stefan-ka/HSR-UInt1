@@ -9,6 +9,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,12 +19,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -31,11 +35,14 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.AusleiheTableModel;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.GadgetsMasterTableModel;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.models.ReservationenTableModel;
 
 @Component
 public class GadgetMaster extends JFrame {
@@ -74,6 +81,8 @@ public class GadgetMaster extends JFrame {
 	private MessageResolver messageResolver;
 	private Library library;
 	private GadgetsMasterTableModel gadgetsMasterTableModel;
+	private AusleiheTableModel ausleiheTableModel;
+	private ReservationenTableModel reservationenTableModel;
 	TableRowSorter<TableModel> gadgetsSorter;
 
 	@Autowired
@@ -320,8 +329,20 @@ public class GadgetMaster extends JFrame {
 		ausleihenTab.add(ausleiheScrollPane, gbc_ausleiheScrollPane);
 
 		ausleiheTable = new JTable();
+		ausleiheTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		ausleiheScrollPane.setViewportView(ausleiheTable);
-		ausleiheTable.setModel(new AusleiheTableModel(library, messageResolver));
+		ausleiheTableModel = new AusleiheTableModel(library, messageResolver);
+		ausleiheTable.setModel(ausleiheTableModel);
+		reservationenTableModel = new ReservationenTableModel(library, messageResolver);
+		ausleiheTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				Customer customer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
+				List<Reservation> reservationen = library.getReservatonFor(customer, true);
+				reservationenTableModel.setReservationen(reservationen);
+			}
+		});
 
 		suchenTxtEditGadgetTab = new JTextField();
 		suchenTxtEditGadgetTab.setToolTipText(messageResolver.getText("search.tooltip"));
@@ -385,6 +406,7 @@ public class GadgetMaster extends JFrame {
 		gadgetTab.add(gadgtesTableScrollPane, gbc_gadgtesTableScrollPane);
 		gadgetsMasterTableModel = new GadgetsMasterTableModel(library, messageResolver);
 		gadgetsMasterTable = new JTable(gadgetsMasterTableModel);
+		gadgetsMasterTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		gadgtesTableScrollPane.setViewportView(gadgetsMasterTable);
 		gadgetsMasterTable.setAutoCreateRowSorter(true);
 		gadgetsSorter = new TableRowSorter<TableModel>(gadgetsMasterTableModel);

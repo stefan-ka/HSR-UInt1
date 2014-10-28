@@ -20,6 +20,7 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 
 	private Library library;
 	private MessageResolver messageResolver;
+	private List<Customer> customers;
 
 	private final String[] columns = { "master.loans.jTable.customerId", "master.loans.jTable.customerName", "master.loans.jTable.customerReservations",
 			"master.loans.jTable.customerLoans", "master.loans.jTable.customerHasOverdues" };
@@ -29,6 +30,7 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 	public AusleiheTableModel(Library library, MessageResolver messageResolver) {
 		this.library = library;
 		this.messageResolver = messageResolver;
+		customers = library.getCustomers();
 		library.addObserver(this);
 	}
 
@@ -54,7 +56,6 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		List<Customer> customers = library.getCustomers();
 		Customer localCustomer = customers.get(rowIndex);
 		switch (columnIndex) {
 		case 0:
@@ -108,5 +109,9 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 			int pos = library.getCustomers().indexOf(customer);
 			fireTableRowsUpdated(pos, pos);
 		}
+	}
+
+	public Customer getCustomerAt(int index) {
+		return customers.get(index);
 	}
 }
