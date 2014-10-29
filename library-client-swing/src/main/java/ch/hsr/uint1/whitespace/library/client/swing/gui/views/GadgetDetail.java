@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.FieldError;
@@ -31,9 +33,12 @@ import org.springframework.validation.ValidationUtils;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.validation.GadgetValidator;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ErrorMessageResolver;
 
 @Component
+@Lazy
+@Scope("prototype")
 public class GadgetDetail extends JFrame {
 
 	private static final long serialVersionUID = -8347490944438461491L;
@@ -60,15 +65,14 @@ public class GadgetDetail extends JFrame {
 	@Autowired
 	private GadgetValidator gadgetValidator;
 
-	private MessageResolver messageResolver;
+	@Autowired
+	private ErrorMessageResolver errorMessageResolver;
 
 	private Gadget gadget;
 	private boolean isNewGadget;
 	private ErrorPanel errorsTextPane;
 
-	@Autowired
-	public GadgetDetail(MessageResolver messageResolver) {
-		this.messageResolver = messageResolver;
+	public GadgetDetail() {
 		initializeGUI();
 	}
 
@@ -82,9 +86,9 @@ public class GadgetDetail extends JFrame {
 
 	private void initializeGUI() {
 		if (isNewGadget) {
-			setTitle(messageResolver.getText("gadgetDetail.newTitle"));
+			setTitle(ApplicationMessages.getText("gadgetDetail.newTitle"));
 		} else {
-			setTitle(messageResolver.getText("gadgetDetail.changeTitle"));
+			setTitle(ApplicationMessages.getText("gadgetDetail.changeTitle"));
 		}
 
 		setResizable(true);
@@ -114,7 +118,7 @@ public class GadgetDetail extends JFrame {
 		gbl_detailPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		detailPanel.setLayout(gbl_detailPanel);
 
-		idLbl = new JLabel(messageResolver.getText("gadgetDetail.idLabel"));
+		idLbl = new JLabel(ApplicationMessages.getText("gadgetDetail.idLabel"));
 		final GridBagConstraints gbc_lblId = new GridBagConstraints();
 		gbc_lblId.anchor = GridBagConstraints.WEST;
 		gbc_lblId.insets = new Insets(5, 5, 5, 5);
@@ -132,7 +136,7 @@ public class GadgetDetail extends JFrame {
 		gbc_lblNewLabel.gridy = 0;
 		detailPanel.add(idNummerLbl, gbc_lblNewLabel);
 
-		nameLbl = new JLabel(messageResolver.getText("gadgetDetail.nameLabel"));
+		nameLbl = new JLabel(ApplicationMessages.getText("gadgetDetail.nameLabel"));
 		final GridBagConstraints gbc_nameLbl = new GridBagConstraints();
 		gbc_nameLbl.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nameLbl.insets = new Insets(5, 5, 5, 5);
@@ -151,7 +155,7 @@ public class GadgetDetail extends JFrame {
 		nameTextField.setColumns(10);
 		fieldsMap.put("name", nameTextField);
 
-		herstellerLbl = new JLabel(messageResolver.getText("gadgetDetail.producerNameLabel"));
+		herstellerLbl = new JLabel(ApplicationMessages.getText("gadgetDetail.producerNameLabel"));
 		final GridBagConstraints gbc_herstellerLbl = new GridBagConstraints();
 		gbc_herstellerLbl.anchor = GridBagConstraints.WEST;
 		gbc_herstellerLbl.insets = new Insets(5, 5, 5, 5);
@@ -170,7 +174,7 @@ public class GadgetDetail extends JFrame {
 		herstellerTextField.setColumns(10);
 		fieldsMap.put("manufacturer", herstellerTextField);
 
-		preisLbl = new JLabel(messageResolver.getText("gadgetDetail.priceLabel"));
+		preisLbl = new JLabel(ApplicationMessages.getText("gadgetDetail.priceLabel"));
 		final GridBagConstraints gbc_preisLbl = new GridBagConstraints();
 		gbc_preisLbl.anchor = GridBagConstraints.WEST;
 		gbc_preisLbl.insets = new Insets(5, 5, 5, 5);
@@ -189,7 +193,7 @@ public class GadgetDetail extends JFrame {
 		preisTextField.setColumns(10);
 		fieldsMap.put("price", preisTextField);
 
-		zustandLbl = new JLabel(messageResolver.getText("gadgetDetail.conditionLabel"));
+		zustandLbl = new JLabel(ApplicationMessages.getText("gadgetDetail.conditionLabel"));
 		final GridBagConstraints gbc_zustandLbl = new GridBagConstraints();
 		gbc_zustandLbl.anchor = GridBagConstraints.WEST;
 		gbc_zustandLbl.insets = new Insets(5, 5, 5, 5);
@@ -207,7 +211,7 @@ public class GadgetDetail extends JFrame {
 		gbc_zustandComboBox.gridy = 4;
 		detailPanel.add(zustandComboBox, gbc_zustandComboBox);
 
-		abbruchBtn = new JButton(messageResolver.getText("gadgetDetail.cancelButton"));
+		abbruchBtn = new JButton(ApplicationMessages.getText("gadgetDetail.cancelButton"));
 		abbruchBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -229,9 +233,9 @@ public class GadgetDetail extends JFrame {
 		gbc_abbruchBtn.gridy = 5;
 		detailPanel.add(abbruchBtn, gbc_abbruchBtn);
 
-		saveBtn = new JButton(messageResolver.getText("gadgetDetail.createNewButton"));
+		saveBtn = new JButton(ApplicationMessages.getText("gadgetDetail.createNewButton"));
 		if (!isNewGadget) {
-			saveBtn.setText(messageResolver.getText("gadgetDetail.saveChangeButton"));
+			saveBtn.setText(ApplicationMessages.getText("gadgetDetail.saveChangeButton"));
 		}
 		saveBtn.addActionListener(new ActionListener() {
 			@Override
@@ -298,7 +302,7 @@ public class GadgetDetail extends JFrame {
 			currentField = getFieldByName(error.getField());
 			currentField.setBackground(new Color(255, 153, 153));
 			errorsTextPane.setVisible(true);
-			errorsMessages.add(messageResolver.getErrorMessage(error));
+			errorsMessages.add(errorMessageResolver.getErrorMessage(error));
 		}
 		this.setSize(new Dimension(554, 280));
 		errorsTextPane.printErrorMessages(errorsMessages);

@@ -11,20 +11,18 @@ import ch.hsr.uint1.whitespace.library.client.swing.data.MessageData;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 
 public class ReservationenTableModel extends AbstractTableModel implements Observer {
 
 	private static final long serialVersionUID = 5922343552351790810L;
 	private final String[] columns = { "reservations.table.gadgetName", "reservations.table.darfAusleihen", "reservations.table.waitingList", "reservations.table.delete" };
-	private MessageResolver messageResolver;
 	private Library library;
 	private List<Reservation> reservations;
 	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, JButton.class, JButton.class };
 
-	public ReservationenTableModel(Library library, MessageResolver messageResolver) {
+	public ReservationenTableModel(Library library) {
 		this.library = library;
-		this.messageResolver = messageResolver;
 		library.addObserver(this);
 	}
 
@@ -43,7 +41,7 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return messageResolver.getText(columns[columnIndex]);
+		return ApplicationMessages.getText(columns[columnIndex]);
 	}
 
 	@Override

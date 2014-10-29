@@ -13,13 +13,12 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 
 public class AusleiheTableModel extends AbstractTableModel implements Observer {
 	private static final long serialVersionUID = -3574669918538671539L;
 
 	private Library library;
-	private MessageResolver messageResolver;
 	private List<Customer> customers;
 
 	private final String[] columns = { "master.loans.jTable.customerId", "master.loans.jTable.customerName", "master.loans.jTable.customerReservations",
@@ -27,9 +26,8 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 
 	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, String.class, String.class, Boolean.class };
 
-	public AusleiheTableModel(Library library, MessageResolver messageResolver) {
+	public AusleiheTableModel(Library library) {
 		this.library = library;
-		this.messageResolver = messageResolver;
 		customers = library.getCustomers();
 		library.addObserver(this);
 	}
@@ -41,7 +39,7 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return messageResolver.getText(columns[columnIndex]);
+		return ApplicationMessages.getText(columns[columnIndex]);
 	}
 
 	@Override

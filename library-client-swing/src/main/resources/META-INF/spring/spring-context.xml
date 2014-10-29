@@ -11,17 +11,6 @@
 	<bean name="libraryData"
 		class="ch.hsr.uint1.whitespace.library.client.swing.data.ProxyLibrary" />
 
-	<bean id="gadgetDetail"
-		class="ch.hsr.uint1.whitespace.library.client.swing.gui.views.GadgetDetail"
-		scope="prototype" />
-
-	<bean id="gadgetDetailFactory"
-		class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
-		<property name="targetBeanName">
-			<idref bean="gadgetDetail" />
-		</property>
-	</bean>
-
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">

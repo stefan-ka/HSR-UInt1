@@ -11,22 +11,20 @@ import ch.hsr.uint1.whitespace.library.client.swing.data.MessageData;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.MessageResolver;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 
 public class GadgetsMasterTableModel extends AbstractTableModel implements Observer {
 
 	private static final long serialVersionUID = 7702702384849578628L;
 	private Library library;
 	private List<Gadget> gadgetList;
-	private MessageResolver messageResolver;
 	private final String[] columns = { "master.gadgets.jTable.gadgetId", "master.gadgets.jTable.gadgetName", "master.gadgets.jTable.gadgetHersteller",
 			"master.gadgets.jTable.gadgetPreis", "master.gadgets.jTable.gadgetZustand", "master.gadgets.jTable.gadgetVerfügbarAb", "master.gadgets.jTable.gadgetAusgeliehenAn" };
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY");
 
-	public GadgetsMasterTableModel(Library library, MessageResolver messageResolver) {
+	public GadgetsMasterTableModel(Library library) {
 		this.library = library;
-		this.messageResolver = messageResolver;
 		gadgetList = library.getGadgets();
 		library.addObserver(this);
 	}
@@ -43,7 +41,7 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return messageResolver.getText(columns[columnIndex]);
+		return ApplicationMessages.getText(columns[columnIndex]);
 	}
 
 	@Override
@@ -82,7 +80,7 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 	private String getDisponibility(List<Loan> loansFor) {
 		String date = "-";
 		if (loansFor.size() == 0)
-			date = messageResolver.getText("master.gadgetsAvailableNow");
+			date = ApplicationMessages.getText("master.gadgetsAvailableNow");
 		else
 			date = sdf.format(loansFor.get(0).overDueDate());
 		return date;
@@ -94,9 +92,10 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 		if (data.getData() instanceof Gadget) {
 			Gadget gadget = (Gadget) data.getData();
 			int pos = library.getGadgets().indexOf(gadget);
-			fireTableRowsUpdated(pos, pos);
 			if (pos < gadgetList.size()) {
 				fireTableRowsInserted(pos, pos);
+			} else {
+				fireTableRowsUpdated(pos, pos);
 			}
 		}
 	}
