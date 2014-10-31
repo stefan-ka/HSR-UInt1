@@ -1,6 +1,5 @@
 package ch.hsr.uint1.whitespace.library.client.swing.gui.models;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -9,13 +8,12 @@ import javax.swing.table.AbstractTableModel;
 
 import ch.hsr.uint1.whitespace.library.client.swing.data.MessageData;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
-import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 
-public class AusleiheTableModel extends AbstractTableModel implements Observer {
+public class CustomerMasterTableModel extends AbstractTableModel implements Observer {
 	private static final long serialVersionUID = -3574669918538671539L;
 
 	private Library library;
@@ -26,7 +24,7 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 
 	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, String.class, String.class, Boolean.class };
 
-	public AusleiheTableModel(Library library) {
+	public CustomerMasterTableModel(Library library) {
 		this.library = library;
 		customers = library.getCustomers();
 		library.addObserver(this);
@@ -61,9 +59,9 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 		case 1:
 			return localCustomer.getName();
 		case 2:
-			return printReservedGadgets(library.getReservatonFor(localCustomer, true));
+			return getReservationsString(library.getReservationFor(localCustomer, true));
 		case 3:
-			return printLoanedGadgets(library.getLoansFor(localCustomer, true));
+			return getLoansString(library.getLoansFor(localCustomer, true));
 		case 4:
 			return library.hasOverdue(localCustomer);
 		default:
@@ -71,32 +69,28 @@ public class AusleiheTableModel extends AbstractTableModel implements Observer {
 		}
 	}
 
-	private String printLoanedGadgets(List<Loan> loansFor) {
-		String loanedGadgetsNames = "";
-		Iterator<Loan> loansIterator = loansFor.iterator();
-		while (loansIterator.hasNext()) {
-			Loan currentLoan = loansIterator.next();
-			Gadget gadget = library.getGadget(currentLoan.getGadgetId());
-			if (loansIterator.hasNext()) {
-				loanedGadgetsNames = gadget.getName() + ",";
+	private String getReservationsString(List<Reservation> reservations) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < reservations.size(); i++) {
+			String gadgetId = reservations.get(i).getGadgetId();
+			sb.append(library.getGadget(gadgetId));
+			if (i < reservations.size() - 1) {
+				sb.append(", ");
 			}
-			loanedGadgetsNames = gadget.getName();
 		}
-		return loanedGadgetsNames;
+		return sb.toString();
 	}
 
-	private String printReservedGadgets(List<Reservation> reservatonFor) {
-		String reservations = "";
-		Iterator<Reservation> reservationsIterator = reservatonFor.iterator();
-		while (reservationsIterator.hasNext()) {
-			Reservation current = reservationsIterator.next();
-			Gadget gadget = library.getGadget(current.getGadgetId());
-			if (reservationsIterator.hasNext()) {
-				reservations = gadget.getName() + ",";
+	private String getLoansString(List<Loan> loans) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < loans.size(); i++) {
+			String gadgetId = loans.get(i).getGadgetId();
+			sb.append(library.getGadget(gadgetId));
+			if (i < loans.size() - 1) {
+				sb.append(", ");
 			}
-			reservations = gadget.getName();
 		}
-		return reservations;
+		return sb.toString();
 	}
 
 	@Override

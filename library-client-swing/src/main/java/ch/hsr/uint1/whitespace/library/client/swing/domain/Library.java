@@ -28,14 +28,14 @@ public class Library extends Observable {
 	}
 
 	public boolean canLent(Gadget gadget, Customer customer) {
-		List<Reservation> reservations = getReservatonFor(gadget, true);
+		List<Reservation> reservations = getReservationFor(gadget, true);
 		return getLoansFor(gadget, true).size() == 0 && (reservations.size() == 0 || reservations.get(0).getCustomerId().equals(customer.getStudentNumber()));
 	}
 
 	public void addLoan(Gadget gadget, Customer customer) {
 		if (canLent(gadget, customer)) {
 			libraryData.addLoan(new Loan(customer, gadget));
-			Reservation reservation = getReservatonFor(gadget, customer, true);
+			Reservation reservation = getReservationFor(gadget, customer, true);
 			if (reservation != null) {
 				reservation.setFinished(true);
 				libraryData.updateReservation(reservation);
@@ -99,7 +99,7 @@ public class Library extends Observable {
 		libraryData.updateReservation(reservation);
 	}
 
-	public Reservation getReservatonFor(Gadget gadget, Customer customer, boolean onlyOpen) {
+	public Reservation getReservationFor(Gadget gadget, Customer customer, boolean onlyOpen) {
 
 		if (gadget == null || customer == null) {
 			return null;
@@ -115,7 +115,7 @@ public class Library extends Observable {
 
 	}
 
-	public List<Reservation> getReservatonFor(Gadget gadget, boolean onlyOpen) {
+	public List<Reservation> getReservationFor(Gadget gadget, boolean onlyOpen) {
 
 		if (!onlyOpen) {
 			return libraryData.getReservations().stream().filter(p -> p.getGadgetId().equals(gadget.getInventoryNumber()))
@@ -127,7 +127,7 @@ public class Library extends Observable {
 
 	}
 
-	public List<Reservation> getReservatonFor(Customer customer, boolean onlyOpen) {
+	public List<Reservation> getReservationFor(Customer customer, boolean onlyOpen) {
 
 		if (!onlyOpen) {
 			return libraryData.getReservations().stream().filter(p -> p.getCustomerId().equals(customer.getStudentNumber())).collect(Collectors.toList());
@@ -144,7 +144,7 @@ public class Library extends Observable {
 	}
 
 	public boolean canReservation(Gadget gadget, Customer customer) {
-		return getReservatonFor(gadget, customer, true) == null;
+		return getReservationFor(gadget, customer, true) == null;
 	}
 
 	private void dataChanged(MessageData message) {

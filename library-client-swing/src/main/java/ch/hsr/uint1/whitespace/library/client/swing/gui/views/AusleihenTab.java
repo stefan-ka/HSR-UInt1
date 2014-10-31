@@ -5,11 +5,12 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,9 +30,9 @@ import org.springframework.stereotype.Component;
 
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
-import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.models.AusleiheTableModel;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.models.CustomerMasterTableModel;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.models.KundeAusleiheTableModel;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.ReservationenTableModel;
 
 @Component
@@ -61,8 +62,9 @@ public class AusleihenTab extends JPanel {
 	private JLabel lbREservationId;
 	private JLabel lblAusleiheId;
 	private JTextField idReservationTxtField;
-	private AusleiheTableModel ausleiheTableModel;
+	private CustomerMasterTableModel ausleiheTableModel;
 	private ReservationenTableModel reservationenTableModel;
+	private KundeAusleiheTableModel kundeAusleiheModel;
 
 	@Autowired
 	private Library library;
@@ -151,6 +153,7 @@ public class AusleihenTab extends JPanel {
 		kundePanelInAusleiheTab.add(kundeReservationScrollPane, gbc_kundeReservationScrollPane);
 
 		reservationenTable = new JTable();
+		reservationenTable.setFillsViewportHeight(true);
 		kundeReservationScrollPane.setViewportView(reservationenTable);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 3;
@@ -219,6 +222,7 @@ public class AusleihenTab extends JPanel {
 		kundePanelInAusleiheTab.add(kundeAusleiheScrollPane, gbc_kundeAusleiheScrollPane);
 
 		kundeAusleiheTable = new JTable();
+		kundeAusleiheTable.setFillsViewportHeight(true);
 		kundeAusleiheScrollPane.setViewportView(kundeAusleiheTable);
 
 		lblAusleiheId = new JLabel(ApplicationMessages.getText("master.loans.idLabel"));
@@ -274,17 +278,47 @@ public class AusleihenTab extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				Customer customer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
-				List<Reservation> reservationen = library.getReservatonFor(customer, true);
-				reservationenTableModel.setReservationen(reservationen);
+				upateSelectedCustomer(customer);
 			}
 		});
 	}
 
+	@SuppressWarnings("serial")
 	@PostConstruct
 	private void initialize() {
-		ausleiheTableModel = new AusleiheTableModel(library);
+		ausleiheTableModel = new CustomerMasterTableModel(library);
 		ausleiheTable.setModel(ausleiheTableModel);
 		reservationenTableModel = new ReservationenTableModel(library);
+		reservationenTable.setModel(reservationenTableModel);
+		kundeAusleiheModel = new KundeAusleiheTableModel(library);
+		kundeAusleiheTable.setModel(kundeAusleiheModel);
+
+		new ButtonColumn(reservationenTable, new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Ausleihen Button pressed ...");
+			}
+		}, 2);
+		new ButtonColumn(reservationenTable, new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Delete Button pressed ...");
+			}
+		}, 3);
+		new ButtonColumn(kundeAusleiheTable, new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				System.out.println("Rueckgabe Button pressed ...");
+			}
+		}, 5);
+	}
+
+	private void upateSelectedCustomer(Customer customer) {
+		reservationenTableModel.setSelectedCustomer(customer);
+		kundeAusleiheModel.setSelectedCustomer(customer);
 	}
 
 }
