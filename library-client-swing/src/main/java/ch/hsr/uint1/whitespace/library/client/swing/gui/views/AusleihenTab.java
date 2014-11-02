@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -29,7 +30,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.CustomerMasterTableModel;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.KundeAusleiheTableModel;
@@ -57,7 +60,7 @@ public class AusleihenTab extends JPanel {
 	private JTable reservationenTable;
 	private JLabel lblKeineReservationMglich;
 	private JLabel lblAusleihen;
-	private JTextField textField;
+	private JTextField idLoanTxtField;
 	private JLabel lblKeineAusleiheMglich;
 	private JLabel lbREservationId;
 	private JLabel lblAusleiheId;
@@ -65,6 +68,8 @@ public class AusleihenTab extends JPanel {
 	private CustomerMasterTableModel ausleiheTableModel;
 	private ReservationenTableModel reservationenTableModel;
 	private KundeAusleiheTableModel kundeAusleiheModel;
+
+	private Customer selectedCustomer;
 
 	@Autowired
 	private Library library;
@@ -193,6 +198,13 @@ public class AusleihenTab extends JPanel {
 		gbc_btnReservation.gridx = 4;
 		gbc_btnReservation.gridy = 3;
 		kundePanelInAusleiheTab.add(btnReservation, gbc_btnReservation);
+		btnReservation.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				doReservation(idReservationTxtField.getText());
+				idReservationTxtField.setText("");
+			}
+		});
 
 		lblKeineReservationMglich = new JLabel(ApplicationMessages.getText("master.loans.reservations.NoReservationPossible"));
 		GridBagConstraints gbc_lblKeineReservationMglich = new GridBagConstraints();
@@ -233,15 +245,15 @@ public class AusleihenTab extends JPanel {
 		gbc_lblAusleiheId.gridy = 7;
 		kundePanelInAusleiheTab.add(lblAusleiheId, gbc_lblAusleiheId);
 
-		textField = new JTextField();
+		idLoanTxtField = new JTextField();
 		GridBagConstraints gbc_textField1 = new GridBagConstraints();
 		gbc_textField1.gridwidth = 3;
 		gbc_textField1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField1.gridx = 1;
 		gbc_textField1.gridy = 7;
-		kundePanelInAusleiheTab.add(textField, gbc_textField1);
-		textField.setColumns(10);
+		kundePanelInAusleiheTab.add(idLoanTxtField, gbc_textField1);
+		idLoanTxtField.setColumns(10);
 
 		btnAusleihen = new JButton(ApplicationMessages.getText("master.loans.loanButton"));
 		btnAusleihen.setPreferredSize(new Dimension(117, 29));
@@ -277,8 +289,8 @@ public class AusleihenTab extends JPanel {
 		ausleiheTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				Customer customer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
-				upateSelectedCustomer(customer);
+				selectedCustomer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
+				upateSelectedCustomer(selectedCustomer);
 			}
 		});
 	}
@@ -292,6 +304,7 @@ public class AusleihenTab extends JPanel {
 		reservationenTable.setModel(reservationenTableModel);
 		kundeAusleiheModel = new KundeAusleiheTableModel(library);
 		kundeAusleiheTable.setModel(kundeAusleiheModel);
+		upateSelectedCustomer(null);
 
 		new ButtonColumn(reservationenTable, new AbstractAction() {
 			@Override
@@ -303,8 +316,8 @@ public class AusleihenTab extends JPanel {
 		new ButtonColumn(reservationenTable, new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Delete Button pressed ...");
+				Reservation reservationSelected = reservationenTableModel.getReservationAt(reservationenTable.convertRowIndexToModel(reservationenTable.getSelectedRow()));
+				deleteReservation(reservationSelected);
 			}
 		}, 3);
 		new ButtonColumn(kundeAusleiheTable, new AbstractAction() {
@@ -319,6 +332,47 @@ public class AusleihenTab extends JPanel {
 	private void upateSelectedCustomer(Customer customer) {
 		reservationenTableModel.setSelectedCustomer(customer);
 		kundeAusleiheModel.setSelectedCustomer(customer);
+		initializeComponents(customer);
 	}
 
+	private void initializeComponents(Customer customer) {
+		if (customer == null) {
+			reservationenTable.setEnabled(false);
+			kundeAusleiheTable.setEnabled(false);
+			lblKeineReservationMglich.setVisible(false);
+			lblKeineAusleiheMglich.setVisible(false);
+			idReservationTxtField.setEnabled(false);
+			idLoanTxtField.setEnabled(false);
+			btnReservation.setEnabled(false);
+			btnAusleihen.setEnabled(false);
+		} else {
+			reservationenTable.setEnabled(true);
+			kundeAusleiheTable.setEnabled(true);
+			if (!library.hasOverdue(customer)) {
+				idReservationTxtField.setEnabled(true);
+				idLoanTxtField.setEnabled(true);
+				btnReservation.setEnabled(true);
+				btnAusleihen.setEnabled(true);
+			} else {
+				lblKeineReservationMglich.setVisible(true);
+				lblKeineAusleiheMglich.setVisible(true);
+			}
+		}
+	}
+
+	private void doReservation(String gagdetId) {
+		Gadget gadget = library.getGadget(gagdetId);
+		if (gadget == null) {
+			// TODO: show that gadget does not exist ...
+		}
+		if (!library.canReservation(gadget, selectedCustomer)) {
+			// TODO: show that gadget cannot be reserved
+		}
+		library.addReservation(gadget, selectedCustomer);
+	}
+
+	private void deleteReservation(Reservation reservation) {
+		reservation.setFinished(true);
+		library.updateReservation(reservation);
+	}
 }

@@ -13,7 +13,6 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
-import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.views.ButtonColumn;
 
@@ -90,7 +89,7 @@ public class KundeAusleiheTableModel extends AbstractTableModel implements Obser
 	@Override
 	public void update(Observable o, Object arg) {
 		MessageData data = (MessageData) arg;
-		if (data.getData() instanceof Reservation) {
+		if (data.getData() instanceof Loan) {
 			Loan loan = (Loan) data.getData();
 			int pos = loans.indexOf(loan);
 			fireTableRowsUpdated(pos, pos);

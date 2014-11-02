@@ -96,14 +96,22 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 	@Override
 	public void update(Observable o, Object arg) {
 		MessageData data = (MessageData) arg;
+		Customer customer = null;
 		if (data.getData() instanceof Customer) {
-			Customer customer = (Customer) data.getData();
+			customer = (Customer) data.getData();
+		} else if (data.getData() instanceof Reservation) {
+			Reservation reservation = (Reservation) data.getData();
+			customer = library.getCustomer(reservation.getCustomerId());
+		}
+		if (customer != null) {
 			int pos = library.getCustomers().indexOf(customer);
 			fireTableRowsUpdated(pos, pos);
 		}
 	}
 
 	public Customer getCustomerAt(int index) {
-		return customers.get(index);
+		if (index >= 0)
+			return customers.get(index);
+		return null;
 	}
 }

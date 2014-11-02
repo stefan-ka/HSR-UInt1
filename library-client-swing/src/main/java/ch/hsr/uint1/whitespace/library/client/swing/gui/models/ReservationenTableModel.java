@@ -78,6 +78,7 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 
 	@Override
 	public void update(Observable o, Object arg) {
+		loadReservations();
 		MessageData data = (MessageData) arg;
 		if (data.getData() instanceof Reservation) {
 			Reservation reservation = (Reservation) data.getData();
@@ -92,6 +93,7 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 	public void setSelectedCustomer(Customer customer) {
 		this.selectedCustomer = customer;
 		loadReservations();
+		fireTableDataChanged();
 	}
 
 	private void loadReservations() {
@@ -100,7 +102,10 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 		} else {
 			reservations = new ArrayList<>();
 		}
-		fireTableDataChanged();
+	}
+
+	public Reservation getReservationAt(int index) {
+		return this.reservations.get(index);
 	}
 
 }

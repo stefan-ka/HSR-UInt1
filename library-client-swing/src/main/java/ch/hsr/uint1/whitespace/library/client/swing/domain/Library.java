@@ -25,6 +25,12 @@ public class Library extends Observable {
 				dataChanged(message);
 			}
 		});
+		libraryData.registerReservationListener(new CrudListener<Reservation>() {
+			@Override
+			public void changed(MessageData message) {
+				dataChanged(message);
+			}
+		});
 	}
 
 	public boolean canLent(Gadget gadget, Customer customer) {
