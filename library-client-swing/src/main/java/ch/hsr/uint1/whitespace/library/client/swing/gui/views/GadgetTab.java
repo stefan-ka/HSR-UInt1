@@ -133,9 +133,6 @@ public class GadgetTab extends JPanel {
 		gadgetsMasterTable = new JTable();
 		gadgetsMasterTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		gadgtesTableScrollPane.setViewportView(gadgetsMasterTable);
-		gadgetsMasterTable.setAutoCreateRowSorter(true);
-		gadgetsSorter = new TableRowSorter<TableModel>(gadgetsMasterTableModel);
-		gadgetsMasterTable.setRowSorter(gadgetsSorter);
 		ListSelectionModel listSelectionModel = gadgetsMasterTable.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			@Override
@@ -149,6 +146,9 @@ public class GadgetTab extends JPanel {
 	private void initialize() {
 		gadgetsMasterTableModel = new GadgetsMasterTableModel(library);
 		gadgetsMasterTable.setModel(gadgetsMasterTableModel);
+		gadgetsMasterTable.setAutoCreateRowSorter(true);
+		gadgetsSorter = new TableRowSorter<TableModel>(gadgetsMasterTableModel);
+		gadgetsMasterTable.setRowSorter(gadgetsSorter);
 	}
 
 	private void editGadget(Gadget gadget, boolean isNewGadget) {
