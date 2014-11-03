@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.annotation.PostConstruct;
 import javax.swing.AbstractAction;
@@ -19,10 +21,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -69,6 +74,7 @@ public class AusleihenTab extends JPanel {
 	private CustomerMasterTableModel ausleiheTableModel;
 	private ReservationenTableModel reservationenTableModel;
 	private KundeAusleiheTableModel kundeAusleiheModel;
+	private TableRowSorter<TableModel> customerSorter;
 
 	private Customer selectedCustomer;
 
@@ -99,6 +105,13 @@ public class AusleihenTab extends JPanel {
 			@Override
 			public void focusGained(final FocusEvent e) {
 				suchenTxtEditAusleiheTab.setText("");
+			}
+		});
+		suchenTxtEditAusleiheTab.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				customerSorter.setRowFilter(RowFilter.regexFilter("(?i)" + suchenTxtEditAusleiheTab.getText(), 0, 1, 2, 3));
+				super.keyReleased(e);
 			}
 		});
 
@@ -312,6 +325,10 @@ public class AusleihenTab extends JPanel {
 		reservationenTable.setModel(reservationenTableModel);
 		kundeAusleiheModel = new KundeAusleiheTableModel(library);
 		kundeAusleiheTable.setModel(kundeAusleiheModel);
+		ausleiheTable.setAutoCreateRowSorter(true);
+		customerSorter = new TableRowSorter<TableModel>(ausleiheTableModel);
+		ausleiheTable.setRowSorter(customerSorter);
+
 		upateSelectedCustomer(null);
 
 		new ButtonColumn(reservationenTable, new AbstractAction() {
