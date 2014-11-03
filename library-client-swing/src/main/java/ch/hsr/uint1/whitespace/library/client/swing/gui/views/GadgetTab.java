@@ -79,7 +79,16 @@ public class GadgetTab extends JPanel {
 		suchenTxtEditGadgetTab.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(final FocusEvent e) {
-				suchenTxtEditGadgetTab.setText("");
+				if (ApplicationMessages.getText("search.fieldText").equals(suchenTxtEditGadgetTab.getText())) {
+					suchenTxtEditGadgetTab.setText("");
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if ("".equals(suchenTxtEditGadgetTab.getText())) {
+					suchenTxtEditGadgetTab.setText(ApplicationMessages.getText("search.fieldText"));
+				}
 			}
 		});
 		suchenTxtEditGadgetTab.addKeyListener(new KeyAdapter() {

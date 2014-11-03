@@ -104,7 +104,16 @@ public class AusleihenTab extends JPanel {
 		suchenTxtEditAusleiheTab.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(final FocusEvent e) {
-				suchenTxtEditAusleiheTab.setText("");
+				if (ApplicationMessages.getText("search.fieldText").equals(suchenTxtEditAusleiheTab.getText())) {
+					suchenTxtEditAusleiheTab.setText("");
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if ("".equals(suchenTxtEditAusleiheTab.getText())) {
+					suchenTxtEditAusleiheTab.setText(ApplicationMessages.getText("search.fieldText"));
+				}
 			}
 		});
 		suchenTxtEditAusleiheTab.addKeyListener(new KeyAdapter() {
