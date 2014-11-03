@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -105,6 +107,7 @@ public class GadgetTab extends JPanel {
 		gadgetEditBtn.setToolTipText(ApplicationMessages.getText("master.gadgets.editGadgetButton.tooltip"));
 		gadgetEditBtn.setMinimumSize(new Dimension(145, 29));
 		gadgetEditBtn.setMaximumSize(new Dimension(145, 29));
+		gadgetEditBtn.setEnabled(false);
 		gadgetEditBtn.addActionListener(e -> {
 			Gadget gadgetSelected = gadgetsMasterTableModel.getGadgetAt(gadgetsMasterTable.convertRowIndexToModel(gadgetsMasterTable.getSelectedRow()));
 			if (gadgetSelected != null) {
@@ -133,6 +136,13 @@ public class GadgetTab extends JPanel {
 		gadgetsMasterTable.setAutoCreateRowSorter(true);
 		gadgetsSorter = new TableRowSorter<TableModel>(gadgetsMasterTableModel);
 		gadgetsMasterTable.setRowSorter(gadgetsSorter);
+		ListSelectionModel listSelectionModel = gadgetsMasterTable.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent listSelectionEvent) {
+				gadgetEditBtn.setEnabled(gadgetsMasterTable.getSelectedRow() >= 0);
+			}
+		});
 	}
 
 	@PostConstruct
