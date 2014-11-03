@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Customer;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.CustomerMasterTableModel;
@@ -259,6 +260,13 @@ public class AusleihenTab extends JPanel {
 		btnAusleihen.setPreferredSize(new Dimension(117, 29));
 		btnAusleihen.setMinimumSize(new Dimension(117, 29));
 		btnAusleihen.setMaximumSize(new Dimension(117, 29));
+		btnAusleihen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				doAusleihe(idLoanTxtField.getText());
+				idLoanTxtField.setText("");
+			}
+		});
 		GridBagConstraints gbc_btnAusleihen = new GridBagConstraints();
 		gbc_btnAusleihen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnAusleihen.insets = new Insets(0, 0, 5, 0);
@@ -323,8 +331,8 @@ public class AusleihenTab extends JPanel {
 		new ButtonColumn(kundeAusleiheTable, new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				System.out.println("Rueckgabe Button pressed ...");
+				Loan loan = kundeAusleiheModel.getLoanAt(kundeAusleiheTable.convertRowIndexToModel(kundeAusleiheTable.getSelectedRow()));
+				doRueckgabe(loan);
 			}
 		}, 5);
 	}
@@ -371,8 +379,24 @@ public class AusleihenTab extends JPanel {
 		library.addReservation(gadget, selectedCustomer);
 	}
 
+	private void doAusleihe(String gadgetId) {
+		Gadget gadget = library.getGadget(gadgetId);
+		if (gadget == null) {
+			// TODO: show that gadget does not exist ...
+		}
+		if (!library.canLent(gadget, selectedCustomer)) {
+			// TODO: show that customer cannot make this Ausleihe
+		}
+		library.addLoan(gadget, selectedCustomer);
+	}
+
 	private void deleteReservation(Reservation reservation) {
 		reservation.setFinished(true);
 		library.updateReservation(reservation);
+	}
+
+	private void doRueckgabe(Loan loan) {
+		loan.returnCopy();
+		library.updateLoan(loan);
 	}
 }

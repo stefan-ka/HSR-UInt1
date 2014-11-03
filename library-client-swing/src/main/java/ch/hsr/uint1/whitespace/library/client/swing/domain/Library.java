@@ -19,18 +19,7 @@ public class Library extends Observable {
 	@Autowired
 	public Library(LibraryData libraryData) {
 		this.libraryData = libraryData;
-		libraryData.registerGadgetListener(new CrudListener<Gadget>() {
-			@Override
-			public void changed(MessageData message) {
-				dataChanged(message);
-			}
-		});
-		libraryData.registerReservationListener(new CrudListener<Reservation>() {
-			@Override
-			public void changed(MessageData message) {
-				dataChanged(message);
-			}
-		});
+		registerListeners();
 	}
 
 	public boolean canLent(Gadget gadget, Customer customer) {
@@ -156,5 +145,26 @@ public class Library extends Observable {
 	private void dataChanged(MessageData message) {
 		setChanged();
 		notifyObservers(message);
+	}
+
+	private void registerListeners() {
+		libraryData.registerGadgetListener(new CrudListener<Gadget>() {
+			@Override
+			public void changed(MessageData message) {
+				dataChanged(message);
+			}
+		});
+		libraryData.registerReservationListener(new CrudListener<Reservation>() {
+			@Override
+			public void changed(MessageData message) {
+				dataChanged(message);
+			}
+		});
+		libraryData.registerLoanListener(new CrudListener<Loan>() {
+			@Override
+			public void changed(MessageData message) {
+				dataChanged(message);
+			}
+		});
 	}
 }

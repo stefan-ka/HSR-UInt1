@@ -88,6 +88,7 @@ public class KundeAusleiheTableModel extends AbstractTableModel implements Obser
 
 	@Override
 	public void update(Observable o, Object arg) {
+		loadLoans();
 		MessageData data = (MessageData) arg;
 		if (data.getData() instanceof Loan) {
 			Loan loan = (Loan) data.getData();
@@ -102,6 +103,7 @@ public class KundeAusleiheTableModel extends AbstractTableModel implements Obser
 	public void setSelectedCustomer(Customer customer) {
 		this.selectedCustomer = customer;
 		loadLoans();
+		fireTableDataChanged();
 	}
 
 	private void loadLoans() {
@@ -110,7 +112,10 @@ public class KundeAusleiheTableModel extends AbstractTableModel implements Obser
 		} else {
 			loans = new ArrayList<>();
 		}
-		fireTableDataChanged();
+	}
+
+	public Loan getLoanAt(int index) {
+		return this.loans.get(index);
 	}
 
 }

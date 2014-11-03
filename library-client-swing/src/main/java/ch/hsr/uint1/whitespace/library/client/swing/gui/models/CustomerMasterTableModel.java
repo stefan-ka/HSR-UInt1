@@ -102,6 +102,9 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 		} else if (data.getData() instanceof Reservation) {
 			Reservation reservation = (Reservation) data.getData();
 			customer = library.getCustomer(reservation.getCustomerId());
+		} else if (data.getData() instanceof Loan) {
+			Loan loan = (Loan) data.getData();
+			customer = library.getCustomer(loan.getCustomerId());
 		}
 		if (customer != null) {
 			int pos = library.getCustomers().indexOf(customer);
