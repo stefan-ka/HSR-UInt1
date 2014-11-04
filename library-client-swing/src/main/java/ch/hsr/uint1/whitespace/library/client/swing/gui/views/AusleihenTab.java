@@ -315,7 +315,11 @@ public class AusleihenTab extends JPanel {
 		ausleiheTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selectedCustomer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
+				if (ausleiheTable.getSelectedRow() > -1) {
+					selectedCustomer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
+				} else {
+					selectedCustomer = null;
+				}
 				upateSelectedCustomer(selectedCustomer);
 			}
 		});
