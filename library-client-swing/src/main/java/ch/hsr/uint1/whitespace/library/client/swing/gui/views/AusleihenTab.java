@@ -361,6 +361,8 @@ public class AusleihenTab extends JPanel {
 				doRueckgabe(loan);
 			}
 		}, 5);
+		reservationenTable.setAutoCreateColumnsFromModel(false);
+		kundeAusleiheTable.setAutoCreateColumnsFromModel(false);
 	}
 
 	private void upateSelectedCustomer(Customer customer) {

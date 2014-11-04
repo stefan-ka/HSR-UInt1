@@ -14,6 +14,9 @@ public class SpringObjectFactory {
 		return context.getBean(clazz);
 	}
 
+	/**
+	 * Is needed for the GUI Window Builder, because we have no Spring-Context then... 
+	 */
 	public static Object createObject(Class<?> clazz, SpringObjectFactory factory) {
 		try {
 			if (factory == null) {
