@@ -75,7 +75,7 @@ public class AusleihenTab extends JPanel {
 	private ReservationenTableModel reservationenTableModel;
 	private KundeAusleiheTableModel kundeAusleiheModel;
 	private TableRowSorter<TableModel> customerSorter;
-
+	private TitledBorder kundeTitledBorder;
 	private Customer selectedCustomer;
 
 	@Autowired
@@ -134,8 +134,10 @@ public class AusleihenTab extends JPanel {
 
 		kundePanelBorder = new JPanel();
 		kundePanelBorder.setName("");
-		kundePanelBorder.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), ApplicationMessages.getText("master.loans.customerData"),
-				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		kundeTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), ApplicationMessages.getText("master.loans.customerData"), TitledBorder.LEADING,
+				TitledBorder.TOP, null, new Color(0, 0, 0));
+
+		kundePanelBorder.setBorder(kundeTitledBorder);
 		GridBagConstraints gbc_kundePanelBorder = new GridBagConstraints();
 		gbc_kundePanelBorder.gridheight = 2;
 		gbc_kundePanelBorder.fill = GridBagConstraints.BOTH;
@@ -382,6 +384,8 @@ public class AusleihenTab extends JPanel {
 		} else {
 			reservationenTable.setEnabled(true);
 			kundeAusleiheTable.setEnabled(true);
+			kundeTitledBorder.setTitle(customer.getName());
+			this.repaint();
 			if (!library.hasOverdue(customer)) {
 				idReservationTxtField.setEnabled(true);
 				idLoanTxtField.setEnabled(true);

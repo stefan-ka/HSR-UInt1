@@ -46,6 +46,7 @@ public class GadgetMaster extends JFrame {
 		}
 		setName(ApplicationMessages.getText("master.title"));
 		setSize(new Dimension(972, 577));
+		setMinimumSize(new Dimension(750, 450));
 		setTitle(ApplicationMessages.getText("master.title"));
 		setBounds(100, 100, 972, 577);
 		biblioContentPane = new JPanel();
