@@ -13,15 +13,14 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.views.ButtonColumn;
 
 public class ReservationenTableModel extends AbstractTableModel implements Observer {
 
 	private static final long serialVersionUID = 5922343552351790810L;
 	private final String[] columns = { "reservations.table.gadgetName", "reservations.table.waitingList", "reservations.table.darfAusleihen", "reservations.table.delete" };
 	private Library library;
-	private List<Reservation> reservations;
-	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, ButtonColumn.class, ButtonColumn.class };
+	private List<Reservation> reservations = new ArrayList<>();
+	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, String.class, String.class };
 
 	private Customer selectedCustomer;
 

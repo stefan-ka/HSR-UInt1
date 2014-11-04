@@ -1,7 +1,6 @@
 package ch.hsr.uint1.whitespace.library.client.swing.gui.views;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -281,9 +280,6 @@ public class AusleihenTab extends JPanel {
 		idLoanTxtField.setColumns(10);
 
 		btnAusleihen = new JButton(ApplicationMessages.getText("master.loans.loanButton"));
-		btnAusleihen.setPreferredSize(new Dimension(117, 29));
-		btnAusleihen.setMinimumSize(new Dimension(117, 29));
-		btnAusleihen.setMaximumSize(new Dimension(117, 29));
 		btnAusleihen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -321,7 +317,11 @@ public class AusleihenTab extends JPanel {
 		ausleiheTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selectedCustomer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
+				if (ausleiheTable.getSelectedRow() > -1) {
+					selectedCustomer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
+				} else {
+					selectedCustomer = null;
+				}
 				upateSelectedCustomer(selectedCustomer);
 			}
 		});
@@ -363,6 +363,8 @@ public class AusleihenTab extends JPanel {
 				doRueckgabe(loan);
 			}
 		}, 5);
+		reservationenTable.setAutoCreateColumnsFromModel(false);
+		kundeAusleiheTable.setAutoCreateColumnsFromModel(false);
 	}
 
 	private void upateSelectedCustomer(Customer customer) {
