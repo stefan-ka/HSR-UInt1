@@ -166,7 +166,7 @@ public class AusleihenTab extends JPanel {
 
 		lblReservationen = new JLabel(ApplicationMessages.getText("master.loans.reservations"));
 		GridBagConstraints gbc_lblReservationen = new GridBagConstraints();
-		gbc_lblReservationen.gridwidth = 2;
+		gbc_lblReservationen.gridwidth = 4;
 		gbc_lblReservationen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblReservationen.insets = new Insets(0, 3, 1, 5);
 		gbc_lblReservationen.gridx = 0;
@@ -385,17 +385,26 @@ public class AusleihenTab extends JPanel {
 			reservationenTable.setEnabled(true);
 			kundeAusleiheTable.setEnabled(true);
 			kundeTitledBorder.setTitle(customer.getName());
-			this.repaint();
+			repaint();
 			if (!library.hasOverdue(customer)) {
 				idReservationTxtField.setEnabled(true);
 				idLoanTxtField.setEnabled(true);
 				btnReservation.setEnabled(true);
 				btnAusleihen.setEnabled(true);
+				setReservationsQuantity(reservationenTable.getRowCount());
 			} else {
 				lblKeineReservationMglich.setVisible(true);
 				lblKeineAusleiheMglich.setVisible(true);
 			}
 		}
+	}
+
+	private void setReservationsQuantity(int totalRowsQuantitty) {
+		if (totalRowsQuantitty == 0) {
+			lblReservationen.setText(ApplicationMessages.getText("master.loans.reservations"));
+		} else
+			lblReservationen.setText(ApplicationMessages.getText("master.loans.reservations") + " (" + totalRowsQuantitty + " "
+					+ ApplicationMessages.getText("master.loans.reservations.quantity") + ")");
 	}
 
 	private void doReservation(String gagdetId) {
