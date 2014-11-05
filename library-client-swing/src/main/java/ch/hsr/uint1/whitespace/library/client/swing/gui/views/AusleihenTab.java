@@ -397,20 +397,11 @@ public class AusleihenTab extends JPanel {
 				idLoanTxtField.setEnabled(true);
 				btnReservation.setEnabled(true);
 				btnAusleihen.setEnabled(true);
-				setReservationsQuantity(reservationenTable.getRowCount());
 			} else {
 				showReservationMessage(ApplicationMessages.getText("master.loans.reservations.NoReservationPossible"));
 				showAusleiheMessage(ApplicationMessages.getText("master.loans.noLoanPossible"));
 			}
 		}
-	}
-
-	private void setReservationsQuantity(int totalRowsQuantitty) {
-		if (totalRowsQuantitty == 0) {
-			lblReservationen.setText(ApplicationMessages.getText("master.loans.reservations"));
-		} else
-			lblReservationen.setText(ApplicationMessages.getText("master.loans.reservations") + " (" + totalRowsQuantitty + " "
-					+ ApplicationMessages.getText("master.loans.reservations.quantity") + ")");
 	}
 
 	private void doReservation(String gagdetId) {
