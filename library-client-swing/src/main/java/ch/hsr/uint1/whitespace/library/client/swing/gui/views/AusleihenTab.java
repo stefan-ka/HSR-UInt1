@@ -231,6 +231,7 @@ public class AusleihenTab extends JPanel {
 		});
 
 		lblKeineReservationMglich = new JLabel(ApplicationMessages.getText("master.loans.reservations.NoReservationPossible"));
+		lblKeineReservationMglich.setForeground(Color.RED);
 		GridBagConstraints gbc_lblKeineReservationMglich = new GridBagConstraints();
 		gbc_lblKeineReservationMglich.gridwidth = 3;
 		gbc_lblKeineReservationMglich.fill = GridBagConstraints.HORIZONTAL;
@@ -295,6 +296,7 @@ public class AusleihenTab extends JPanel {
 		kundePanelInAusleiheTab.add(btnAusleihen, gbc_btnAusleihen);
 
 		lblKeineAusleiheMglich = new JLabel(ApplicationMessages.getText("master.loans.noLoanPossible"));
+		lblKeineAusleiheMglich.setForeground(Color.RED);
 		GridBagConstraints gbc_lblKeineAusleiheMglich = new GridBagConstraints();
 		gbc_lblKeineAusleiheMglich.gridwidth = 3;
 		gbc_lblKeineAusleiheMglich.fill = GridBagConstraints.HORIZONTAL;
@@ -374,6 +376,8 @@ public class AusleihenTab extends JPanel {
 	}
 
 	private void initializeComponents(Customer customer) {
+		hideReservationMessage();
+		hideAusleiheMessage();
 		if (customer == null) {
 			reservationenTable.setEnabled(false);
 			kundeAusleiheTable.setEnabled(false);
@@ -395,8 +399,8 @@ public class AusleihenTab extends JPanel {
 				btnAusleihen.setEnabled(true);
 				setReservationsQuantity(reservationenTable.getRowCount());
 			} else {
-				lblKeineReservationMglich.setVisible(true);
-				lblKeineAusleiheMglich.setVisible(true);
+				showReservationMessage(ApplicationMessages.getText("master.loans.reservations.NoReservationPossible"));
+				showAusleiheMessage(ApplicationMessages.getText("master.loans.noLoanPossible"));
 			}
 		}
 	}
@@ -410,12 +414,15 @@ public class AusleihenTab extends JPanel {
 	}
 
 	private void doReservation(String gagdetId) {
+		hideReservationMessage();
 		Gadget gadget = library.getGadget(gagdetId);
 		if (gadget == null) {
-			// TODO: show that gadget does not exist ...
+			showReservationMessage(ApplicationMessages.getText("reservations.message.gagdetWithIdNotExist"));
+			return;
 		}
 		if (!library.canReservation(gadget, selectedCustomer)) {
-			// TODO: show that gadget cannot be reserved
+			showReservationMessage(ApplicationMessages.getText("reservations.message.gagdetAlreadyReserved"));
+			return;
 		}
 		library.addReservation(gadget, selectedCustomer);
 	}
@@ -423,10 +430,12 @@ public class AusleihenTab extends JPanel {
 	private void doAusleihe(String gadgetId) {
 		Gadget gadget = library.getGadget(gadgetId);
 		if (gadget == null) {
-			// TODO: show that gadget does not exist ...
+			showAusleiheMessage(ApplicationMessages.getText("reservations.message.gagdetWithIdNotExist"));
+			return;
 		}
 		if (!library.canLent(gadget, selectedCustomer)) {
-			// TODO: show that customer cannot make this Ausleihe
+			showAusleiheMessage(ApplicationMessages.getText("ausleihe.message.cannotBeLent"));
+			return;
 		}
 		library.addLoan(gadget, selectedCustomer);
 	}
@@ -439,5 +448,23 @@ public class AusleihenTab extends JPanel {
 	private void doRueckgabe(Loan loan) {
 		loan.returnCopy();
 		library.updateLoan(loan);
+	}
+
+	private void showReservationMessage(String message) {
+		lblKeineReservationMglich.setText(message);
+		lblKeineReservationMglich.setVisible(true);
+	}
+
+	private void hideReservationMessage() {
+		lblKeineReservationMglich.setVisible(false);
+	}
+
+	private void showAusleiheMessage(String message) {
+		lblKeineAusleiheMglich.setText(message);
+		lblKeineAusleiheMglich.setVisible(true);
+	}
+
+	private void hideAusleiheMessage() {
+		lblKeineAusleiheMglich.setVisible(false);
 	}
 }
