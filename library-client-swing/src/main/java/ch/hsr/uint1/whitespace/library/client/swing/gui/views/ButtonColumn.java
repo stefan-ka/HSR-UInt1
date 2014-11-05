@@ -150,7 +150,6 @@ public class ButtonColumn extends AbstractCellEditor implements TableCellRendere
 		} else {
 			renderButton.setBorder(originalBorder);
 		}
-
 		// renderButton.setText( (value == null) ? "" : value.toString() );
 		if (value == null) {
 			renderButton.setText("");

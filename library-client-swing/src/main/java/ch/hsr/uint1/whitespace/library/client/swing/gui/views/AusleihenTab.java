@@ -342,11 +342,11 @@ public class AusleihenTab extends JPanel {
 
 		upateSelectedCustomer(null);
 
-		new ButtonColumn(reservationenTable, new AbstractAction() {
+		new AusleihenButtonColumn(reservationenTable, new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Ausleihen Button pressed ...");
+				Reservation reservationSelected = reservationenTableModel.getReservationAt(reservationenTable.convertRowIndexToModel(reservationenTable.getSelectedRow()));
+				doAusleihe(reservationSelected.getGadgetId());
 			}
 		}, 2);
 		new ButtonColumn(reservationenTable, new AbstractAction() {
@@ -358,7 +358,7 @@ public class AusleihenTab extends JPanel {
 		}, 3);
 		new ButtonColumn(kundeAusleiheTable, new AbstractAction() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				Loan loan = kundeAusleiheModel.getLoanAt(kundeAusleiheTable.convertRowIndexToModel(kundeAusleiheTable.getSelectedRow()));
 				doRueckgabe(loan);
 			}

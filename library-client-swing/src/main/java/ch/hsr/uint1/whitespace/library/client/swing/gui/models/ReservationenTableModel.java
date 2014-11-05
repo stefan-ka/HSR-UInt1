@@ -58,9 +58,13 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 		case 0:
 			return gadget.getName();
 		case 1:
-			return library.getReservationFor(gadget, true).size();
+			List<Reservation> reservations4Gadget = library.getReservationFor(gadget, true);
+			return reservations4Gadget.indexOf(reservation) + 1;
 		case 2:
-			return ApplicationMessages.getText("reservations.table.neinButton");
+			if (library.canLent(gadget, selectedCustomer))
+				return ApplicationMessages.getText("reservations.table.jaButton");
+			else
+				return ApplicationMessages.getText("reservations.table.neinButton");
 		case 3:
 			return ApplicationMessages.getText("reservations.table.loeschenButton");
 		default:
@@ -70,9 +74,16 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		if (columnIndex == 2 || columnIndex == 3)
+		Reservation reservation = reservations.get(rowIndex);
+		Gadget gadget = library.getGadget(reservation.getGadgetId());
+		switch (columnIndex) {
+		case 2:
+			return library.canLent(gadget, selectedCustomer);
+		case 3:
 			return true;
-		return super.isCellEditable(rowIndex, columnIndex);
+		default:
+			return super.isCellEditable(rowIndex, columnIndex);
+		}
 	}
 
 	@Override
