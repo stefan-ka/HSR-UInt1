@@ -378,16 +378,15 @@ public class AusleihenTab extends JPanel {
 	private void initializeComponents(Customer customer) {
 		hideReservationMessage();
 		hideAusleiheMessage();
-		if (customer == null) {
-			reservationenTable.setEnabled(false);
-			kundeAusleiheTable.setEnabled(false);
-			lblKeineReservationMglich.setVisible(false);
-			lblKeineAusleiheMglich.setVisible(false);
-			idReservationTxtField.setEnabled(false);
-			idLoanTxtField.setEnabled(false);
-			btnReservation.setEnabled(false);
-			btnAusleihen.setEnabled(false);
-		} else {
+		reservationenTable.setEnabled(false);
+		kundeAusleiheTable.setEnabled(false);
+		lblKeineReservationMglich.setVisible(false);
+		lblKeineAusleiheMglich.setVisible(false);
+		idReservationTxtField.setEnabled(false);
+		idLoanTxtField.setEnabled(false);
+		btnReservation.setEnabled(false);
+		btnAusleihen.setEnabled(false);
+		if (customer != null) {
 			reservationenTable.setEnabled(true);
 			kundeAusleiheTable.setEnabled(true);
 			kundeTitledBorder.setTitle(customer.getName());
