@@ -105,6 +105,7 @@ public class GadgetDetail extends JFrame {
 		gbl_contentPane.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
 		fieldsMap = new HashMap<String, JTextField>();
+
 		detailPanel = new JPanel();
 		final GridBagConstraints gbc_detailPanel = new GridBagConstraints();
 		gbc_detailPanel.fill = GridBagConstraints.HORIZONTAL;
@@ -234,6 +235,7 @@ public class GadgetDetail extends JFrame {
 		detailPanel.add(abbruchBtn, gbc_abbruchBtn);
 
 		saveBtn = new JButton(ApplicationMessages.getText("gadgetDetail.createNewButton"));
+
 		if (!isNewGadget) {
 			saveBtn.setText(ApplicationMessages.getText("gadgetDetail.saveChangeButton"));
 		}
@@ -248,6 +250,7 @@ public class GadgetDetail extends JFrame {
 		gbc_erfassenBtn.gridx = 3;
 		gbc_erfassenBtn.gridy = 5;
 		detailPanel.add(saveBtn, gbc_erfassenBtn);
+		getRootPane().setDefaultButton(saveBtn);
 	}
 
 	private void updateView(Gadget gadget) {
