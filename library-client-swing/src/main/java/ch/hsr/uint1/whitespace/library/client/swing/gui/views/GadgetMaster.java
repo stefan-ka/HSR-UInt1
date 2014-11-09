@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
@@ -69,16 +70,31 @@ public class GadgetMaster extends JFrame {
 		menuBar.add(menu);
 		deutschMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.deutsch"), new ImageIcon((new ImageIcon("images/germany_flag.gif")).getImage()
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
+		deutschMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Switch language to German
+			}
+		});
 		deutschMenuItem.setMnemonic(KeyEvent.VK_D);
 		deutschMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.ALT_MASK));
 		menu.add(deutschMenuItem);
 		spanischMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.spanisch"), new ImageIcon((new ImageIcon("images/spain_flag.gif")).getImage()
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
+		spanischMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Switch language to Spanish
+			}
+		});
 		spanischMenuItem.setMnemonic(KeyEvent.VK_E);
 		spanischMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.ALT_MASK));
 		menu.add(spanischMenuItem);
 		englischMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.englisch"), new ImageIcon((new ImageIcon("images/united_kingdom_flag.gif")).getImage()
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
+		englischMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Switch language to English
+			}
+		});
 		englischMenuItem.setMnemonic(KeyEvent.VK_I);
 		englischMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.ALT_MASK));
 		menu.add(englischMenuItem);
