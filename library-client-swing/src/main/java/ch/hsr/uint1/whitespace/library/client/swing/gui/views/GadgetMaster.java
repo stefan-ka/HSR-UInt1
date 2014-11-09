@@ -3,6 +3,7 @@ package ch.hsr.uint1.whitespace.library.client.swing.gui.views;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -68,14 +70,17 @@ public class GadgetMaster extends JFrame {
 		deutschMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.deutsch"), new ImageIcon((new ImageIcon("images/germany_flag.gif")).getImage()
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		deutschMenuItem.setMnemonic(KeyEvent.VK_D);
+		deutschMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.ALT_MASK));
 		menu.add(deutschMenuItem);
 		spanischMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.spanisch"), new ImageIcon((new ImageIcon("images/spain_flag.gif")).getImage()
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		spanischMenuItem.setMnemonic(KeyEvent.VK_E);
+		spanischMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.ALT_MASK));
 		menu.add(spanischMenuItem);
 		englischMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.englisch"), new ImageIcon((new ImageIcon("images/united_kingdom_flag.gif")).getImage()
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		englischMenuItem.setMnemonic(KeyEvent.VK_I);
+		englischMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.ALT_MASK));
 		menu.add(englischMenuItem);
 
 		biblioContentPane = new JPanel();
