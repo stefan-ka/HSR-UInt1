@@ -5,7 +5,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
@@ -27,7 +31,11 @@ public class GadgetMaster extends JFrame {
 	private JTabbedPane biblioTabbedPane;
 	private GadgetTab gadgetTab;
 	private AusleihenTab ausleihenTab;
-
+	private JMenuBar menuBar;
+	private JMenu menu;
+	private JMenuItem deutschMenuItem;
+	private JMenuItem spanischMenuItem;
+	private JMenuItem englischMenuItem;
 	@Autowired
 	private Library library;
 	private SpringObjectFactory prototypeFactory;
@@ -49,6 +57,27 @@ public class GadgetMaster extends JFrame {
 		setMinimumSize(new Dimension(750, 450));
 		setTitle(ApplicationMessages.getText("master.title"));
 		setBounds(100, 100, 972, 577);
+
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		menuBar.getAccessibleContext().setAccessibleDescription(ApplicationMessages.getText("master.menu.languages.description"));
+		menu = new JMenu(ApplicationMessages.getText("master.menu.languages"));
+		menu.setToolTipText(ApplicationMessages.getText("master.menu.languages.description"));
+		menu.setMnemonic(KeyEvent.VK_S);
+		menuBar.add(menu);
+		deutschMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.deutsch"), new ImageIcon((new ImageIcon("images/germany_flag.gif")).getImage()
+				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
+		deutschMenuItem.setMnemonic(KeyEvent.VK_D);
+		menu.add(deutschMenuItem);
+		spanischMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.spanisch"), new ImageIcon((new ImageIcon("images/spain_flag.gif")).getImage()
+				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
+		spanischMenuItem.setMnemonic(KeyEvent.VK_E);
+		menu.add(spanischMenuItem);
+		englischMenuItem = new JMenuItem(ApplicationMessages.getText("master.menu.languages.englisch"), new ImageIcon((new ImageIcon("images/united_kingdom_flag.gif")).getImage()
+				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
+		englischMenuItem.setMnemonic(KeyEvent.VK_I);
+		menu.add(englischMenuItem);
+
 		biblioContentPane = new JPanel();
 		biblioContentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(biblioContentPane);

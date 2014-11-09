@@ -13,7 +13,6 @@ public class ApplicationMessages {
 
 	// TODO implement language switcher on GUI..?
 	public static final Locale DEFAULT_LOCALE = Locale.GERMAN;
-
 	private static final String BUNDLE_NAME = "messages";
 	private static final ResourceBundle RESOURCE_BUNDLE = loadBundle();
 
