@@ -1,8 +1,7 @@
-package bl;
+package ch.hsr.uint1.whitespace.library.client.android.domain;
 
 import java.util.Calendar;
-import java.util.Date; 
-import java.util.UUID;
+import java.util.Date;
 
 public class Loan {
 	

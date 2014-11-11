@@ -1,25 +1,23 @@
-package ch.hsr.mgfeller.library;
+package ch.hsr.uint1.whitespace.library.client.android.library;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import android.os.AsyncTask;
-import android.util.Log;
 import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.Response;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 import java.util.concurrent.Future;
 
-import bl.Gadget;
-import bl.Loan;
-import bl.Reservation;
+import android.os.AsyncTask;
+import android.util.Log;
+import ch.hsr.uint1.whitespace.library.client.android.domain.Gadget;
+import ch.hsr.uint1.whitespace.library.client.android.domain.Loan;
+import ch.hsr.uint1.whitespace.library.client.android.domain.Reservation;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.Response;
 
 
 public class LibraryService {

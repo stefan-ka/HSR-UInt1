@@ -1,4 +1,4 @@
-package bl;
+package ch.hsr.uint1.whitespace.library.client.android.domain;
 
 public class IllegalLoanOperationException extends Exception {
 

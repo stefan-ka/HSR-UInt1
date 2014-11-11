@@ -1,4 +1,4 @@
-package bl;
+package ch.hsr.uint1.whitespace.library.client.android.domain;
 
 import java.util.UUID;
 
