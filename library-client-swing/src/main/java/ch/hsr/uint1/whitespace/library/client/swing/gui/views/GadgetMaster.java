@@ -72,6 +72,7 @@ public class GadgetMaster extends JFrame {
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		deutschMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.print("German pressed");
 				// TODO Switch language to German
 			}
 		});
@@ -82,6 +83,7 @@ public class GadgetMaster extends JFrame {
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		spanischMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Spanish Pressed");
 				// TODO Switch language to Spanish
 			}
 		});
@@ -92,6 +94,7 @@ public class GadgetMaster extends JFrame {
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		englischMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("English pressed");
 				// TODO Switch language to English
 			}
 		});

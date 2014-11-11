@@ -144,6 +144,7 @@ public class GadgetTab extends JPanel {
 		gadgtesTableScrollPane.setViewportView(gadgetsMasterTable);
 		ListSelectionModel listSelectionModel = gadgetsMasterTable.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+
 			@Override
 			public void valueChanged(ListSelectionEvent listSelectionEvent) {
 				gadgetEditBtn.setEnabled(gadgetsMasterTable.getSelectedRow() >= 0);

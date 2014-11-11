@@ -80,9 +80,6 @@ public class AusleihenTab extends JPanel {
 	@Autowired
 	private Library library;
 
-	@Autowired
-	private SpringObjectFactory prototypeFactory;
-
 	public AusleihenTab() {
 		buildGUI();
 	}
