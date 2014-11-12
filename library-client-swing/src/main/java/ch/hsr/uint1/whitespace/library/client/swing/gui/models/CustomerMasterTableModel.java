@@ -12,8 +12,9 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 
-public class CustomerMasterTableModel extends AbstractTableModel implements Observer {
+public class CustomerMasterTableModel extends AbstractTableModel implements Observer, LocaleChangedListener {
 	private static final long serialVersionUID = -3574669918538671539L;
 
 	private Library library;
@@ -117,4 +118,5 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 			return customers.get(index);
 		return null;
 	}
+
 }

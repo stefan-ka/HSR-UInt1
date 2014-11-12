@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,11 +25,12 @@ import org.springframework.stereotype.Component;
 
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 
 @Component
-public class GadgetMaster extends JFrame {
+public class GadgetMaster extends JFrame implements LocaleChangedListener {
 
-	private static final long serialVersionUID = -2060969695124152513L;
+	private static final long serialVersionUID = -6748954870301059200L;
 
 	private JPanel biblioContentPane;
 	private JTabbedPane biblioTabbedPane;
@@ -72,8 +74,7 @@ public class GadgetMaster extends JFrame {
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		deutschMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.print("German pressed");
-				// TODO Switch language to German
+				ApplicationMessages.setCurrentLocale(Locale.GERMAN);
 			}
 		});
 		deutschMenuItem.setMnemonic(KeyEvent.VK_D);
@@ -83,8 +84,7 @@ public class GadgetMaster extends JFrame {
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		spanischMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Spanish Pressed");
-				// TODO Switch language to Spanish
+				ApplicationMessages.setCurrentLocale(new Locale("es", "ES"));
 			}
 		});
 		spanischMenuItem.setMnemonic(KeyEvent.VK_E);
@@ -94,8 +94,7 @@ public class GadgetMaster extends JFrame {
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 		englischMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("English pressed");
-				// TODO Switch language to English
+				ApplicationMessages.setCurrentLocale(Locale.ENGLISH);
 			}
 		});
 		englischMenuItem.setMnemonic(KeyEvent.VK_I);
@@ -124,6 +123,9 @@ public class GadgetMaster extends JFrame {
 		gadgetTab = (GadgetTab) SpringObjectFactory.createObject(GadgetTab.class, prototypeFactory);
 		ausleihenTab = (AusleihenTab) SpringObjectFactory.createObject(AusleihenTab.class, prototypeFactory);
 
+		ApplicationMessages.addLocaleChangedListener(ausleihenTab);
+		ApplicationMessages.addLocaleChangedListener(gadgetTab);
+		
 		biblioTabbedPane.addTab(ApplicationMessages.getText("master.tab.gadgets"), null, gadgetTab, ApplicationMessages.getText("master.tab.gadgets.tip"));
 		biblioTabbedPane.addTab(ApplicationMessages.getText("master.tab.loans"), null, ausleihenTab, ApplicationMessages.getText("master.tab.loans.tip"));
 		biblioTabbedPane.setMnemonicAt(0, KeyEvent.VK_G);
@@ -132,6 +134,22 @@ public class GadgetMaster extends JFrame {
 
 	public void showGUI() {
 		this.setVisible(true);
+	}
+
+	@Override
+	public void localeChanged() {
+		menuBar.getAccessibleContext().setAccessibleDescription(ApplicationMessages.getText("master.menu.languages.description"));
+		setName(ApplicationMessages.getText("master.title"));
+		setTitle(ApplicationMessages.getText("master.title"));
+		menu.setText(ApplicationMessages.getText("master.menu.languages"));
+		menu.setToolTipText(ApplicationMessages.getText("master.menu.languages.description"));
+		deutschMenuItem.setText(ApplicationMessages.getText("master.menu.languages.deutsch"));
+		spanischMenuItem.setText(ApplicationMessages.getText("master.menu.languages.spanisch"));
+		englischMenuItem.setText(ApplicationMessages.getText("master.menu.languages.englisch"));
+		biblioTabbedPane.setTitleAt(0, ApplicationMessages.getText("master.tab.gadgets"));
+		biblioTabbedPane.setTitleAt(1, ApplicationMessages.getText("master.tab.loans"));
+		biblioTabbedPane.setToolTipTextAt(0, ApplicationMessages.getText("master.tab.gadgets.tip"));
+		biblioTabbedPane.setToolTipTextAt(1, ApplicationMessages.getText("master.tab.loans.tip"));
 	}
 
 }

@@ -35,13 +35,14 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.validation.GadgetValidator;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ErrorMessageResolver;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 
 @Component
 @Lazy
 @Scope("prototype")
-public class GadgetDetail extends JFrame {
+public class GadgetDetail extends JFrame implements LocaleChangedListener {
 
-	private static final long serialVersionUID = -8347490944438461491L;
+	private static final long serialVersionUID = -724944097621117208L;
 
 	private JPanel contentPane;
 	private JPanel detailPanel;
@@ -320,5 +321,24 @@ public class GadgetDetail extends JFrame {
 
 	private JTextField getFieldByName(String name) {
 		return fieldsMap.get(name);
+	}
+
+	@Override
+	public void localeChanged() {
+		if (isNewGadget) {
+			setTitle(ApplicationMessages.getText("gadgetDetail.newTitle"));
+		} else {
+			setTitle(ApplicationMessages.getText("gadgetDetail.changeTitle"));
+		}
+		idLbl.setText(ApplicationMessages.getText("gadgetDetail.idLabel"));
+		nameLbl.setText(ApplicationMessages.getText("gadgetDetail.nameLabel"));
+		herstellerLbl.setText(ApplicationMessages.getText("gadgetDetail.producerNameLabel"));
+		preisLbl.setText(ApplicationMessages.getText("gadgetDetail.priceLabel"));
+		zustandLbl.setText(ApplicationMessages.getText("gadgetDetail.conditionLabel"));
+		abbruchBtn.setText(ApplicationMessages.getText("gadgetDetail.cancelButton"));
+		saveBtn.setText(ApplicationMessages.getText("gadgetDetail.createNewButton"));;
+		if (!isNewGadget) {
+			saveBtn.setText(ApplicationMessages.getText("gadgetDetail.saveChangeButton"));
+		}
 	}
 }

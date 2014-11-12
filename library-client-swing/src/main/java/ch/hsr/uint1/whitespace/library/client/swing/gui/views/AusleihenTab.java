@@ -39,6 +39,7 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.CustomerMasterTableModel;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.KundeAusleiheTableModel;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.ReservationenTableModel;
@@ -46,9 +47,9 @@ import ch.hsr.uint1.whitespace.library.client.swing.gui.models.ReservationenTabl
 @Component
 @Lazy
 @Scope("prototype")
-public class AusleihenTab extends JPanel {
+public class AusleihenTab extends JPanel implements LocaleChangedListener {
 
-	private static final long serialVersionUID = -438582919563580310L;
+	private static final long serialVersionUID = 5511735783162352992L;
 
 	private JTextField suchenTxtEditAusleiheTab;
 	private JPanel kundePanelInAusleiheTab;
@@ -453,5 +454,22 @@ public class AusleihenTab extends JPanel {
 
 	private void hideAusleiheMessage() {
 		lblKeineAusleiheMglich.setVisible(false);
+	}
+
+	@Override
+	public void localeChanged() {
+		suchenTxtEditAusleiheTab.setToolTipText(ApplicationMessages.getText("search.tooltip"));
+		suchenTxtEditAusleiheTab.setText(ApplicationMessages.getText("search.fieldText"));
+		kundeTitledBorder.setTitle(ApplicationMessages.getText("master.loans.customerData"));
+		lblReservationen.setText(ApplicationMessages.getText("master.loans.reservations"));
+		lblNeueReservation.setText(ApplicationMessages.getText("master.loans.reservations.newReservationLabel"));
+		lbREservationId.setText(ApplicationMessages.getText("master.loans.reservations.idLabel"));
+		btnReservation.setText(ApplicationMessages.getText("master.loans.reservations.reservationButton"));
+		lblKeineReservationMglich.setText(ApplicationMessages.getText("master.loans.reservations.NoReservationPossible"));
+		lblAusleihen.setText(ApplicationMessages.getText("master.loans.loansLabel"));
+		lblAusleiheId.setText(ApplicationMessages.getText("master.loans.idLabel"));
+		btnAusleihen.setText(ApplicationMessages.getText("master.loans.loanButton"));
+		lblKeineAusleiheMglich.setText(ApplicationMessages.getText("master.loans.noLoanPossible"));
+		
 	}
 }

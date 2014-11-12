@@ -12,7 +12,7 @@ public class ErrorMessageResolver {
 	private MessageSource messageSource;
 
 	public String getErrorMessage(FieldError fieldError) {
-		return messageSource.getMessage(fieldError, ApplicationMessages.DEFAULT_LOCALE);
+		return messageSource.getMessage(fieldError, ApplicationMessages.getCurrentLocale());
 	}
 
 }

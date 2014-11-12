@@ -31,14 +31,15 @@ import org.springframework.stereotype.Component;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.GadgetsMasterTableModel;
 
 @Component
 @Lazy
 @Scope("prototype")
-public class GadgetTab extends JPanel {
+public class GadgetTab extends JPanel implements LocaleChangedListener {
 
-	private static final long serialVersionUID = 6928043285004270196L;
+	private static final long serialVersionUID = -2216366094301767935L;
 
 	@Autowired
 	private Library library;
@@ -163,7 +164,18 @@ public class GadgetTab extends JPanel {
 
 	private void editGadget(Gadget gadget, boolean isNewGadget) {
 		GadgetDetail detailFrame = (GadgetDetail) SpringObjectFactory.createObject(GadgetDetail.class, prototypeFactory);
+		ApplicationMessages.addLocaleChangedListener(detailFrame);
 		detailFrame.startGUI(gadget, isNewGadget);
+	}
+
+	@Override
+	public void localeChanged() {
+		suchenTxtEditGadgetTab.setToolTipText(ApplicationMessages.getText("search.tooltip"));
+		suchenTxtEditGadgetTab.setText(ApplicationMessages.getText("search.fieldText"));
+		gadgetErfassenBtn.setText(ApplicationMessages.getText("master.gadgets.addGadgetButton"));
+		gadgetErfassenBtn.setToolTipText(ApplicationMessages.getText("master.gadgets.addGadgetButton.tooltip"));
+		gadgetEditBtn.setText(ApplicationMessages.getText("master.gadgets.editGadgetButton"));
+		gadgetEditBtn.setToolTipText(ApplicationMessages.getText("master.gadgets.editGadgetButton.tooltip"));
 	}
 
 }
