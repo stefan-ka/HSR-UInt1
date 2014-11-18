@@ -12,19 +12,18 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 
-public class CustomerMasterTableModel extends AbstractTableModel implements Observer, LocaleChangedListener {
+public class CustomerMasterTableModel extends AbstractTableModel implements Observer {
 
-	private static final long serialVersionUID = 7050477735192801993L;
-	
+	private static final long serialVersionUID = 3833258736173498908L;
+
 	private Library library;
 	private List<Customer> customers;
 
-	private final String[] columns = { "master.loans.jTable.customerId", "master.loans.jTable.customerName", "master.loans.jTable.customerReservations",
+	private static final String[] COLUMNS = { "master.loans.jTable.customerId", "master.loans.jTable.customerName", "master.loans.jTable.customerReservations",
 			"master.loans.jTable.customerLoans", "master.loans.jTable.customerHasOverdues" };
 
-	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, String.class, String.class, Boolean.class };
+	private static final Class<?>[] COLUMN_CLASSES = new Class<?>[] { String.class, String.class, String.class, String.class, Boolean.class };
 
 	public CustomerMasterTableModel(Library library) {
 		this.library = library;
@@ -34,21 +33,23 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 
 	@Override
 	public int getColumnCount() {
-		return columns.length;
+		return COLUMNS.length;
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return ApplicationMessages.getText(columns[columnIndex]);
+		return ApplicationMessages.getText(COLUMNS[columnIndex]);
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return columnClasses[columnIndex];
+		return COLUMN_CLASSES[columnIndex];
 	}
 
 	@Override
 	public int getRowCount() {
+		if (library == null)
+			return 0;
 		return library.getCustomers().size();
 	}
 
@@ -120,10 +121,8 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 		return null;
 	}
 
-	@Override
-	public void localeChanged() {
-		// TODO Auto-generated method stub
-
+	public String[] getColumns() {
+		return COLUMNS;
 	}
 
 }

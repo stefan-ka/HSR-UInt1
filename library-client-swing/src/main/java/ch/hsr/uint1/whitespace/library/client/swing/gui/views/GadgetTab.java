@@ -33,6 +33,7 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.GadgetsMasterTableModel;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.util.JTableHelper;
 
 @Component
 @Lazy
@@ -176,6 +177,8 @@ public class GadgetTab extends JPanel implements LocaleChangedListener {
 		gadgetErfassenBtn.setToolTipText(ApplicationMessages.getText("master.gadgets.addGadgetButton.tooltip"));
 		gadgetEditBtn.setText(ApplicationMessages.getText("master.gadgets.editGadgetButton"));
 		gadgetEditBtn.setToolTipText(ApplicationMessages.getText("master.gadgets.editGadgetButton.tooltip"));
+
+		JTableHelper.updateColumnHeaderText(gadgetsMasterTable.getColumnModel(), gadgetsMasterTableModel.getColumns());
 	}
 
 }

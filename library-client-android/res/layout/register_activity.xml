@@ -29,12 +29,14 @@
             android:id="@+id/name_register_textEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:ems="10"
             android:hint="@string/name_hintText"
             android:inputType="textPersonName" >
 
-            <requestFocus />
+            <requestFocus
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </EditText>
 
         <EditText
@@ -51,12 +53,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:ems="10"
             android:hint="@string/matrikel_nummer_hint"
             android:inputType="number" />
 
         <TextView
-            android:id="@+id/ausleihen_label"
+            android:id="@+id/password_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
@@ -69,24 +70,27 @@
             android:id="@+id/password1_register_textEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="textPassword"
-            android:text="@string/password_label" />
+            android:hint="@string/password_label"
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/password2_register_textEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:ems="10"
-            android:inputType="textPassword"
-            android:text="@string/password_label" />
+            android:hint="@string/password_wiederholen"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/register_button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="@string/register_button" />
+
     </LinearLayout>
 
 </ScrollView>
