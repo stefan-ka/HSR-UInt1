@@ -16,6 +16,9 @@
     <string name="title_activity_register">Register</string>
     <string name="name_hintText">Geben Sie Ihre Name und Vorname ein</string>
     <string name="matrikel_nummer_hint">Geben Sie Ihre Matrikel Nummer ein</string>
-
+    <string name="title_activity_main_view">Ihre Aktuellen Ausleihen</string>
+    <string name="ausleihen_label">Ihre aktuellen Ausleihen</string>
+    <string name="reservationen_label">Ihre aktuellen Reservationen</string>
+   
 
 </resources>
