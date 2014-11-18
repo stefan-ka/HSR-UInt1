@@ -12,20 +12,29 @@ import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 
-public class GadgetsMasterTableModel extends AbstractTableModel implements Observer {
+public class GadgetsMasterTableModel extends AbstractTableModel implements Observer, LocaleChangedListener {
 
 	private static final long serialVersionUID = 7702702384849578628L;
 	private Library library;
 	private List<Gadget> gadgetList;
-	private final String[] columns = { "master.gadgets.jTable.gadgetId", "master.gadgets.jTable.gadgetName", "master.gadgets.jTable.gadgetHersteller",
-			"master.gadgets.jTable.gadgetPreis", "master.gadgets.jTable.gadgetZustand", "master.gadgets.jTable.gadgetVerfügbarAb", "master.gadgets.jTable.gadgetAusgeliehenAn" };
+	// private final String[] columns = { "master.gadgets.jTable.gadgetId",
+	// "master.gadgets.jTable.gadgetName",
+	// "master.gadgets.jTable.gadgetHersteller",
+	// "master.gadgets.jTable.gadgetPreis",
+	// "master.gadgets.jTable.gadgetZustand",
+	// "master.gadgets.jTable.gadgetVerfügbarAb",
+	// "master.gadgets.jTable.gadgetAusgeliehenAn" };
+	private final String[] columns = { ApplicationMessages.getText("ID"), ApplicationMessages.getText("Name"), ApplicationMessages.getText("Hersteller"),
+			ApplicationMessages.getText("Preis"), ApplicationMessages.getText("Zustand"), ApplicationMessages.getText("Verfügbar"), ApplicationMessages.getText("Ausgeliehen") };
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY");
 
 	public GadgetsMasterTableModel(Library library) {
 		this.library = library;
 		gadgetList = library.getGadgets();
+		ApplicationMessages.addLocaleChangedListener(this);
 		library.addObserver(this);
 	}
 
@@ -102,5 +111,9 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 
 	public Gadget getGadgetAt(int index) {
 		return this.gadgetList.get(index);
+	}
+
+	@Override
+	public void localeChanged() {
 	}
 }

@@ -4,9 +4,8 @@ import java.util.UUID;
 
 import ch.hsr.uint1.whitespace.library.client.swing.data.Dto;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListener;
 
-public class Gadget implements Dto<Gadget>, LocaleChangedListener {
+public class Gadget implements Dto<Gadget> {
 
 	public enum Condition {
 		NEW("Neu"), GOOD("Gut"), DAMAGED("Beschädigt"), WASTE("Schlecht"), LOST("Verloren");
@@ -111,10 +110,5 @@ public class Gadget implements Dto<Gadget>, LocaleChangedListener {
 	@Override
 	public String toString() {
 		return this.name;
-	}
-
-	@Override
-	public void localeChanged() {
-
 	}
 }
