@@ -1,11 +1,10 @@
 package ch.hsr.uint1.whitespace.library.client.android.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import ch.hsr.uint1.whitespace.library.client.android.R;
 
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends CommonActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -13,7 +12,5 @@ public class RegisterActivity extends Activity {
 		setContentView(R.layout.register_activity);
 		
 	}
-	
-	
 	
 }
