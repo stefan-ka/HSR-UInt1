@@ -166,5 +166,11 @@ public class Library extends Observable {
 				dataChanged(message);
 			}
 		});
+		libraryData.registerCustomerListener(new CrudListener<Customer>() {
+			@Override
+			public void changed(MessageData message) {
+				dataChanged(message);
+			}
+		});
 	}
 }
