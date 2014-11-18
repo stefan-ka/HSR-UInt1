@@ -119,4 +119,10 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 		return null;
 	}
 
+	@Override
+	public void localeChanged() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

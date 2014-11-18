@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">client-android</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">HSR Gadget Bibliothek</string>
+    <string name="register_activity">Registrierung</string>
     <string name="action_settings">Settings</string>
+    <string name="welcome_label">Willkomen zu HSR Gadget Bibliothek</string>
+    <string name="login_label">Loggen Sie sich mit Ihren Daten ein oder registrieren Sie sich neu</string>
+    <string name="register_label">Geben Sie Ihre Daten ein um einen neuen Account zu registrieren</string>
+    <string name="email_label">E-Mail</string>
+    <string name="password_label">Password</string>
+    <string name="name_label">Name</string>
+    <string name="matrikel_label">Matrikel Nummer</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Registrieren</string>
+    <string name="title_activity_register">Register</string>
+
 
 </resources>

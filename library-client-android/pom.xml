@@ -122,7 +122,7 @@
 				<configuration>
 					<sdk>
 						<!-- platform as api level (api level 14 = platform 4.0) -->
-						<platform>14</platform>
+						<platform>16</platform>
 					</sdk>
 				</configuration>
 			</plugin>
