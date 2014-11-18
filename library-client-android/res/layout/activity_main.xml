@@ -3,6 +3,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.hsr.uint1.whitespace.library.client.android.MainActivity"
+    tools:context="ch.hsr.uint1.whitespace.library.client.android.activities.MainActivity"
     tools:ignore="MergeRootFrame" />
 
