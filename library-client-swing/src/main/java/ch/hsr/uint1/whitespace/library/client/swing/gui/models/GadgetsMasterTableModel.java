@@ -19,15 +19,8 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 	private static final long serialVersionUID = 7702702384849578628L;
 	private Library library;
 	private List<Gadget> gadgetList;
-	// private final String[] columns = { "master.gadgets.jTable.gadgetId",
-	// "master.gadgets.jTable.gadgetName",
-	// "master.gadgets.jTable.gadgetHersteller",
-	// "master.gadgets.jTable.gadgetPreis",
-	// "master.gadgets.jTable.gadgetZustand",
-	// "master.gadgets.jTable.gadgetVerfügbarAb",
-	// "master.gadgets.jTable.gadgetAusgeliehenAn" };
-	private final String[] columns = { ApplicationMessages.getText("ID"), ApplicationMessages.getText("Name"), ApplicationMessages.getText("Hersteller"),
-			ApplicationMessages.getText("Preis"), ApplicationMessages.getText("Zustand"), ApplicationMessages.getText("Verfügbar"), ApplicationMessages.getText("Ausgeliehen") };
+	private final String[] columns = { "master.gadgets.jTable.gadgetId", "master.gadgets.jTable.gadgetName", "master.gadgets.jTable.gadgetHersteller",
+			"master.gadgets.jTable.gadgetPreis", "master.gadgets.jTable.gadgetZustand", "master.gadgets.jTable.gadgetVerfügbarAb", "master.gadgets.jTable.gadgetAusgeliehenAn" };
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY");
 
