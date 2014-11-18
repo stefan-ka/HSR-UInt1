@@ -9,10 +9,7 @@ import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListen
 public class Gadget implements Dto<Gadget>, LocaleChangedListener {
 
 	public enum Condition {
-		// NEW("Neu"), GOOD("Gut"), DAMAGED("Beschädigt"), WASTE("Schlecht"),
-		// LOST("Verloren");
-		NEW(ApplicationMessages.getText("gadget.zustand.neu")), GOOD(ApplicationMessages.getText("gadget.zustand.gut")), DAMAGED(ApplicationMessages
-				.getText("gadget.zustand.beschaedigt")), WASTE(ApplicationMessages.getText("gadget.zustand.schlecht")), LOST(ApplicationMessages.getText("gadget.zustand.verloren"));
+		NEW("Neu"), GOOD("Gut"), DAMAGED("Beschädigt"), WASTE("Schlecht"), LOST("Verloren");
 
 		private final String text;
 
@@ -22,7 +19,7 @@ public class Gadget implements Dto<Gadget>, LocaleChangedListener {
 
 		@Override
 		public String toString() {
-			return text;
+			return ApplicationMessages.getText(text);
 		}
 	}
 
