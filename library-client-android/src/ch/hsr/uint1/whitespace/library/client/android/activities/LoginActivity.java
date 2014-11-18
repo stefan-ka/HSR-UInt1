@@ -1,11 +1,11 @@
 package ch.hsr.uint1.whitespace.library.client.android.activities;
-import android.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import ch.hsr.uint1.whitespace.library.client.android.R;
 
 public class LoginActivity extends Activity {
 
