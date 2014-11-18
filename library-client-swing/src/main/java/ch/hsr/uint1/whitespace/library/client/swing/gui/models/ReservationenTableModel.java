@@ -16,11 +16,12 @@ import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages
 
 public class ReservationenTableModel extends AbstractTableModel implements Observer {
 
-	private static final long serialVersionUID = 5922343552351790810L;
-	private final String[] columns = { "reservations.table.gadgetName", "reservations.table.waitingList", "reservations.table.darfAusleihen", "reservations.table.delete" };
+	private static final long serialVersionUID = 8691397583313500085L;
+
+	private static final String[] COLUMNS = { "reservations.table.gadgetName", "reservations.table.waitingList", "reservations.table.darfAusleihen", "reservations.table.delete" };
 	private Library library;
 	private List<Reservation> reservations = new ArrayList<>();
-	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, String.class, String.class };
+	private static final Class<?>[] COLUMN_CLASSES = new Class<?>[] { String.class, String.class, String.class, String.class };
 
 	private Customer selectedCustomer;
 
@@ -32,22 +33,24 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 
 	@Override
 	public int getColumnCount() {
-		return columns.length;
+		return COLUMNS.length;
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return ApplicationMessages.getText(columns[columnIndex]);
+		return ApplicationMessages.getText(COLUMNS[columnIndex]);
 	}
 
 	@Override
 	public int getRowCount() {
+		if (reservations == null)
+			return 0;
 		return reservations.size();
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return columnClasses[columnIndex];
+		return COLUMN_CLASSES[columnIndex];
 	}
 
 	@Override
@@ -82,7 +85,7 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 		case 3:
 			return true;
 		default:
-			return super.isCellEditable(rowIndex, columnIndex);
+			return false;
 		}
 	}
 
@@ -116,6 +119,10 @@ public class ReservationenTableModel extends AbstractTableModel implements Obser
 
 	public Reservation getReservationAt(int index) {
 		return this.reservations.get(index);
+	}
+	
+	public String[] getColumns() {
+		return COLUMNS;
 	}
 
 }

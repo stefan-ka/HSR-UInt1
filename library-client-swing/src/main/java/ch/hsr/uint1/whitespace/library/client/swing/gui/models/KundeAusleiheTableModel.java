@@ -18,13 +18,14 @@ import ch.hsr.uint1.whitespace.library.client.swing.gui.views.ButtonColumn;
 
 public class KundeAusleiheTableModel extends AbstractTableModel implements Observer {
 
-	private static final long serialVersionUID = 5188709439526606073L;
-	private final String[] columns = { "reservations.table.gadgetName", "ausleihenTable.ausgeliehenAm", "ausleihenTable.zueruckBis", "ausleihenTable.faellig",
+	private static final long serialVersionUID = -8955101395555275350L;
+
+	private static final String[] COLUMNS = { "reservations.table.gadgetName", "ausleihenTable.ausgeliehenAm", "ausleihenTable.zueruckBis", "ausleihenTable.faellig",
 			"ausleihenTable.reserviert", "ausleihenTable.ruecknahme" };
 
 	private Library library;
 	private List<Loan> loans;
-	private final Class<?>[] columnClasses = new Class<?>[] { String.class, String.class, String.class, Boolean.class, Boolean.class, ButtonColumn.class };
+	private static final Class<?>[] COLUMN_CLASSES = new Class<?>[] { String.class, String.class, String.class, Boolean.class, Boolean.class, ButtonColumn.class };
 	private SimpleDateFormat sd;
 
 	private Customer selectedCustomer;
@@ -38,22 +39,24 @@ public class KundeAusleiheTableModel extends AbstractTableModel implements Obser
 
 	@Override
 	public int getColumnCount() {
-		return columns.length;
+		return COLUMNS.length;
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return ApplicationMessages.getText(columns[columnIndex]);
+		return ApplicationMessages.getText(COLUMNS[columnIndex]);
 	}
 
 	@Override
 	public int getRowCount() {
+		if (loans == null)
+			return 0;
 		return loans.size();
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return columnClasses[columnIndex];
+		return COLUMN_CLASSES[columnIndex];
 	}
 
 	@Override
@@ -83,7 +86,7 @@ public class KundeAusleiheTableModel extends AbstractTableModel implements Obser
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		if (columnIndex == 5)
 			return true;
-		return super.isCellEditable(rowIndex, columnIndex);
+		return false;
 	}
 
 	@Override
@@ -117,5 +120,8 @@ public class KundeAusleiheTableModel extends AbstractTableModel implements Obser
 	public Loan getLoanAt(int index) {
 		return this.loans.get(index);
 	}
-
+	
+	public String[] getColumns() {
+		return COLUMNS;
+	}
 }

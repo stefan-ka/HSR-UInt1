@@ -15,10 +15,11 @@ import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages
 
 public class GadgetsMasterTableModel extends AbstractTableModel implements Observer {
 
-	private static final long serialVersionUID = 7702702384849578628L;
+	private static final long serialVersionUID = -2835644537611279457L;
+
 	private Library library;
 	private List<Gadget> gadgetList;
-	private final String[] columns = { "master.gadgets.jTable.gadgetId", "master.gadgets.jTable.gadgetName", "master.gadgets.jTable.gadgetHersteller",
+	private static final String[] COLUMNS = { "master.gadgets.jTable.gadgetId", "master.gadgets.jTable.gadgetName", "master.gadgets.jTable.gadgetHersteller",
 			"master.gadgets.jTable.gadgetPreis", "master.gadgets.jTable.gadgetZustand", "master.gadgets.jTable.gadgetVerfügbarAb", "master.gadgets.jTable.gadgetAusgeliehenAn" };
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY");
@@ -31,17 +32,19 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 
 	@Override
 	public int getRowCount() {
+		if (library == null)
+			return 0;
 		return library.getGadgets().size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return columns.length;
+		return COLUMNS.length;
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return ApplicationMessages.getText(columns[columnIndex]);
+		return ApplicationMessages.getText(COLUMNS[columnIndex]);
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 		case 3:
 			return new Double(localGadget.getPrice()).toString();
 		case 4:
-			return localGadget.getCondition().toString();
+			return ApplicationMessages.getText(localGadget.getCondition().toString());
 		case 5:
 			return getDisponibility(library.getLoansFor(localGadget, true));
 		case 6:
@@ -103,4 +106,9 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 	public Gadget getGadgetAt(int index) {
 		return this.gadgetList.get(index);
 	}
+	
+	public String[] getColumns() {
+		return COLUMNS;
+	}
+
 }

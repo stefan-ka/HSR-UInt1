@@ -43,6 +43,7 @@ import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.LocaleChangedListen
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.CustomerMasterTableModel;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.KundeAusleiheTableModel;
 import ch.hsr.uint1.whitespace.library.client.swing.gui.models.ReservationenTableModel;
+import ch.hsr.uint1.whitespace.library.client.swing.gui.util.JTableHelper;
 
 @Component
 @Lazy
@@ -471,5 +472,8 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		btnAusleihen.setText(ApplicationMessages.getText("master.loans.loanButton"));
 		lblKeineAusleiheMglich.setText(ApplicationMessages.getText("master.loans.noLoanPossible"));
 		
+		JTableHelper.updateColumnHeaderText(ausleiheTable.getColumnModel(), ausleiheTableModel.getColumns());
+		JTableHelper.updateColumnHeaderText(kundeAusleiheTable.getColumnModel(), kundeAusleiheModel.getColumns());
+		JTableHelper.updateColumnHeaderText(reservationenTable.getColumnModel(), reservationenTableModel.getColumns());
 	}
 }
