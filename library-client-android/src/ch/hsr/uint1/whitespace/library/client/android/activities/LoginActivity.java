@@ -17,4 +17,9 @@ public class LoginActivity extends CommonActivity {
 		startActivity(intent);
     }
 
+    public void createMainViewActivity(View view) {
+    		Intent intent = new Intent(this, MainViewActivity.class);
+    		startActivity(intent);
+        }
+    
 }
