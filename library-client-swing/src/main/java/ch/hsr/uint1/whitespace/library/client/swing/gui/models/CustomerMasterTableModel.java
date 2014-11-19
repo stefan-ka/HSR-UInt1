@@ -50,7 +50,7 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 	public int getRowCount() {
 		if (library == null)
 			return 0;
-		return library.getCustomers().size();
+		return customers.size();
 	}
 
 	@Override
@@ -111,7 +111,11 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 		}
 		if (customer != null) {
 			int pos = library.getCustomers().indexOf(customer);
-			fireTableRowsUpdated(pos, pos);
+			if (pos < customers.size()) {
+				fireTableRowsInserted(pos, pos);
+			} else {
+				fireTableRowsUpdated(pos, pos);
+			}
 		}
 	}
 
