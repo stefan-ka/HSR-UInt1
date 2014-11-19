@@ -33,10 +33,26 @@
         <activity
             android:name="ch.hsr.uint1.whitespace.library.client.android.activities.MainViewActivity"
             android:label="@string/title_activity_main_view"
-            android:parentActivityName=".activities.CommonActivity" >
+            android:parentActivityName=".activities.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.hsr.uint1.whitespace.library.client.android.activities.CommonActivity" />
+                android:value="ch.hsr.uint1.whitespace.library.client.android.activities.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ListViewActivity"
+            android:label="@string/listview_activity"
+            android:parentActivityName=".activities.RegisterActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.hsr.uint1.whitespace.library.client.android.activities.RegisterActivity" />
+        </activity>
+        <activity
+            android:name=".activities.DisplayListItemActivity"
+            android:label="@string/display_list_item_activity"
+            android:parentActivityName=".activities.ListViewActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.hsr.uint1.whitespace.library.client.android.activities.ListViewActivity" />
         </activity>
     </application>
 

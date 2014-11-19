@@ -20,6 +20,11 @@
     <string name="ausleihen_label">Ihre aktuellen Ausleihen</string>
     <string name="reservationen_label">Ihre aktuellen Reservationen</string>
     <string name="password_wiederholen">Passwort wiederholen</string>
-   
+    <string name="due_date">Due Date</string>
+    <string name="description">Description</string>
+     <string name="display_list_item_activity">Item Detail</string>
+     <string name="TODO">TODO</string>
+     <string name="gadget_name">Gadget Name</string>
+     <string name="listview_activity">List View</string>
 
 </resources>
