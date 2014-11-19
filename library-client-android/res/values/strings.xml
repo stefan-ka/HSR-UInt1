@@ -7,8 +7,8 @@
     <string name="welcome_label">Willkomen zu HSR Gadget Bibliothek</string>
     <string name="login_label">Loggen Sie sich mit Ihren Daten ein oder registrieren Sie sich neu</string>
     <string name="register_label">Geben Sie Ihre Daten ein um einen neuen Account zu registrieren</string>
-    <string name="email_label">E-Mail</string>
-    <string name="password_label">Password</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Passwort</string>
     <string name="name_label">Name</string>
     <string name="matrikel_label">Matrikel Nummer</string>
     <string name="login_button">Login</string>
@@ -29,5 +29,10 @@
     <string name="password_mismatch">Die Passwörter stimmen nicht überein!</string>
     <string name="registration_successfull">Die Registration war erfolgreich. Sie können sich nun einloggen.</string>
     <string name="registration_not_successfull">Die Registration konnte nicht abgeschlossen werden.</string>
+    <string name="title_activity_main_view">Ihre Aktuellen Ausleihen</string>
+    <string name="ausleihen_label">Ihre aktuellen Ausleihen</string>
+    <string name="reservationen_label">Ihre aktuellen Reservationen</string>
+    <string name="password_wiederholen">Passwort wiederholen</string>
 
 </resources>
+  
