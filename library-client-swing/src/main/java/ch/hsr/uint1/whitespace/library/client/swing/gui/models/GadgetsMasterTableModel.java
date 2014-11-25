@@ -94,8 +94,8 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 		MessageData data = (MessageData) arg;
 		if (data.getData() instanceof Gadget) {
 			Gadget gadget = (Gadget) data.getData();
-			int pos = library.getGadgets().indexOf(gadget);
-			if (pos < gadgetList.size()) {
+			int pos = gadgetList.indexOf(gadget);
+			if (pos < library.getGadgets().size()) {
 				fireTableRowsInserted(pos, pos);
 			} else {
 				fireTableRowsUpdated(pos, pos);
@@ -106,7 +106,7 @@ public class GadgetsMasterTableModel extends AbstractTableModel implements Obser
 	public Gadget getGadgetAt(int index) {
 		return this.gadgetList.get(index);
 	}
-	
+
 	public String[] getColumns() {
 		return COLUMNS;
 	}

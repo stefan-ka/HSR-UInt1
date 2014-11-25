@@ -1,5 +1,6 @@
 package ch.hsr.uint1.whitespace.library.client.swing.gui.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,7 +28,7 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 
 	public CustomerMasterTableModel(Library library) {
 		this.library = library;
-		customers = library.getCustomers();
+		loadCustomers();
 		library.addObserver(this);
 	}
 
@@ -110,8 +111,9 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 			customer = library.getCustomer(loan.getCustomerId());
 		}
 		if (customer != null) {
-			int pos = library.getCustomers().indexOf(customer);
-			if (pos < customers.size()) {
+			int pos = customers.indexOf(customer);
+			loadCustomers();
+			if (pos > customers.size()) {
 				fireTableRowsInserted(pos, pos);
 			} else {
 				fireTableRowsUpdated(pos, pos);
@@ -127,6 +129,10 @@ public class CustomerMasterTableModel extends AbstractTableModel implements Obse
 
 	public String[] getColumns() {
 		return COLUMNS;
+	}
+
+	private void loadCustomers() {
+		customers = new ArrayList<Customer>(library.getCustomers());
 	}
 
 }
