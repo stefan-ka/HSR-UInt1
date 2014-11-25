@@ -417,6 +417,7 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 	}
 
 	private void doAusleihe(String gadgetId) {
+		hideAusleiheMessage();
 		Gadget gadget = library.getGadget(gadgetId);
 		if (gadget == null) {
 			showAusleiheMessage(ApplicationMessages.getText("reservations.message.gagdetWithIdNotExist"));
