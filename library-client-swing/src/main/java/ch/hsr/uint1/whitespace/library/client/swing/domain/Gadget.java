@@ -3,7 +3,6 @@ package ch.hsr.uint1.whitespace.library.client.swing.domain;
 import java.util.UUID;
 
 import ch.hsr.uint1.whitespace.library.client.swing.data.Dto;
-import ch.hsr.uint1.whitespace.library.client.swing.gui.i18n.ApplicationMessages;
 
 public class Gadget implements Dto<Gadget> {
 
@@ -18,7 +17,7 @@ public class Gadget implements Dto<Gadget> {
 
 		@Override
 		public String toString() {
-			return ApplicationMessages.getText(text);
+			return text;
 		}
 	}
 

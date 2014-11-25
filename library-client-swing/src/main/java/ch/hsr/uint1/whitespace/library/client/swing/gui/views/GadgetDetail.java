@@ -205,6 +205,7 @@ public class GadgetDetail extends JFrame implements LocaleChangedListener {
 
 		zustandComboBox = new JComboBox<Gadget.Condition>();
 		zustandComboBox.setModel(new DefaultComboBoxModel<Gadget.Condition>(Gadget.Condition.values()));
+		zustandComboBox.setRenderer(new GadgetConditionComboRenderer());
 		final GridBagConstraints gbc_zustandComboBox = new GridBagConstraints();
 		gbc_zustandComboBox.gridwidth = 3;
 		gbc_zustandComboBox.insets = new Insets(5, 0, 5, 0);
@@ -336,7 +337,8 @@ public class GadgetDetail extends JFrame implements LocaleChangedListener {
 		preisLbl.setText(ApplicationMessages.getText("gadgetDetail.priceLabel"));
 		zustandLbl.setText(ApplicationMessages.getText("gadgetDetail.conditionLabel"));
 		abbruchBtn.setText(ApplicationMessages.getText("gadgetDetail.cancelButton"));
-		saveBtn.setText(ApplicationMessages.getText("gadgetDetail.createNewButton"));;
+		saveBtn.setText(ApplicationMessages.getText("gadgetDetail.createNewButton"));
+		;
 		if (!isNewGadget) {
 			saveBtn.setText(ApplicationMessages.getText("gadgetDetail.saveChangeButton"));
 		}
