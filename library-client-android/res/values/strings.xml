@@ -39,6 +39,12 @@
      <string name="TODO">TODO</string>
      <string name="gadget_name">Gadget Name</string>
      <string name="listview_activity">List View</string>
+     <string name="aktuellen_ausleihen">Ihren aktuellen Ausleihen</string>
+     <string name="reservationen_loeschen">Reservationen löschen</string>
+     <string name="reservieren">Reservieren</string>
+     <string name="logout">Logout</string>
+     <string name="ausgeliehen_bis">Ausgeliehen bis</string>
+     <string name="rueckgabe_datum">Rückgabe Datum</string>
 
 </resources>
   

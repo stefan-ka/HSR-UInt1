@@ -55,18 +55,15 @@ public class LoginActivity extends CommonActivity {
 
 		@Override
 		public void onValidationSucceeded() {
-			LibraryService.login(emailField.getText().toString(), passwordField
-					.getText().toString(), new Callback<Boolean>() {
+			LibraryService.login(emailField.getText().toString(), passwordField.getText().toString(), new Callback<Boolean>() {
 				@Override
 				public void notfiy(Boolean success) {
-					if (success)
-						Toast.makeText(context,
-								R.string.login_message_successfull,
-								Toast.LENGTH_LONG).show();
-					else
-						Toast.makeText(context,
-								R.string.login_message_not_successfull,
-								Toast.LENGTH_SHORT).show();
+					if (success) {
+						Toast.makeText(context, R.string.login_message_successfull, Toast.LENGTH_LONG).show();
+						startActivity(new Intent(context, MainViewActivity.class));
+					} else {
+						Toast.makeText(context, R.string.login_message_not_successfull, Toast.LENGTH_SHORT).show();
+					}
 				}
 			});
 		}
