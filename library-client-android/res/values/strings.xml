@@ -45,6 +45,9 @@
      <string name="logout">Logout</string>
      <string name="ausgeliehen_bis">Ausgeliehen bis</string>
      <string name="rueckgabe_datum">Rückgabe Datum</string>
+     <string name="reservation_loeschen">Reservation löschen</string>
+     <string name="reservation_erfassen">Reservation erfassen</string>
+     <string name="selektierte_reservieren">Selektierte reservieren</string>
 
 </resources>
   
