@@ -15,23 +15,9 @@
         android:src="@drawable/ic_action_gadget" />
 
     <TextView
-        android:id="@+id/item_secondLine"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_toEndOf="@id/icon"
-        android:layout_toRightOf="@id/icon"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="@string/description"
-        android:textSize="12sp" />
-
-    <TextView
+        android:id="@+id/gadget_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/item_secondLine"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -41,5 +27,21 @@
         android:gravity="center_vertical"
         android:text="@string/gadget_name"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/date_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/gadget_name"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/icon"
+        android:layout_toRightOf="@id/icon"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="@string/description"
+        android:textSize="12sp" />
 
 </RelativeLayout>

@@ -10,13 +10,13 @@
     android:orientation="vertical" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         android:text="@string/reservation_erfassen"
-       android:textAppearance="?android:attr/textAppearanceMedium"  />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView
         android:id="@+id/listView_reservieren_tab"
@@ -27,8 +27,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="2dp"
-        android:layout_weight="0.69" >
+        android:layout_marginTop="2dp" >
 
     </ListView>
 
@@ -39,8 +38,6 @@
         android:layout_marginEnd="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="2dp"
-        android:layout_weight="0.89"
         android:text="@string/selektierte_reservieren" />
 
 </LinearLayout>

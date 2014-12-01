@@ -22,7 +22,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 			return new ReservationenFragment();
 		case 2:
 			// Reservieren activity
-			return new ReservierenActivity();
+			return new ReservierenFragment();
 		}
 
 		return null;

@@ -9,6 +9,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.widget.ArrayAdapter;
 import ch.hsr.uint1.whitespace.library.client.android.R;
 import ch.hsr.uint1.whitespace.library.client.android.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.android.domain.Reservation;
@@ -25,6 +26,7 @@ public class MainViewActivity extends FragmentActivity implements TabListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainview_activity);
+
 		viewPager = (ViewPager) findViewById(R.id.pager); // Can not be injected, Activity doesn't start
 		actionBar = getActionBar();
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
@@ -80,13 +82,11 @@ public class MainViewActivity extends FragmentActivity implements TabListener {
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
+		viewPager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

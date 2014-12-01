@@ -61,6 +61,11 @@
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="5dp"
             android:onClick="createMainViewActivity"
             android:text="@string/login_button" />
@@ -69,6 +74,11 @@
             android:id="@+id/register_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="5dp"
             android:onClick="createRegisterActivity"
             android:text="@string/register_button" />
