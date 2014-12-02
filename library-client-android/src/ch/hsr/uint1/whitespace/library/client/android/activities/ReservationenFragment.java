@@ -46,7 +46,6 @@ public class ReservationenFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		View rootView = inflater.inflate(R.layout.fragment_reservationen, container, false);
-
 		reservationAdapter = new ReservationAdapter(container.getContext(), R.layout.list_item, new ArrayList<Reservation>());
 		listview = (ListView) rootView.findViewById(R.id.listView_reservieren_tab);
 		listview.setAdapter(reservationAdapter);

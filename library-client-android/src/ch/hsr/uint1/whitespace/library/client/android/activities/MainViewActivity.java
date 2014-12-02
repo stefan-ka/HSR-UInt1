@@ -1,6 +1,5 @@
 package ch.hsr.uint1.whitespace.library.client.android.activities;
 
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -8,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import ch.hsr.uint1.whitespace.library.client.android.R;
 
 public class MainViewActivity extends FragmentActivity implements TabListener {
@@ -27,7 +27,6 @@ public class MainViewActivity extends FragmentActivity implements TabListener {
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
 		for (String tab_name : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
 		}

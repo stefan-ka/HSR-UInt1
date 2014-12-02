@@ -35,7 +35,6 @@
         </activity>
         <activity
             android:name="ch.hsr.uint1.whitespace.library.client.android.activities.MainViewActivity"
-            android:label="@string/title_activity_main_view"
             android:parentActivityName=".activities.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
