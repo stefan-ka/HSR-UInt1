@@ -338,7 +338,6 @@ public class GadgetDetail extends JFrame implements LocaleChangedListener {
 		zustandLbl.setText(ApplicationMessages.getText("gadgetDetail.conditionLabel"));
 		abbruchBtn.setText(ApplicationMessages.getText("gadgetDetail.cancelButton"));
 		saveBtn.setText(ApplicationMessages.getText("gadgetDetail.createNewButton"));
-		;
 		if (!isNewGadget) {
 			saveBtn.setText(ApplicationMessages.getText("gadgetDetail.saveChangeButton"));
 		}

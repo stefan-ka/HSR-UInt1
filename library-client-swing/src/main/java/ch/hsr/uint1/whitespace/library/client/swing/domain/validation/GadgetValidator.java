@@ -1,14 +1,19 @@
 package ch.hsr.uint1.whitespace.library.client.swing.domain.validation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import ch.hsr.uint1.whitespace.library.client.swing.domain.Gadget;
+import ch.hsr.uint1.whitespace.library.client.swing.domain.Library;
 
 @Component
 public class GadgetValidator implements Validator {
+
+	@Autowired
+	private Library library;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -26,6 +31,15 @@ public class GadgetValidator implements Validator {
 		}
 		if (gadget.getPrice() == 0.00) {
 			errors.rejectValue("price", "gadget.price.notNull");
+		}
+		for (Gadget otherGadget : library.getGadgets()) {
+			if (gadget.getInventoryNumber().equals(otherGadget.getInventoryNumber())) {
+				continue;
+			}
+			if (gadget.getName().equals(otherGadget.getName())) {
+				errors.rejectValue("name", "gadget.name.alreadyexists");
+				break;
+			}
 		}
 	}
 

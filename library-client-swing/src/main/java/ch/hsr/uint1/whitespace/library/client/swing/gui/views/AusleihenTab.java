@@ -62,19 +62,20 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 	private JScrollPane kundeReservationScrollPane;
 	private JScrollPane ausleiheScrollPane;
 	private JScrollPane kundeAusleiheScrollPane;
+	private JTable customerTable;
 	private JTable ausleiheTable;
-	private JTable kundeAusleiheTable;
 	private JTable reservationenTable;
 	private JLabel lblKeineReservationMglich;
 	private JLabel lblAusleihen;
-	private JTextField idLoanTxtField;
+	private JTextField nameLoanTxtField;
 	private JLabel lblKeineAusleiheMglich;
-	private JLabel lbREservationId;
-	private JLabel lblAusleiheId;
-	private JTextField idReservationTxtField;
-	private CustomerMasterTableModel ausleiheTableModel;
+	private JLabel lbReservationName;
+	private JLabel lblAusleiheName;
+	private JLabel lblNeueAusleihe;
+	private JTextField nameReservationTxtField;
+	private CustomerMasterTableModel customerTableModel;
 	private ReservationenTableModel reservationenTableModel;
-	private KundeAusleiheTableModel kundeAusleiheModel;
+	private KundeAusleiheTableModel ausleiheTableModel;
 	private TableRowSorter<TableModel> customerSorter;
 	private TitledBorder kundeTitledBorder;
 	private Customer selectedCustomer;
@@ -166,7 +167,7 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		GridBagConstraints gbc_lblReservationen = new GridBagConstraints();
 		gbc_lblReservationen.gridwidth = 4;
 		gbc_lblReservationen.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblReservationen.insets = new Insets(0, 3, 1, 5);
+		gbc_lblReservationen.insets = new Insets(0, 3, 5, 5);
 		gbc_lblReservationen.gridx = 0;
 		gbc_lblReservationen.gridy = 0;
 		kundePanelInAusleiheTab.add(lblReservationen, gbc_lblReservationen);
@@ -175,7 +176,7 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		GridBagConstraints gbc_kundeReservationScrollPane = new GridBagConstraints();
 		gbc_kundeReservationScrollPane.fill = GridBagConstraints.BOTH;
 		gbc_kundeReservationScrollPane.gridwidth = 5;
-		gbc_kundeReservationScrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_kundeReservationScrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_kundeReservationScrollPane.gridx = 0;
 		gbc_kundeReservationScrollPane.gridy = 1;
 		kundePanelInAusleiheTab.add(kundeReservationScrollPane, gbc_kundeReservationScrollPane);
@@ -196,23 +197,23 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		gbc_lblNeueReservation.gridy = 2;
 		kundePanelInAusleiheTab.add(lblNeueReservation, gbc_lblNeueReservation);
 
-		lbREservationId = new JLabel(ApplicationMessages.getText("master.loans.reservations.idLabel"));
+		lbReservationName = new JLabel(ApplicationMessages.getText("master.loans.reservations.nameLabel"));
 		GridBagConstraints gbc_lbREservationId = new GridBagConstraints();
 		gbc_lbREservationId.insets = new Insets(0, 0, 5, 5);
 		gbc_lbREservationId.anchor = GridBagConstraints.EAST;
 		gbc_lbREservationId.gridx = 0;
 		gbc_lbREservationId.gridy = 3;
-		kundePanelInAusleiheTab.add(lbREservationId, gbc_lbREservationId);
+		kundePanelInAusleiheTab.add(lbReservationName, gbc_lbREservationId);
 
-		idReservationTxtField = new JTextField();
+		nameReservationTxtField = new JTextField();
 		GridBagConstraints gbc_idReservationTxtField = new GridBagConstraints();
 		gbc_idReservationTxtField.gridwidth = 3;
 		gbc_idReservationTxtField.insets = new Insets(0, 0, 5, 5);
 		gbc_idReservationTxtField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_idReservationTxtField.gridx = 1;
 		gbc_idReservationTxtField.gridy = 3;
-		kundePanelInAusleiheTab.add(idReservationTxtField, gbc_idReservationTxtField);
-		idReservationTxtField.setColumns(10);
+		kundePanelInAusleiheTab.add(nameReservationTxtField, gbc_idReservationTxtField);
+		nameReservationTxtField.setColumns(10);
 
 		btnReservation = new JButton(ApplicationMessages.getText("master.loans.reservations.reservationButton"));
 		GridBagConstraints gbc_btnReservation = new GridBagConstraints();
@@ -224,8 +225,8 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		btnReservation.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				doReservation(idReservationTxtField.getText());
-				idReservationTxtField.setText("");
+				doReservation(nameReservationTxtField.getText());
+				nameReservationTxtField.setText("");
 			}
 		});
 
@@ -252,46 +253,53 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		GridBagConstraints gbc_kundeAusleiheScrollPane = new GridBagConstraints();
 		gbc_kundeAusleiheScrollPane.fill = GridBagConstraints.BOTH;
 		gbc_kundeAusleiheScrollPane.gridwidth = 5;
-		gbc_kundeAusleiheScrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_kundeAusleiheScrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_kundeAusleiheScrollPane.gridx = 0;
 		gbc_kundeAusleiheScrollPane.gridy = 6;
 		kundePanelInAusleiheTab.add(kundeAusleiheScrollPane, gbc_kundeAusleiheScrollPane);
 
-		kundeAusleiheTable = new JTable();
-		kundeAusleiheTable.setFillsViewportHeight(true);
-		kundeAusleiheScrollPane.setViewportView(kundeAusleiheTable);
+		ausleiheTable = new JTable();
+		ausleiheTable.setFillsViewportHeight(true);
+		kundeAusleiheScrollPane.setViewportView(ausleiheTable);
 
-		lblAusleiheId = new JLabel(ApplicationMessages.getText("master.loans.idLabel"));
+		lblNeueAusleihe = new JLabel(ApplicationMessages.getText("master.loans.newLoan"));
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.insets = new Insets(0, 0, 5, 0);
+		gbc_label.gridx = 0;
+		gbc_label.gridy = 7;
+		kundePanelInAusleiheTab.add(lblNeueAusleihe, gbc_label);
+
+		lblAusleiheName = new JLabel(ApplicationMessages.getText("master.loans.nameLabel"));
 		GridBagConstraints gbc_lblAusleiheId = new GridBagConstraints();
 		gbc_lblAusleiheId.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAusleiheId.anchor = GridBagConstraints.EAST;
 		gbc_lblAusleiheId.gridx = 0;
-		gbc_lblAusleiheId.gridy = 7;
-		kundePanelInAusleiheTab.add(lblAusleiheId, gbc_lblAusleiheId);
+		gbc_lblAusleiheId.gridy = 8;
+		kundePanelInAusleiheTab.add(lblAusleiheName, gbc_lblAusleiheId);
 
-		idLoanTxtField = new JTextField();
+		nameLoanTxtField = new JTextField();
 		GridBagConstraints gbc_textField1 = new GridBagConstraints();
 		gbc_textField1.gridwidth = 3;
 		gbc_textField1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField1.gridx = 1;
-		gbc_textField1.gridy = 7;
-		kundePanelInAusleiheTab.add(idLoanTxtField, gbc_textField1);
-		idLoanTxtField.setColumns(10);
+		gbc_textField1.gridy = 8;
+		kundePanelInAusleiheTab.add(nameLoanTxtField, gbc_textField1);
+		nameLoanTxtField.setColumns(10);
 
 		btnAusleihen = new JButton(ApplicationMessages.getText("master.loans.loanButton"));
 		btnAusleihen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				doAusleihe(idLoanTxtField.getText());
-				idLoanTxtField.setText("");
+				doAusleihe(nameLoanTxtField.getText());
+				nameLoanTxtField.setText("");
 			}
 		});
 		GridBagConstraints gbc_btnAusleihen = new GridBagConstraints();
 		gbc_btnAusleihen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnAusleihen.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAusleihen.gridx = 4;
-		gbc_btnAusleihen.gridy = 7;
+		gbc_btnAusleihen.gridy = 8;
 		kundePanelInAusleiheTab.add(btnAusleihen, gbc_btnAusleihen);
 
 		lblKeineAusleiheMglich = new JLabel(ApplicationMessages.getText("master.loans.noLoanPossible"));
@@ -301,7 +309,7 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		gbc_lblKeineAusleiheMglich.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblKeineAusleiheMglich.insets = new Insets(0, 0, 0, 5);
 		gbc_lblKeineAusleiheMglich.gridx = 1;
-		gbc_lblKeineAusleiheMglich.gridy = 8;
+		gbc_lblKeineAusleiheMglich.gridy = 9;
 		kundePanelInAusleiheTab.add(lblKeineAusleiheMglich, gbc_lblKeineAusleiheMglich);
 
 		ausleiheScrollPane = new JScrollPane();
@@ -312,14 +320,14 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		gbc_ausleiheScrollPane.gridy = 1;
 		add(ausleiheScrollPane, gbc_ausleiheScrollPane);
 
-		ausleiheTable = new JTable();
-		ausleiheTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		ausleiheScrollPane.setViewportView(ausleiheTable);
-		ausleiheTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		customerTable = new JTable();
+		customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		ausleiheScrollPane.setViewportView(customerTable);
+		customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if (ausleiheTable.getSelectedRow() > -1) {
-					selectedCustomer = ausleiheTableModel.getCustomerAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
+				if (customerTable.getSelectedRow() > -1) {
+					selectedCustomer = customerTableModel.getCustomerAt(customerTable.convertRowIndexToModel(customerTable.getSelectedRow()));
 				} else {
 					selectedCustomer = null;
 				}
@@ -331,15 +339,16 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 	@SuppressWarnings("serial")
 	@PostConstruct
 	private void initialize() {
-		ausleiheTableModel = new CustomerMasterTableModel(library);
-		ausleiheTable.setModel(ausleiheTableModel);
+		customerTableModel = new CustomerMasterTableModel(library);
+		customerTable.setModel(customerTableModel);
 		reservationenTableModel = new ReservationenTableModel(library);
 		reservationenTable.setModel(reservationenTableModel);
-		kundeAusleiheModel = new KundeAusleiheTableModel(library);
-		kundeAusleiheTable.setModel(kundeAusleiheModel);
-		ausleiheTable.setAutoCreateRowSorter(true);
-		customerSorter = new TableRowSorter<TableModel>(ausleiheTableModel);
-		ausleiheTable.setRowSorter(customerSorter);
+		ausleiheTableModel = new KundeAusleiheTableModel(library);
+		ausleiheTable.setModel(ausleiheTableModel);
+		ausleiheTable.getColumnModel().getColumn(5).setPreferredWidth(100);
+		customerTable.setAutoCreateRowSorter(true);
+		customerSorter = new TableRowSorter<TableModel>(customerTableModel);
+		customerTable.setRowSorter(customerSorter);
 
 		upateSelectedCustomer(null);
 
@@ -357,20 +366,20 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 				deleteReservation(reservationSelected);
 			}
 		}, 3);
-		new ButtonColumn(kundeAusleiheTable, new AbstractAction() {
+		new ButtonColumn(ausleiheTable, new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Loan loan = kundeAusleiheModel.getLoanAt(kundeAusleiheTable.convertRowIndexToModel(kundeAusleiheTable.getSelectedRow()));
+				Loan loan = ausleiheTableModel.getLoanAt(ausleiheTable.convertRowIndexToModel(ausleiheTable.getSelectedRow()));
 				doRueckgabe(loan);
 			}
 		}, 5);
 		reservationenTable.setAutoCreateColumnsFromModel(false);
-		kundeAusleiheTable.setAutoCreateColumnsFromModel(false);
+		ausleiheTable.setAutoCreateColumnsFromModel(false);
 	}
 
 	private void upateSelectedCustomer(Customer customer) {
 		reservationenTableModel.setSelectedCustomer(customer);
-		kundeAusleiheModel.setSelectedCustomer(customer);
+		ausleiheTableModel.setSelectedCustomer(customer);
 		initializeComponents(customer);
 	}
 
@@ -378,21 +387,21 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		hideReservationMessage();
 		hideAusleiheMessage();
 		reservationenTable.setEnabled(false);
-		kundeAusleiheTable.setEnabled(false);
+		ausleiheTable.setEnabled(false);
 		lblKeineReservationMglich.setVisible(false);
 		lblKeineAusleiheMglich.setVisible(false);
-		idReservationTxtField.setEnabled(false);
-		idLoanTxtField.setEnabled(false);
+		nameReservationTxtField.setEnabled(false);
+		nameLoanTxtField.setEnabled(false);
 		btnReservation.setEnabled(false);
 		btnAusleihen.setEnabled(false);
 		if (customer != null) {
 			reservationenTable.setEnabled(true);
-			kundeAusleiheTable.setEnabled(true);
+			ausleiheTable.setEnabled(true);
 			kundeTitledBorder.setTitle(customer.getName());
 			repaint();
 			if (!library.hasOverdue(customer)) {
-				idReservationTxtField.setEnabled(true);
-				idLoanTxtField.setEnabled(true);
+				nameReservationTxtField.setEnabled(true);
+				nameLoanTxtField.setEnabled(true);
 				btnReservation.setEnabled(true);
 				btnAusleihen.setEnabled(true);
 			} else {
@@ -402,11 +411,11 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		}
 	}
 
-	private void doReservation(String gagdetId) {
+	private void doReservation(String gagdetName) {
 		hideReservationMessage();
-		Gadget gadget = library.getGadget(gagdetId);
+		Gadget gadget = library.getGadgetByName(gagdetName);
 		if (gadget == null) {
-			showReservationMessage(ApplicationMessages.getText("reservations.message.gagdetWithIdNotExist"));
+			showReservationMessage(ApplicationMessages.getText("reservations.message.gagdetWithNameNotExist"));
 			return;
 		}
 		if (!library.canReservation(gadget, selectedCustomer)) {
@@ -416,11 +425,11 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		library.addReservation(gadget, selectedCustomer);
 	}
 
-	private void doAusleihe(String gadgetId) {
+	private void doAusleihe(String gadgetName) {
 		hideAusleiheMessage();
-		Gadget gadget = library.getGadget(gadgetId);
+		Gadget gadget = library.getGadgetByName(gadgetName);
 		if (gadget == null) {
-			showAusleiheMessage(ApplicationMessages.getText("reservations.message.gagdetWithIdNotExist"));
+			showAusleiheMessage(ApplicationMessages.getText("reservations.message.gagdetWithNameNotExist"));
 			return;
 		}
 		if (!library.canLent(gadget, selectedCustomer)) {
@@ -465,16 +474,17 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 		kundeTitledBorder.setTitle(ApplicationMessages.getText("master.loans.customerData"));
 		lblReservationen.setText(ApplicationMessages.getText("master.loans.reservations"));
 		lblNeueReservation.setText(ApplicationMessages.getText("master.loans.reservations.newReservationLabel"));
-		lbREservationId.setText(ApplicationMessages.getText("master.loans.reservations.idLabel"));
+		lbReservationName.setText(ApplicationMessages.getText("master.loans.reservations.nameLabel"));
 		btnReservation.setText(ApplicationMessages.getText("master.loans.reservations.reservationButton"));
 		lblKeineReservationMglich.setText(ApplicationMessages.getText("master.loans.reservations.NoReservationPossible"));
 		lblAusleihen.setText(ApplicationMessages.getText("master.loans.loansLabel"));
-		lblAusleiheId.setText(ApplicationMessages.getText("master.loans.idLabel"));
+		lblAusleiheName.setText(ApplicationMessages.getText("master.loans.nameLabel"));
 		btnAusleihen.setText(ApplicationMessages.getText("master.loans.loanButton"));
 		lblKeineAusleiheMglich.setText(ApplicationMessages.getText("master.loans.noLoanPossible"));
-		
+		lblNeueAusleihe.setText(ApplicationMessages.getText("master.loans.newLoan"));
+
+		JTableHelper.updateColumnHeaderText(customerTable.getColumnModel(), customerTableModel.getColumns());
 		JTableHelper.updateColumnHeaderText(ausleiheTable.getColumnModel(), ausleiheTableModel.getColumns());
-		JTableHelper.updateColumnHeaderText(kundeAusleiheTable.getColumnModel(), kundeAusleiheModel.getColumns());
 		JTableHelper.updateColumnHeaderText(reservationenTable.getColumnModel(), reservationenTableModel.getColumns());
 	}
 }
