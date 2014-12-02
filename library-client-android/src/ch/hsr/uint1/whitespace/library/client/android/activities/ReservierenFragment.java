@@ -3,83 +3,89 @@ package ch.hsr.uint1.whitespace.library.client.android.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
+import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import ch.hsr.uint1.whitespace.library.client.android.R;
+import ch.hsr.uint1.whitespace.library.client.android.adapters.GadgetAdapter;
 import ch.hsr.uint1.whitespace.library.client.android.domain.Gadget;
+import ch.hsr.uint1.whitespace.library.client.android.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.android.library.Callback;
 import ch.hsr.uint1.whitespace.library.client.android.library.LibraryService;
 
-public class ReservierenFragment extends Fragment {
+public class ReservierenFragment extends RoboFragment {
 
 	private GadgetAdapter gadgetAdapter;
+
+	@InjectView(R.id.listView_reservieren_tab)
 	private ListView listview;
+
+	@InjectView(R.id.button_reservieren_reservieren_tab)
+	private Button reservierenButton;
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		LibraryService.getGadgets(new Callback<List<Gadget>>() {
+		loadGadgets();
+	}
 
+	private void loadGadgets() {
+		LibraryService.getGadgets(new Callback<List<Gadget>>() {
 			@Override
 			public void notfiy(List<Gadget> input) {
 				gadgetAdapter.clear();
 				gadgetAdapter.addAll(input);
 				gadgetAdapter.notifyDataSetChanged();
 			}
-
 		});
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		View rootView = inflater.inflate(R.layout.fragment_reservieren, container, false);
-
 		gadgetAdapter = new GadgetAdapter(container.getContext(), R.layout.list_item, new ArrayList<Gadget>());
-		listview = (ListView) rootView.findViewById(R.id.listView_reservieren_tab);
-		listview.setAdapter(gadgetAdapter);
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-				Gadget gadget = gadgetAdapter.getItem(position);
-				System.out.println("Gadget reserviert: " + gadget.getName());
-			}
-		});
 		return rootView;
 	}
 
-	private class GadgetAdapter extends ArrayAdapter<Gadget> {
-
-		public GadgetAdapter(Context context, int resource, List<Gadget> objects) {
-			super(context, resource, objects);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			Gadget gadget = getItem(position);
-			if (convertView == null) {
-				convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, null);
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		listview.setAdapter(gadgetAdapter);
+		listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		listview.setItemsCanFocus(false);
+		reservierenButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				reserveSelectedGadgets();
 			}
+		});
 
-			TextView gadgetName = (TextView) convertView.findViewById(R.id.gadget_name);
-			TextView date = (TextView) convertView.findViewById(R.id.date_line);
+	}
 
-			gadgetName.setText(gadget.getName());
-			date.setText("");
-
-			return convertView;
+	private void reserveSelectedGadgets() {
+		SparseBooleanArray checked = listview.getCheckedItemPositions();
+		for (int i = 0; i < listview.getCount(); i++) {
+			if (checked.get(i)) {
+				Gadget gadget = gadgetAdapter.getItem(i);
+				LibraryService.reserveGadget(gadget, new Callback<List<Loan>>() {
+					@Override
+					public void notfiy(List<Loan> loans) {
+						listview.clearChoices();
+						ActionBar actionBar = getActivity().getActionBar();
+						actionBar.selectTab(actionBar.getTabAt(1));
+					}
+				});
+			}
 		}
-
 	}
 
 }

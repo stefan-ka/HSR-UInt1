@@ -1,16 +1,19 @@
 package ch.hsr.uint1.whitespace.library.client.android.activities;
 
+import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectView;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import ch.hsr.uint1.whitespace.library.client.android.R;
+import ch.hsr.uint1.whitespace.library.client.android.adapters.TabsPagerAdapter;
 
-public class MainViewActivity extends FragmentActivity implements TabListener {
+public class MainViewActivity extends RoboFragmentActivity implements TabListener {
+
+	@InjectView(R.id.pager)
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
@@ -20,32 +23,15 @@ public class MainViewActivity extends FragmentActivity implements TabListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainview_activity);
-
-		viewPager = (ViewPager) findViewById(R.id.pager); // Can not be injected, Activity doesn't start
 		actionBar = getActionBar();
-		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+		mAdapter = new TabsPagerAdapter(getActionBar(), getSupportFragmentManager());
 		viewPager.setAdapter(mAdapter);
+		viewPager.setOnPageChangeListener(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		for (String tab_name : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
 		}
-
-		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int position) {
-				actionBar.setSelectedNavigationItem(position);
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-			}
-		});
 	}
 
 	@Override
