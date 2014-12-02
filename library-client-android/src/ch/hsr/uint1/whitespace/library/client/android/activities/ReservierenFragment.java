@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import ch.hsr.uint1.whitespace.library.client.android.R;
 import ch.hsr.uint1.whitespace.library.client.android.domain.Gadget;
-import ch.hsr.uint1.whitespace.library.client.android.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.android.library.Callback;
 import ch.hsr.uint1.whitespace.library.client.android.library.LibraryService;
 
