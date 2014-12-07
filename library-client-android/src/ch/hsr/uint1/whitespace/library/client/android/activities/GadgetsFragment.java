@@ -3,7 +3,6 @@ package ch.hsr.uint1.whitespace.library.client.android.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 import android.app.ActionBar;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import ch.hsr.uint1.whitespace.library.client.android.R;
 import ch.hsr.uint1.whitespace.library.client.android.adapters.GadgetAdapter;
 import ch.hsr.uint1.whitespace.library.client.android.domain.Gadget;
@@ -21,7 +21,7 @@ import ch.hsr.uint1.whitespace.library.client.android.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.android.library.Callback;
 import ch.hsr.uint1.whitespace.library.client.android.library.LibraryService;
 
-public class GadgetsFragment extends RoboFragment {
+public class GadgetsFragment extends CommonFragment {
 
 	private GadgetAdapter gadgetAdapter;
 
@@ -49,6 +49,12 @@ public class GadgetsFragment extends RoboFragment {
 	}
 
 	@Override
+	public void onFragmentVisible() {
+		super.onFragmentVisible();
+		loadGadgets();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		View rootView = inflater.inflate(R.layout.fragment_gadgets, container, false);
@@ -71,11 +77,26 @@ public class GadgetsFragment extends RoboFragment {
 
 	}
 
-	private void reserveSelectedGadgets() {
+	private List<Gadget> getSelectedGadgets() {
+		List<Gadget> list = new ArrayList<Gadget>();
 		SparseBooleanArray checked = listview.getCheckedItemPositions();
 		for (int i = 0; i < listview.getCount(); i++) {
 			if (checked.get(i)) {
-				Gadget gadget = gadgetAdapter.getItem(i);
+				list.add(gadgetAdapter.getItem(i));
+			}
+		}
+		return list;
+	}
+
+	private void reserveSelectedGadgets() {
+		List<Gadget> gadgets = getSelectedGadgets();
+		if (gadgets.size() > 3) {
+			Toast.makeText(getActivity(), R.string.max_3_reservations_message, Toast.LENGTH_LONG).show();
+			return;
+		}
+		for (int i = 0; i < gadgets.size(); i++) {
+			Gadget gadget = gadgets.get(i);
+			if (i == (gadgets.size() - 1)) {
 				LibraryService.reserveGadget(gadget, new Callback<List<Loan>>() {
 					@Override
 					public void notfiy(List<Loan> loans) {
@@ -84,8 +105,20 @@ public class GadgetsFragment extends RoboFragment {
 						actionBar.selectTab(actionBar.getTabAt(2));
 					}
 				});
+			} else {
+				LibraryService.reserveGadget(gadget, createEmptyCallBack());
 			}
 		}
+	}
+
+	private Callback<List<Loan>> createEmptyCallBack() {
+		Callback<List<Loan>> callback = new Callback<List<Loan>>() {
+			@Override
+			public void notfiy(List<Loan> input) {
+				// do nothing
+			}
+		};
+		return callback;
 	}
 
 }

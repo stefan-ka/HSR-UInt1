@@ -35,19 +35,22 @@
     <string name="password_wiederholen">Passwort wiederholen</string>
     <string name="due_date">Due Date</string>
     <string name="date">Datum</string>
-     <string name="display_list_item_activity">Item Detail</string>
-     <string name="TODO">TODO</string>
-     <string name="gadget_name">Gadget Name</string>
-     <string name="listview_activity">List View</string>
-     <string name="aktuellen_ausleihen">Ihren aktuellen Ausleihen:</string>
-     <string name="reservationen_loeschen">Reservationen löschen</string>
-     <string name="reservieren">Reservieren</string>
-     <string name="logout">Logout</string>
-     <string name="ausgeliehen_bis">Ausgeliehen bis</string>
-     <string name="rueckgabe_datum">Rückgabe Datum</string>
-     <string name="reservation_loeschen">Reservation löschen</string>
-     <string name="reservation_erfassen">Reservation erfassen:</string>
-     <string name="selektierte_reservieren">Selektierte reservieren</string>
+    <string name="display_list_item_activity">Item Detail</string>
+    <string name="TODO">TODO</string>
+    <string name="gadget_name">Gadget Name</string>
+    <string name="listview_activity">List View</string>
+    <string name="aktuellen_ausleihen">Ihren aktuellen Ausleihen:</string>
+    <string name="reservationen_loeschen">Reservationen löschen</string>
+    <string name="reservieren">Reservieren</string>
+    <string name="logout">Logout</string>
+    <string name="ausgeliehen_bis">Ausgeliehen bis</string>
+    <string name="rueckgabe_datum">Rückgabe Datum</string>
+    <string name="reservation_loeschen">Reservation löschen</string>
+    <string name="reservation_erfassen">Reservation erfassen:</string>
+    <string name="selektierte_reservieren">Selektierte reservieren</string>
+    <string name="max_3_reservations_message">Sie dürfen maximal 3 Gadgets reservieren!</string>
+    <string name="tab_gadgets">Gadgets</string>
+    <string name="tab_ausleihen">Ausleihen</string>
+    <string name="tab_reservationen">Reservationen</string>
 
 </resources>
-  

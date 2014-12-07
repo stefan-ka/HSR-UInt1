@@ -3,7 +3,6 @@ package ch.hsr.uint1.whitespace.library.client.android.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +16,7 @@ import ch.hsr.uint1.whitespace.library.client.android.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.android.library.Callback;
 import ch.hsr.uint1.whitespace.library.client.android.library.LibraryService;
 
-public class AusleihenFragment extends RoboFragment {
+public class AusleihenFragment extends CommonFragment {
 
 	private AusleihenAdapter ausleihenAdapter;
 
@@ -27,20 +26,23 @@ public class AusleihenFragment extends RoboFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		loadLoans();
 	}
 
 	private void loadLoans() {
 		LibraryService.getLoansForCustomer(new Callback<List<Loan>>() {
-
 			@Override
 			public void notfiy(List<Loan> input) {
 				ausleihenAdapter.clear();
 				ausleihenAdapter.addAll(input);
 				ausleihenAdapter.notifyDataSetChanged();
 			}
-
 		});
+	}
+
+	@Override
+	public void onFragmentVisible() {
+		super.onFragmentVisible();
+		loadLoans();
 	}
 
 	@Override

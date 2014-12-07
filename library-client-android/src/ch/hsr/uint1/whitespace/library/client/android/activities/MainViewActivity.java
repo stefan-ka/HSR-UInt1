@@ -17,7 +17,7 @@ public class MainViewActivity extends RoboFragmentActivity implements TabListene
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
-	private String[] tabs = { "Gadgets", "Ausleihen", "Reservationen" };
+	private static final int[] TAB_STRING_IDS = { R.string.tab_gadgets, R.string.tab_ausleihen, R.string.tab_reservationen };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class MainViewActivity extends RoboFragmentActivity implements TabListene
 		viewPager.setOnPageChangeListener(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		for (String tab_name : tabs) {
-			actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
+		for (int tabStringId : TAB_STRING_IDS) {
+			actionBar.addTab(actionBar.newTab().setText(getString(tabStringId)).setTabListener(this));
 		}
 	}
 
