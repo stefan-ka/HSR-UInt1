@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import ch.hsr.uint1.whitespace.library.client.android.activities.AusleihenFragment;
 import ch.hsr.uint1.whitespace.library.client.android.activities.ReservationenFragment;
-import ch.hsr.uint1.whitespace.library.client.android.activities.ReservierenFragment;
+import ch.hsr.uint1.whitespace.library.client.android.activities.GadgetsFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter implements OnPageChangeListener {
 
@@ -22,11 +22,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements OnPageChan
 	public Fragment getItem(int index) {
 		switch (index) {
 		case 0:
-			return new AusleihenFragment();
+			return new GadgetsFragment();
 		case 1:
-			return new ReservationenFragment();
+			return new AusleihenFragment();
 		case 2:
-			return new ReservierenFragment();
+			return new ReservationenFragment();
 		}
 		return null;
 	}
@@ -44,8 +44,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements OnPageChan
 	@Override
 	public void onPageSelected(int position) {
 		actionBar.setSelectedNavigationItem(position);
-//		CommonFragment fragment = (CommonFragment) this.getItem(position);
-//		fragment.imVisible();
 	}
 
 	@Override

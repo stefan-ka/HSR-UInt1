@@ -21,14 +21,14 @@ import ch.hsr.uint1.whitespace.library.client.android.domain.Loan;
 import ch.hsr.uint1.whitespace.library.client.android.library.Callback;
 import ch.hsr.uint1.whitespace.library.client.android.library.LibraryService;
 
-public class ReservierenFragment extends RoboFragment {
+public class GadgetsFragment extends RoboFragment {
 
 	private GadgetAdapter gadgetAdapter;
 
-	@InjectView(R.id.listView_reservieren_tab)
+	@InjectView(R.id.listView_gadgets_tab)
 	private ListView listview;
 
-	@InjectView(R.id.button_reservieren_reservieren_tab)
+	@InjectView(R.id.button_reservieren_gadgets_tab)
 	private Button reservierenButton;
 
 	@Override
@@ -51,7 +51,7 @@ public class ReservierenFragment extends RoboFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		View rootView = inflater.inflate(R.layout.fragment_reservieren, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_gadgets, container, false);
 		gadgetAdapter = new GadgetAdapter(container.getContext(), R.layout.list_item, new ArrayList<Gadget>());
 		return rootView;
 	}
@@ -81,7 +81,7 @@ public class ReservierenFragment extends RoboFragment {
 					public void notfiy(List<Loan> loans) {
 						listview.clearChoices();
 						ActionBar actionBar = getActivity().getActionBar();
-						actionBar.selectTab(actionBar.getTabAt(1));
+						actionBar.selectTab(actionBar.getTabAt(2));
 					}
 				});
 			}

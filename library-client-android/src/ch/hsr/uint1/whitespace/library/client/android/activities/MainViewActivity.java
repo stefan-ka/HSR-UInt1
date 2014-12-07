@@ -17,7 +17,7 @@ public class MainViewActivity extends RoboFragmentActivity implements TabListene
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
-	private String[] tabs = { "Ausleihen", "Reservationen", "Reservieren" };
+	private String[] tabs = { "Gadgets", "Ausleihen", "Reservationen" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
