@@ -23,13 +23,10 @@ public class GadgetAdapter extends ArrayAdapter<Gadget> {
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, null);
 		}
-
 		TextView gadgetName = (TextView) convertView.findViewById(R.id.gadget_name);
-		TextView date = (TextView) convertView.findViewById(R.id.date_line);
-
+		TextView additionalInformation = (TextView) convertView.findViewById(R.id.additional_line);
 		gadgetName.setText(gadget.getName());
-		date.setText("");
-
+		additionalInformation.setText("");
 		return convertView;
 	}
 

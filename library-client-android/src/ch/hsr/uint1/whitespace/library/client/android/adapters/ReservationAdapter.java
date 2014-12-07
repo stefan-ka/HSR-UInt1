@@ -1,6 +1,5 @@
 package ch.hsr.uint1.whitespace.library.client.android.adapters;
 
-import java.text.DateFormat;
 import java.util.List;
 
 import android.content.Context;
@@ -13,8 +12,6 @@ import ch.hsr.uint1.whitespace.library.client.android.R;
 import ch.hsr.uint1.whitespace.library.client.android.domain.Reservation;
 
 public class ReservationAdapter extends ArrayAdapter<Reservation> {
-	
-	private final String AUSGELIEHEN_BIS = "Ausgeliehen bis: ";
 
 	public ReservationAdapter(Context context, int resource, List<Reservation> objects) {
 		super(context, resource, objects);
@@ -26,13 +23,14 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> {
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, null);
 		}
-
 		TextView gadgetName = (TextView) convertView.findViewById(R.id.gadget_name);
-		TextView date = (TextView) convertView.findViewById(R.id.date_line);
+		TextView additionalInformation = (TextView) convertView.findViewById(R.id.additional_line);
 		gadgetName.setText(reservation.getGadget().getName());
-		DateFormat dataFormat = DateFormat.getDateInstance();
-		date.setText(AUSGELIEHEN_BIS + dataFormat.format(reservation.getReservationDate()));
-
+		if (reservation.isReady()) {
+			additionalInformation.setText(getContext().getString(R.string.reservation_gadget_is_ready));
+		} else {
+			additionalInformation.setText(getContext().getString(R.string.reservation_gadget_waiting_position) + " " + reservation.getWatingPosition());
+		}
 		return convertView;
 	}
 

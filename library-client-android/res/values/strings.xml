@@ -52,5 +52,8 @@
     <string name="tab_gadgets">Gadgets</string>
     <string name="tab_ausleihen">Ausleihen</string>
     <string name="tab_reservationen">Reservationen</string>
+    <string name="loan_ueberfaellig_am">Überfällig am:</string>
+    <string name="reservation_gadget_is_ready">Gadget ist bereit</string>
+    <string name="reservation_gadget_waiting_position">Warteposition:</string>
 
 </resources>
