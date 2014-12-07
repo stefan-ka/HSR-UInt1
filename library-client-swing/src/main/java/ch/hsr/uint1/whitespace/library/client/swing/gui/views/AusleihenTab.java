@@ -356,7 +356,8 @@ public class AusleihenTab extends JPanel implements LocaleChangedListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Reservation reservationSelected = reservationenTableModel.getReservationAt(reservationenTable.convertRowIndexToModel(reservationenTable.getSelectedRow()));
-				doAusleihe(reservationSelected.getGadgetId());
+				Gadget gadget = library.getGadget(reservationSelected.getGadgetId());
+				doAusleihe(gadget.getName());
 			}
 		}, 2);
 		new ButtonColumn(reservationenTable, new AbstractAction() {
