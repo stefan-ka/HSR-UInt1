@@ -44,14 +44,15 @@ public class LibraryService {
 		HashMap<String, String> parameter = new HashMap<String, String>();
 		parameter.put("email", mail);
 		parameter.put("password", password);
-		Request request = new Request(RestType.POST, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/login", LoginToken.class, parameter, new Callback<LoginToken>() {
-			@Override
-			public void notfiy(LoginToken input) {
-				token = input;
-				callback.notfiy(input != null && input.getSecurityToken() != "");
-				notifyCallBackListeners();
-			}
-		});
+		Request<LoginToken> request = new Request<LoginToken>(RestType.POST, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/login", LoginToken.class, parameter,
+				new Callback<LoginToken>() {
+					@Override
+					public void notfiy(LoginToken input) {
+						token = input;
+						callback.notfiy(input != null && input.getSecurityToken() != "");
+						notifyCallBackListeners();
+					}
+				});
 		request.execute();
 	}
 
@@ -59,16 +60,17 @@ public class LibraryService {
 		HashMap<String, String> parameter = new HashMap<String, String>();
 		parameter.put("token", getTokenAsString());
 
-		Request request = new Request(RestType.POST, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/logout", Boolean.class, parameter, new Callback<Boolean>() {
-			@Override
-			public void notfiy(Boolean input) {
-				if (input) {
-					token = null;
-				}
-				callback.notfiy(input);
-				notifyCallBackListeners();
-			}
-		});
+		Request<Boolean> request = new Request<Boolean>(RestType.POST, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/logout", Boolean.class, parameter,
+				new Callback<Boolean>() {
+					@Override
+					public void notfiy(Boolean input) {
+						if (input) {
+							token = null;
+						}
+						callback.notfiy(input);
+						notifyCallBackListeners();
+					}
+				});
 		request.execute();
 	}
 
@@ -79,13 +81,14 @@ public class LibraryService {
 		parameter.put("name", name);
 		parameter.put("studentnumber", studentenNumber);
 
-		Request request = new Request(RestType.POST, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/register", Boolean.class, parameter, new Callback<Boolean>() {
-			@Override
-			public void notfiy(Boolean input) {
-				callback.notfiy(input);
-				notifyCallBackListeners();
-			}
-		});
+		Request<Boolean> request = new Request<Boolean>(RestType.POST, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/register", Boolean.class, parameter,
+				new Callback<Boolean>() {
+					@Override
+					public void notfiy(Boolean input) {
+						callback.notfiy(input);
+						notifyCallBackListeners();
+					}
+				});
 		request.execute();
 	}
 
@@ -96,7 +99,7 @@ public class LibraryService {
 		HashMap<String, String> parameter = new HashMap<String, String>();
 
 		parameter.put("token", getTokenAsString());
-		Request request = new Request(RestType.GET, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/loans", new TypeToken<List<Loan>>() {
+		Request<List<Loan>> request = new Request<List<Loan>>(RestType.GET, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/loans", new TypeToken<List<Loan>>() {
 		}.getType(), parameter, new Callback<List<Loan>>() {
 			@Override
 			public void notfiy(List<Loan> input) {
@@ -114,14 +117,15 @@ public class LibraryService {
 		HashMap<String, String> parameter = new HashMap<String, String>();
 		parameter.put("token", getTokenAsString());
 
-		Request request = new Request(RestType.GET, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/reservations", new TypeToken<List<Reservation>>() {
-		}.getType(), parameter, new Callback<List<Reservation>>() {
-			@Override
-			public void notfiy(List<Reservation> input) {
-				callback.notfiy(input == null ? new ArrayList<Reservation>() : input);
-				notifyCallBackListeners();
-			}
-		});
+		Request<List<Reservation>> request = new Request<List<Reservation>>(RestType.GET, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/reservations",
+				new TypeToken<List<Reservation>>() {
+				}.getType(), parameter, new Callback<List<Reservation>>() {
+					@Override
+					public void notfiy(List<Reservation> input) {
+						callback.notfiy(input == null ? new ArrayList<Reservation>() : input);
+						notifyCallBackListeners();
+					}
+				});
 		request.execute();
 	}
 
@@ -133,7 +137,7 @@ public class LibraryService {
 		parameter.put("token", getTokenAsString());
 		parameter.put("gadgetId", toReserve.getInventoryNumber());
 
-		Request request = new Request(RestType.POST, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/reservations", new TypeToken<List<Loan>>() {
+		Request<List<Loan>> request = new Request<List<Loan>>(RestType.POST, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/reservations", new TypeToken<List<Loan>>() {
 		}.getType(), parameter, new Callback<List<Loan>>() {
 			@Override
 			public void notfiy(List<Loan> input) {
@@ -151,13 +155,14 @@ public class LibraryService {
 		HashMap<String, String> parameter = new HashMap<String, String>();
 		parameter.put("token", getTokenAsString());
 		parameter.put("id", toDelete.getReservationId());
-		Request request = new Request(RestType.DELETE, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/reservations", Boolean.class, parameter, new Callback<Boolean>() {
-			@Override
-			public void notfiy(Boolean input) {
-				callback.notfiy(input);
-				notifyCallBackListeners();
-			}
-		});
+		Request<Boolean> request = new Request<Boolean>(RestType.DELETE, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/reservations", Boolean.class, parameter,
+				new Callback<Boolean>() {
+					@Override
+					public void notfiy(Boolean input) {
+						callback.notfiy(input);
+						notifyCallBackListeners();
+					}
+				});
 		request.execute();
 	}
 
@@ -168,7 +173,7 @@ public class LibraryService {
 		HashMap<String, String> parameter = new HashMap<String, String>();
 
 		parameter.put("token", getTokenAsString());
-		Request request = new Request(RestType.GET, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/gadgets", new TypeToken<List<Gadget>>() {
+		Request<List<Gadget>> request = new Request<List<Gadget>>(RestType.GET, PropertyReader.getProperty(SERVER_URL_PROPERTY) + "/gadgets", new TypeToken<List<Gadget>>() {
 		}.getType(), parameter, new Callback<List<Gadget>>() {
 			@Override
 			public void notfiy(List<Gadget> input) {
@@ -206,7 +211,6 @@ class Request<T> extends AsyncTask<Object, Integer, T> {
 	private final Type typeClass;
 	private HashMap<String, String> parameterList;
 	private Callback<T> callback;
-	private Future<T> future;
 
 	public Request(RestType type, String url, Type typeClass, HashMap<String, String> parameterList, Callback<T> callback) {
 		this.restType = type;
