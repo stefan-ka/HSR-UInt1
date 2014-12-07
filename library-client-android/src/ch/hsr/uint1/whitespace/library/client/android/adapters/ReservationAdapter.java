@@ -21,7 +21,7 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Reservation reservation = getItem(position);
 		if (convertView == null) {
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, null);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
 		}
 		TextView gadgetName = (TextView) convertView.findViewById(R.id.gadget_name);
 		TextView additionalInformation = (TextView) convertView.findViewById(R.id.additional_line);
