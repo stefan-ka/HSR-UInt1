@@ -3,7 +3,6 @@
 
     <string name="app_name">HSR Gadget Bibliothek</string>
     <string name="register_activity">Registrierung</string>
-    <string name="action_settings">Settings</string>
     <string name="welcome_label">Willkomen zu HSR Gadget Bibliothek</string>
     <string name="login_label">Loggen Sie sich mit Ihren Daten ein oder registrieren Sie sich neu</string>
     <string name="register_label">Geben Sie Ihre Daten ein um einen neuen Account zu registrieren</string>

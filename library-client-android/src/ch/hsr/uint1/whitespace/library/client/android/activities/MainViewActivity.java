@@ -6,10 +6,14 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
 import ch.hsr.uint1.whitespace.library.client.android.R;
 import ch.hsr.uint1.whitespace.library.client.android.adapters.TabsPagerAdapter;
+import ch.hsr.uint1.whitespace.library.client.android.library.LibraryService;
 
 public class MainViewActivity extends RoboFragmentActivity implements TabListener {
 
@@ -45,5 +49,26 @@ public class MainViewActivity extends RoboFragmentActivity implements TabListene
 
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.action_logout) {
+			doLogout();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void doLogout() {
+		LibraryService.token = null;
+		startActivity(new Intent(this, LoginActivity.class));
 	}
 }
