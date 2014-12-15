@@ -59,7 +59,7 @@ public class GadgetMaster extends JFrame implements LocaleChangedListener {
 		}
 		setName(ApplicationMessages.getText("master.title"));
 		setSize(new Dimension(972, 577));
-		setMinimumSize(new Dimension(750, 450));
+		setMinimumSize(new Dimension(750, 510));
 		setTitle(ApplicationMessages.getText("master.title"));
 		setBounds(100, 100, 972, 577);
 
