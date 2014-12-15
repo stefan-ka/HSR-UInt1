@@ -5,6 +5,7 @@ import java.util.List;
 
 import roboguice.inject.InjectView;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ public class AusleihenFragment extends CommonFragment {
 	@InjectView(R.id.listView_ausleihen_tab)
 	private ListView listview;
 
+	@InjectView(R.id.ausleihen_swipe)
+	private SwipeRefreshLayout refreshLayout;
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -35,6 +39,7 @@ public class AusleihenFragment extends CommonFragment {
 				ausleihenAdapter.clear();
 				ausleihenAdapter.addAll(input);
 				ausleihenAdapter.notifyDataSetChanged();
+				refreshLayout.setRefreshing(false);
 			}
 		});
 	}
@@ -57,6 +62,7 @@ public class AusleihenFragment extends CommonFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		listview.setAdapter(ausleihenAdapter);
+		refreshLayout.setOnRefreshListener(new OnRefreshListener());
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
@@ -64,5 +70,11 @@ public class AusleihenFragment extends CommonFragment {
 				System.out.println("Loan loaned: " + loan.getGadget().getName());
 			}
 		});
+	}
+
+	private class OnRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
+		public void onRefresh() {
+			loadLoans();
+		}
 	}
 }

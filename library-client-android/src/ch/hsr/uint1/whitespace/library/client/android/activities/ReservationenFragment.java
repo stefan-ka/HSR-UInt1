@@ -5,6 +5,7 @@ import java.util.List;
 
 import roboguice.inject.InjectView;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,9 @@ public class ReservationenFragment extends CommonFragment {
 	@InjectView(R.id.button_reservationen_loeschen)
 	private Button loeschenButton;
 
+	@InjectView(R.id.reservations_swipe)
+	private SwipeRefreshLayout refreshLayout;
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -46,6 +50,7 @@ public class ReservationenFragment extends CommonFragment {
 				reservationAdapter.clear();
 				reservationAdapter.addAll(input);
 				reservationAdapter.notifyDataSetChanged();
+				refreshLayout.setRefreshing(false);
 			}
 		});
 	}
@@ -62,6 +67,7 @@ public class ReservationenFragment extends CommonFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		listview.setAdapter(reservationAdapter);
+		refreshLayout.setOnRefreshListener(new OnRefreshListener());
 		loeschenButton.setOnClickListener(new DeleteReservationsListener());
 	}
 
@@ -81,6 +87,12 @@ public class ReservationenFragment extends CommonFragment {
 				}
 			}
 			listview.clearChoices();
+		}
+	}
+
+	private class OnRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
+		public void onRefresh() {
+			loadReservations();
 		}
 	}
 

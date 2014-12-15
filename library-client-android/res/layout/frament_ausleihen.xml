@@ -14,9 +14,15 @@
         android:text="@string/aktuellen_ausleihen"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ListView
-        android:id="@+id/listView_ausleihen_tab"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/ausleihen_swipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
-    </ListView>
+        <ListView
+            android:id="@+id/listView_ausleihen_tab"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

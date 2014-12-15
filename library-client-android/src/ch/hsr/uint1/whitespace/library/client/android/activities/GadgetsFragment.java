@@ -6,6 +6,7 @@ import java.util.List;
 import roboguice.inject.InjectView;
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,9 @@ public class GadgetsFragment extends CommonFragment {
 	@InjectView(R.id.button_reservieren_gadgets_tab)
 	private Button reservierenButton;
 
+	@InjectView(R.id.gadgets_swipe)
+	private SwipeRefreshLayout refreshLayout;
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -44,6 +48,7 @@ public class GadgetsFragment extends CommonFragment {
 				gadgetAdapter.clear();
 				gadgetAdapter.addAll(input);
 				gadgetAdapter.notifyDataSetChanged();
+				refreshLayout.setRefreshing(false);
 			}
 		});
 	}
@@ -68,6 +73,7 @@ public class GadgetsFragment extends CommonFragment {
 		listview.setAdapter(gadgetAdapter);
 		listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		listview.setItemsCanFocus(false);
+		refreshLayout.setOnRefreshListener(new OnRefreshListener());
 		reservierenButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -119,6 +125,12 @@ public class GadgetsFragment extends CommonFragment {
 			}
 		};
 		return callback;
+	}
+
+	private class OnRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
+		public void onRefresh() {
+			loadGadgets();
+		}
 	}
 
 }
