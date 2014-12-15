@@ -19,6 +19,7 @@ import ch.hsr.uint1.whitespace.library.client.android.R;
 import ch.hsr.uint1.whitespace.library.client.android.adapters.GadgetAdapter;
 import ch.hsr.uint1.whitespace.library.client.android.domain.Gadget;
 import ch.hsr.uint1.whitespace.library.client.android.domain.Loan;
+import ch.hsr.uint1.whitespace.library.client.android.domain.Reservation;
 import ch.hsr.uint1.whitespace.library.client.android.library.Callback;
 import ch.hsr.uint1.whitespace.library.client.android.library.LibraryService;
 
@@ -35,10 +36,13 @@ public class GadgetsFragment extends CommonFragment {
 	@InjectView(R.id.gadgets_swipe)
 	private SwipeRefreshLayout refreshLayout;
 
+	private int reservedGadgetsCounter = 0;
+
 	@Override
 	public void onStart() {
 		super.onStart();
 		loadGadgets();
+		updateReservedGadgetsCounter();
 	}
 
 	private void loadGadgets() {
@@ -53,10 +57,20 @@ public class GadgetsFragment extends CommonFragment {
 		});
 	}
 
+	private void updateReservedGadgetsCounter() {
+		LibraryService.getReservationsForCustomer(new Callback<List<Reservation>>() {
+			@Override
+			public void notfiy(List<Reservation> input) {
+				reservedGadgetsCounter = input.size();
+			}
+		});
+	}
+
 	@Override
 	public void onFragmentVisible() {
 		super.onFragmentVisible();
 		loadGadgets();
+		updateReservedGadgetsCounter();
 	}
 
 	@Override
@@ -96,8 +110,8 @@ public class GadgetsFragment extends CommonFragment {
 
 	private void reserveSelectedGadgets() {
 		List<Gadget> gadgets = getSelectedGadgets();
-		if (gadgets.size() > 3) {
-			Toast.makeText(getActivity(), R.string.max_3_reservations_message, Toast.LENGTH_LONG).show();
+		if (gadgets.size() > (3 - reservedGadgetsCounter)) {
+			Toast.makeText(getActivity(), getString(R.string.max_reservations_message, 3 - reservedGadgetsCounter), Toast.LENGTH_LONG).show();
 			return;
 		}
 		for (int i = 0; i < gadgets.size(); i++) {

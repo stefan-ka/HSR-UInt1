@@ -47,7 +47,7 @@
     <string name="reservation_loeschen">Reservation löschen</string>
     <string name="reservation_erfassen">Reservation erfassen:</string>
     <string name="selektierte_reservieren">Selektierte reservieren</string>
-    <string name="max_3_reservations_message">Sie dürfen maximal 3 Gadgets reservieren!</string>
+    <string name="max_reservations_message">Sie dürfen noch maximal %1$d Gadgets reservieren!</string>
     <string name="tab_gadgets">Gadgets</string>
     <string name="tab_ausleihen">Ausleihen</string>
     <string name="tab_reservationen">Reservationen</string>
